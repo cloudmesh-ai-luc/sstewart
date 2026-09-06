@@ -21,6 +21,13 @@ devops and AI
 
 ## Cost Analysis
 
+## Tchnologies Used
+
+Suggestions:
+
+* FastAPI
+* MariaDB
+* LLM to create darfted responses and classification
 
 
 ## References
