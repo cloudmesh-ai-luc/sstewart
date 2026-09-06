@@ -50,38 +50,6 @@ graph TD
 ```
 
 
-```mermaid
-graph TD
-    subgraph Citizen Domain
-        User[Citizen Mobile] -->|SMS| Gateway[F/OSS SMS Gateway<br/>(e.g., SMPP or Android App)]
-    end
-
-    subgraph Backend Infrastructure
-        Gateway -->|HTTP Webhook| API[FastAPI Application<br/>(Python)]
-        
-        subgraph Core Logic
-            API -->|1. Raw Message| Triage[Triage Engine<br/>(Python/NLP)]
-            Triage -->|2. Ranked Priority| API
-        end
-
-        subgraph Data Persistence
-            API -->|3. Insert/Update Session & Message| DB[(MariaDB InnoDB)]
-        end
-
-        subgraph Real-Time Comms
-            DB -.->|Change Data Capture / Trigger| Redis[(Redis - Optional for PubSub)]
-            API -->|4. WebSocket Push| Dashboard[Admin Dispatch Dashboard<br/>(React/TS)]
-            Redis -.->|Real-Time Update| Dashboard
-        end
-    end
-
-    style DB fill:#e1f5fe,stroke:#01579b
-    style API fill:#e8f5e9,stroke:#2e7d32
-    style Triage fill:#fff3e0,stroke:#ef6c00
-    style Gateway fill:#fce4ec,stroke:#c2185b
-
-```
-
 ### Architecture Component Description
 
 1. Not yet sure if this is needed, we can simulate with a mock service, which actually may be better: **F/OSS SMS Gateway:** Replaces paid commercial APIs. This could be a self-hosted Kannel server connected to a cellular modem (SMPP) or an open-source Android application that forwards received SMS messages via HTTP POST to the API layer.
