@@ -31,8 +31,8 @@ Note:
   * [ ] Compare your experience between starting a VM on your local machine vs using Chameleon Cloud.
   * [ ] Put all assignment answers into `<repor>/assignments/week3.md`. [LINK]
      
-* [ ] Assignment W3.5: README.md (Due Sep 17, 2026, 9am)
-  * [ ] put your link here  [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/README.md]
+* [x] Assignment W3.5: README.md (Due Sep 17, 2026, 9am)
+  * [x] put your link here  [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/README.md]
 
 
 
