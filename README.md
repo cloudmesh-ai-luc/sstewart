@@ -73,7 +73,7 @@ Note:
 
 # Week 1
 
-  * [x] Assignment W1.1: What hardware do you have? (Past Due) []
+  * [x] Assignment W1.1: What hardware do you have? (Past Due) 
   * [x] Fill out the LUC Hardware Questionnaire.
 
 
