@@ -29,24 +29,21 @@ This application is strictly for educational purposes. It will not connect to ac
 
 ### 2. Problem Statement (150‑250 words)  
 
-**Problem:**  Modern AI‑enabled applications often need to switch between different large language models (LLMs)
-– e.g., a fast, low‑cost model for routine queries and a larger, more creative model for brainstorming.
-Currently our lab uses a single LLM deployed on a VM; swapping models requires manual re‑configuration and downtime.  
+**Problem:**  
+Traditional emergency communication systems primarily rely on voice calls. However, there are situations in which a person may not be able to communicate with emergency services through a traditional voice call (ex. deaf, non-verbal, etc.). 
 
-**Proposed solution:**  Deploy **three containerised LLM back‑ends** (e.g., OpenAI GPT‑3.5‑Turbo,
-Llama‑2‑7B, and a locally‑hosted Mistral‑7B) on **AWS ECS Fargate** (or Azure Container Instances).
-Build a **REST‑ful “LLM‑Chooser” service** that receives a request, inspects a lightweight meta‑parameter (`mode=fast|creative|balanced`),
-and forwards the prompt to the appropriate model.  The service will be **exposed via OpenWebUI** for a web UI, while a
-**VS Code CLI extension** (`llm-select`) lets developers invoke the chooser directly from the
-terminal (`llm-select --mode creative "Write a poem"`).  A small **Python SDK** (`llm_client.py`) provides
-programmatic access for downstream scripts.  
+**Proposed solution:**  
+A simulated text-to-911 system provides an opportunity to explore how emergency communications can be collected, stored, analyzed, and presented to emergency personnel. This particularly serves well during times of high volume emergency messages. An emergency call center may receive many messages at the same time, making it difficult for personnel to manually evaluate every message in the same amount of time.
 
 **Benefits:**  
 
-- Zero‑downtime model switching – users simply change the `mode` flag.  
-- Cost‑aware routing – the fast mode uses the cheapest model, saving ~ 40 % on API spend.  
-- Dev‑friendly interface – VS Code CLI + Python SDK streamline experimentation.  
-- Hands‑on experience with IaC (Terraform), CI/CD (GitHub Actions), container orchestration, and model serving.  
+1. Allows users to submit simulated emergency text messages.
+2. Stores messages in a centralized cloud database.
+3. Automatically analyzes message content.
+4. Assigns a preliminary priority level.
+5. Presents messages to administrators in priority order.
+6. Allows administrators to review and modify the assigned priority.
+7. Provides analytics about incoming emergency messages.
 
 ---
 
@@ -54,23 +51,44 @@ programmatic access for downstream scripts.
 
 | # | Objective | Success Metric |
 |---|-----------|----------------|
-| 1 | Deploy three LLM containers on a managed serverless container platform. | All three containers reachable via internal DNS; health‑check ≤ 2 % failure rate. |
-| 2 | Implement the LLM‑Chooser micro‑service with a deterministic routing rule. | 100 % of test requests routed to the correct model according to `mode`. |
-| 3 | Provide VS Code CLI (`llm-select`) and Python SDK (`llm_client.py`). | CLI and SDK pass unit tests; documentation covers 5 common use‑cases. |
-| 4 | Set up CI/CD pipeline that automatically builds Docker images, runs tests, and deploys to staging on every push. | 2‑minute pipeline run, 0 failed builds for 3 consecutive commits. |
-| 5 | Demonstrate cost reduction compared with the single‑model baseline. | Average API cost per 1 k tokens ≤ $0.025 (≈ 40 % lower). |
+| 1 | Create a user-facing interface where users can submit emergency text messages | Users are able to submit messages to the backend 
+| 2 | Cloud Based Message Storage | 100 % of test requests routed to the correct database for authorized admin to engage with
+| 3 | Automated Message Analysis | Develop a text-analysis service that examines incoming messages using predefined word and assign a preliminary priority score. Potential for implementation of an NLP model to analyze the meaning of the overall message rather than screening for keywords |
+| 4 | Priority Classification | Messages will receive a preliminary priority classifaction (Critical, High, Moderate, Low) |
+| 5 | Admin Dashboard | Create an admin dashboard that allows authorized users to monitor incoming messages |
+| 6 | Analytics | The application will provide basic analytics about emergency messages |
+| 7 | Provide VS Code CLI (`llm-select`) and Python SDK (`llm_client.py`). | CLI and SDK pass unit tests; documentation covers 5 common use‑cases. |
+| 8 | Set up CI/CD pipeline that automatically builds Docker images, runs tests, and deploys to staging on every push. | 2‑minute pipeline run, 0 failed builds for 3 consecutive commits. |
 
 ---
 
-### 4. Scope  
+### 4. MVP Scope  
 
-| In‑Scope | Out‑Of‑Scope |
-|----------|--------------|
-| • Containerising three LLMs (OpenAI API, Llama‑2, Mistral) | Training new models |
-| • LLM‑Chooser service (REST API) | • Enterprise‑grade SLA / 99.9 % uptime guarantee |
-| • VS Code CLI extension & Python SDK | • Full multi‑region deployment |
-| • IaC (Terraform), CI/CD (GitHub Actions) | • Data‑privacy compliance beyond class‑level demonstration |
-| • Documentation, demo video | • Production‑scale monitoring dashboards (only basic CloudWatch metrics) |
+To keep the project achievable, the Minimum Viable Product will include:
+
+**User**
+- Submit simulated emergency text
+- Receive submission confirmation
+**Backend**
+- REST API
+- Message validation
+- Database persistence
+- Keyword analysis
+- Priority scoring
+- LLM Integration
+**Administrator**
+- Login
+- View incoming messages
+- Sort by priority
+- Filter messages
+- View message details
+- Change status
+- Override priority
+**Analytics**
+- Total messages
+- Messages by priority
+- Messages by category
+- Average processing time
 
 * Which LLMs to chose will be determined based on the resource capabilities.
   
@@ -80,89 +98,311 @@ programmatic access for downstream scripts.
 
 #### 5.1 Cloud Architecture  
 
-| Component | Service (AWS example) | Notes |
-|-----------|-----------------------|-------|
-| **Container Host** | ECS Fargate (or Azure Container Instances) | Serverless, pay‑per‑use, no VM management |
-| **LLM Back‑ends** | - GPT‑3.5‑Turbo (via OpenAI API) <br> - Llama‑2‑7B (Docker image from HuggingFace) <br> - Mistral‑7B (Docker image) | Each exposed on internal port 8000‑8002 |
-| **LLM‑Chooser** | ECS Service → API Gateway (public) | Stateless Flask/FastAPI app |
-| **OpenWebUI** | Separate ECS Service behind same API GW | Connects to chooser via `/choose` endpoint |
-| **CI/CD** | GitHub Actions → Terraform → ECS Deploy | Automated on merge to `main` |
-| **Observability** | CloudWatch Logs & Metrics | Basic latency & error rate alerts |
+The project will demonstrate several cloud computing concepts.
 
-*Diagram placeholder:*  
-Insert a simple block diagram (Client → API GW → LLM‑Chooser → {GPT, Llama‑2, Mistral}). You can draw it in draw.io and embed as PNG.
+Cloud Database
+
+A managed PostgreSQL database will store emergency messages and application data.
+
+Cloud Application Hosting
+
+The backend API and frontend application will be deployed to cloud infrastructure.
+
+Scalability
+
+The system could be designed so that additional backend instances can be created when message volume increases.
+
+Availability
+
+The application can be designed with redundant services and managed cloud infrastructure to minimize downtime.
+
+Security
+
+Communication between clients and the backend will use HTTPS.
+
+Administrative functionality will require authentication and authorization.
+
+Monitoring
+
+Cloud monitoring tools can track:
+
+- API response time
+- Application errors
+- Database usage
+- Number of incoming messages
+- System availability 
+
+**High Level Architecture Diagram**
+
+<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/a6a2c794-7f38-4718-9761-03daefd27a6d" />
+
 
 #### 5.2 DevOps Pipeline  
 
-| Stage | Tool | What it does |
-|-------|------|--------------|
-| **Source** | GitHub | Branch‑policy: `main` protected, PR must pass checks |
-| **Build** | Docker Build (GitHub Actions) | Build three images (llm‑chooser, openwebui, python‑sdk) |
-| **Test** | PyTest, Bandit, Flake8 | Unit tests for routing logic, security scan |
-| **Deploy** | Terraform + ECS Deploy Action | Update task definitions, roll out to **staging** first, then **prod** |
-| **Post‑Deploy** | Smoke test script | Calls `/healthz` on each service, reports success/failure |
+                    DEVELOPER
+                        │
+                        ▼
+                ┌───────────────┐
+                │    GitHub     │
+                │  Repository   │
+                └───────┬───────┘
+                        │
+                    git push
+                        │
+                        ▼
+              ┌─────────────────────┐
+              │   CI PIPELINE       │
+              │                     │
+              │ • Lint              │
+              │ • Unit Tests        │
+              │ • Integration Tests │
+              │ • Security Scan     │
+              └──────────┬──────────┘
+                         │
+                    Tests Pass?
+                    /          \
+                  NO            YES
+                  │              │
+                  ▼              ▼
+               STOP       Build Docker Image
+                                │
+                                ▼
+                       ┌──────────────────┐
+                       │ Artifact Registry│
+                       │                  │
+                       │ Docker Image     │
+                       └────────┬─────────┘
+                                │
+                                ▼
+                       ┌──────────────────┐
+                       │  CD PIPELINE     │
+                       │                  │
+                       │ Deploy Staging   │
+                       └────────┬─────────┘
+                                │
+                                ▼
+                       Integration Tests
+                                │
+                         Tests Pass?
+                         /         \
+                       NO           YES
+                       │             │
+                       ▼             ▼
+                    ROLLBACK     Deploy PROD
+                                     │
+                                     ▼
+                            ┌────────────────┐
+                            │  Cloud Run     │
+                            │                │
+                            │ FastAPI        │
+                            └───────┬────────┘
+                                    │
+                   ┌────────────────┼────────────────┐
+                   │                │                │
+                   ▼                ▼                ▼
+             Cloud SQL         Vertex AI       Secret Manager
+             PostgreSQL        Gemini LLM        Secrets
+                   │
+                   ▼
+             Cloud Logging
+             & Monitoring
 
-#### 5.3 AI / Model Serving  
 
-```python
-# Sample code – see the execution block below for a runnable demo
-def route_prompt(prompt: str, mode: str) -> str:
-    """
-    Very simple routing rule:
-    - 'fast'      → OpenAI GPT‑3.5‑Turbo (cheapest, lowest latency)
-    - 'creative'  → Llama‑2‑7B (more parameters)
-    - 'balanced'  → Mistral‑7B (mid‑ground)
-    """
-    # mapping of mode → endpoint URL (in reality you would load from env vars)
-    endpoints = {
-        "fast": "http://llm-gpt:8000/completions",
-        "creative": "http://llm-llama:8001/completions",
-        "balanced": "http://llm-mistral:8002/completions",
-    }
-    url = endpoints.get(mode, endpoints["balanced"])
-    # Here we would `requests.post(url, json={"prompt": prompt})`
-    # For demo we just return the chosen URL.
-    return f"Routing to {url}"
-```
-
-The **Python SDK** (`llm_client.py`) will expose a single function `ask(prompt, mode="balanced")` that 
-internally calls the chooser service, handles retries, and returns the model response.
-
-#### 5.4 VS Code CLI Extension  
-
-*Command*: `llm-select --mode <fast|creative|balanced> "<prompt>"`  
-
-The extension will invoke the Python SDK under the hood and print the model’s answer directly in the terminal.
-
-#### 5.5 Security  
+#### 5.4 Security  
 
 - **IAM**: least‑privilege role for ECS task execution.  
-- **Secrets**: OpenAI API key stored in AWS Secrets Manager; injected as env‑var at runtime.  
+- **Secrets**: OpenAI API key stored in GCP Secrets Manager; injected as env‑var at runtime.  
 - **Network**: LLM containers run in a private subnet; only the chooser has a public endpoint.  
 - **TLS**: API Gateway enforces HTTPS.
 
 ---
 
-### 6. Project Plan & Timeline  
+### 6. Development Milestones
 
-| Phase | Tasks | Start | End |
-|-------|-------|-------|-----|
-| **Kick‑off** | Requirements finalisation, repo creation | 2026‑10‑01 | 2026‑10‑04 |
-| **Design** | Architecture diagram, Terraform module layout, CLI spec | 2026‑10‑05 | 2026‑10‑12 |
-| **Implementation** | • Build Docker images <br> • Write chooser service (FastAPI) <br> • Write VS Code CLI (Node.js) <br> • Write Python SDK | 2026‑10‑13 | 2026‑11‑07 |
-| **CI/CD** | GitHub Actions workflow, Terraform apply to staging | 2026‑11‑08 | 2026‑11‑14 |
-| **Testing** | Unit tests, integration tests (routing), load test (locust) | 2026‑11‑15 | 2026‑11‑28 |
-| **Demo & Documentation** | OpenWebUI UI, CLI demo video, README, hand‑off guide | 2026‑11‑29 | 2026‑12‑05 |
-| **Evaluation** | Cost analysis, performance report, final presentation | 2026‑12‑06 | 2026‑12‑12 |
+The project will have several major milestones throughout development.
+
+Milestone 1 — Project Foundation
+
+End of Week 2
+
+The project architecture and database design will be complete. The development environment, source-control repository, database schema, and initial application structure will be established.
+
+Milestone 2 — Working Message System
+
+End of Week 4
+
+A user will be able to submit a simulated 911 text message through the React application, send it to the Spring Boot API, and have it persisted in PostgreSQL.
+
+The complete workflow will be:
+
+User
+  ↓
+React Application
+  ↓
+REST API
+  ↓
+PostgreSQL
+
+Milestone 3 — Automated Prioritization
+
+End of Week 5
+
+The system will automatically analyze incoming messages, identify keywords, calculate a priority score, and assign a preliminary priority level.
+
+Example:
+
+Message:
+"I'm trapped in my house. There is a fire."
+
+Analysis:
+fire       +8
+trapped    +8
+
+Priority Score: 16
+Priority: HIGH
+
+Milestone 4 — Functional Call Center Dashboard
+
+End of Week 7
+
+An authenticated administrator will be able to:
+
+Log in
+
+View incoming messages
+
+Sort messages by priority
+
+Filter messages by category/status
+
+View message details
+
+Change message status
+
+Override automated priority
+
+View priority history
+
+At this point, the core MVP will be considered functionally complete.
+
+Milestone 5 — Cloud Deployment
+
+End of Week 8
+
+The application will be deployed to a cloud environment. The frontend, backend API, and PostgreSQL database will operate as cloud-hosted components.
+
+The deployment architecture will resemble:
+
+                Internet
+                   │
+                   ▼
+           ┌───────────────┐
+           │ React Frontend│
+           └───────┬───────┘
+                   │
+                   ▼
+           ┌───────────────┐
+           │ Spring Boot   │
+           │ REST API      │
+           └───────┬───────┘
+                   │
+          ┌────────┴────────┐
+          |                 |
+          ▼                 ▼
+   ┌─────────────┐   ┌──────────────┐
+   │ PostgreSQL  │   │ Text Analysis│
+   │ Database    │   │ Service      │
+   └─────────────┘   └──────────────┘
+
+
+Milestone 6 — Final Testing
+
+End of Week 9
+
+Testing will verify that the application correctly handles normal and unexpected scenarios.
+
+Testing will include:
+
+- Valid message submission
+
+- Empty messages
+
+- Extremely long messages
+
+- Invalid API requests
+
+- Authentication failures
+
+- Unauthorized administrator actions
+
+- Keyword detection
+
+- Priority scoring
+
+- Priority overrides
+
+- Database operations
+
+- Concurrent message submissions
+
+- API error handling
+
+- Frontend validation
+
+- Security vulnerabilities
+
+*Special attention will be given to false positives and false negatives in the priority system.*
+
+For example, the system should be tested against messages such as:
+
+"There is no fire at my house."
+
+This is important because a simplistic keyword search could detect "fire" and incorrectly increase the priority.
+
+Milestone 7 — Final Demonstration
+
+End of Week 10
+
+The final demonstration will show the complete workflow:
+
+1. User submits emergency text
+   
+             ↓
+   
+2. API receives message
+   
+             ↓
+   
+3. Message stored in database
+
+             ↓
+4. Analysis service evaluates message
+
+             ↓
+5. Priority score calculated
+   
+             ↓
+6. Message appears in admin queue
+    
+             ↓
+7. Administrator reviews message
+    
+             ↓
+8. Administrator confirms/overrides priority
+    
+             ↓
+9. Message status updated
+    
+             ↓
+10. Data appears in analytics
 
 ---
 
 ### 7. Resources & Budget  
 
-To keep the budegt real small and do most of the development on the local computer,  we develop a mock llm service, that does not actually uses an llm but returns information in th esame format an LLM would return.  Before any cloud services are used, the implementation is done locally with the mock service, then it is replicated on the cloud. In the fnal step we will use real llm services, but will more carefully evaluate which are realistic. We propose t chose the smallest andcheapest possible models. The possibly not even need tou use GPUs.
-A configuration file in yaml will be used to describe the nature of the service and the resource need and where they are hosted. The chosen DevOps framework will then provision and stage the services.
+To keep the budegt small and do most of the development on the local computer, I will develop a mock llm service, that does not actually uses an llm but returns information in the same format an LLM would return.  Before any cloud services are used, the implementation is done locally with the mock service, then it is replicated on the cloud. In the final step I will use real llm services, but will more carefully evaluate which are realistic. I propose choosing the smallest and cheapest possible models. A configuration file in yaml will be used to describe the nature of the service and the resource need and where they are hosted. The chosen DevOps framework will then provision and stage the services.
 
-As part of this we plan also to investigate if hosting on kubernetes or EC2 like VMs is more easy to do and costeffective. We will only implement one solution however.
+As part of this I plan also to host my application on GCP as it is easy to do and cost effective. 
 
 | Resource | Qty | Cost (USD) | Reason |
 |----------|-----|------------|--------|
@@ -179,15 +419,31 @@ As part of this we plan also to investigate if hosting on kubernetes or EC2 like
 
 ### 8. Risk Management  
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Cloud cost runaway (e.g., unlimited GPT calls) | Medium | High | Set usage alerts in CloudWatch; enforce per‑user token quota in chooser. |
-| Model container crash → service downtime | Low | Medium | Deploy each model in its own task with restart policy; health checks. |
-| CLI incompatibility across OSes | Low | Low | Use Node.js + cross‑platform packaging (pkg) + automated CI build for Windows/macOS/Linux. |
-| Secrets leakage | Low | High | Store keys only in Secrets Manager; no plain‑text in repo. |
-| Insufficient test coverage → routing bugs | Low | Medium | Enforce 90 % coverage rule in CI; add mutation tests. |
+Several risks could affect the project timeline. To reduce these risks, the project will prioritize the core message submission, database, analysis, and administrative dashboard functionality before implementing advanced features.
 
----
+**Risk: Scope Expansion**
+
+Features such as machine learning, real-time communications, geospatial mapping, and SMS integration could significantly increase development time.
+
+Mitigation: These features will remain future enhancements unless the MVP is completed ahead of schedule.
+
+**Risk: Automated Classification Accuracy**
+
+Keyword-based classification may produce incorrect priority levels.
+
+Mitigation: The system will treat the automated priority as a recommendation and provide administrators with the ability to override it.
+
+**Risk: Cloud Deployment Problems**
+
+Cloud configuration can introduce unexpected deployment or networking issues.
+
+Mitigation: A local development environment will remain available throughout the project, and cloud deployment will begin by Week 8 rather than being left until the final week.
+
+**Risk: Security Issues**
+
+Emergency-style communications may contain sensitive information.
+
+Mitigation: Only synthetic data will be used, administrator access will require authentication, and security testing will be performed before final deployment.
 
 ### 9. Evaluation & Success Metrics  
 
@@ -208,34 +464,147 @@ As part of this we plan also to investigate if hosting on kubernetes or EC2 like
 | Architecture diagram | PNG / PDF | End of Design |
 | Terraform IaC code | .tf files (Git repo) | End of Implementation |
 | LLM‑Chooser micro‑service | Docker image (ECR) + source | End of Implementation |
-| VS Code CLI extension | VSIX package + README | End of Implementation |
 | Python SDK (`llm_client.py`) | .py file + docs | End of Implementation |
-| OpenWebUI demo instance | URL (staging) | End of Demo |
-| Test suite (PyTest, locust) | repo + CI badge | End of Testing |
-| Final report & presentation | PDF + Slides | End of Evaluation |
+| React demo instance | URL (staging) | End of Demo |
+| Test suite (PyTest, others?) | repo + CI badge | End of Testing |
+| Final report & presentation & live demo | PDF + Slides + Demo | End of Evaluation |
 
 ---
 
 ### 11. References  
 
-- AWS Well‑Architected Framework – <https://aws.amazon.com/architecture/well-architected/>  
-- OpenAI API Documentation – <https://platform.openai.com/docs/api-reference>  
-- “Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation” – Jez Humble & David Farley (2010)  
-- HuggingFace Docker images for Llama‑2 & Mistral – <https://huggingface.co/models>  
+The following sources provide the technical and architectural foundations for the technologies, development practices, cloud services, and responsible-AI principles proposed for this project.
 
+## Cloud Infrastructure
+
+1. Google Cloud. (2026). *Cloud Run documentation*. Google Cloud Documentation.
+   [Google Cloud Run Documentation](https://cloud.google.com/run/docs?utm_source=chatgpt.com)
+
+   Used to support the proposed containerized application deployment, automatic scaling, service configuration, and cloud-hosted backend architecture.
+
+2. Google Cloud. (2026). *Cloud SQL for PostgreSQL documentation*. Google Cloud Documentation.
+   [Cloud SQL for PostgreSQL Documentation](https://docs.cloud.google.com/sql/docs/postgres?utm_source=chatgpt.com)
+
+   Used as the reference for the managed PostgreSQL database component of the application.
+
+3. Google Cloud. (2026). *Pub/Sub documentation*. Google Cloud Documentation.
+   [Google Cloud Pub/Sub Documentation](https://docs.cloud.google.com/pubsub/docs?utm_source=chatgpt.com)
+
+   Used to support the proposed optional event-driven architecture for asynchronous message analysis.
+
+4. Google Cloud. (2026). *Secret Manager documentation*. Google Cloud Documentation.
+   [Google Cloud Secret Manager Documentation](https://docs.cloud.google.com/secret-manager/docs?utm_source=chatgpt.com)
+
+   Used to support the secure management of database credentials, API keys, and other application secrets.
+
+---
+
+## Backend & Database Technologies
+
+5. FastAPI. (2026). *FastAPI Documentation*.
+   [FastAPI Documentation](https://fastapi.tiangolo.com/learn/?utm_source=chatgpt.com)
+
+   Used as the primary reference for the proposed Python REST API framework, API validation, testing, and deployment.
+
+6. PostgreSQL Global Development Group. (2026). *PostgreSQL 18 Documentation*.
+   [PostgreSQL Documentation](https://www.postgresql.org/docs/current/index.htm?utm_source=chatgpt.com)
+
+   Used as the technical reference for PostgreSQL database design, SQL, data types, indexes, concurrency, and database administration.
+
+---
+
+## Containerization
+
+7. Docker. (2026). *Docker Documentation*.
+   [Docker Documentation](https://docs.docker.com/?utm_source=chatgpt.com)
+
+   Used to support the proposed containerization strategy, Docker images, Dockerfiles, and application deployment workflow.
+
+---
+
+## DevOps & CI/CD
+
+8. GitHub. (2026). *GitHub Actions Documentation*. GitHub Docs.
+   [GitHub Actions Documentation](https://docs.github.com/en/actions?utm_source=chatgpt.com)
+
+   Used to support the proposed continuous integration and continuous deployment pipeline.
+
+9. GitHub. (2026). *Continuous Integration with GitHub Actions*. GitHub Docs.
+   [GitHub Actions — Continuous Integration](https://docs.github.com/en/actions/get-started/continuous-integration?utm_source=chatgpt.com)
+
+   Used to support automated linting, testing, security checks, and build validation within the CI pipeline.
+
+10. GitHub. (2026). *Continuous Deployment with GitHub Actions*. GitHub Docs.
+    [GitHub Actions — Continuous Deployment](https://docs.github.com/en/actions/get-started/continuous-deployment?utm_source=chatgpt.com)
+
+    Used to support automated application deployment following successful CI checks.
+
+---
+
+## Infrastructure as Code
+
+11. HashiCorp. (2026). *Terraform Google Cloud Provider Documentation*. Terraform Registry.
+    [Terraform Google Cloud Provider Documentation](https://registry.terraform.io/providers/hashicorp/google/latest/docs?product_intent=terraform&utm_source=chatgpt.com)
+
+    Used as the reference for provisioning and managing Google Cloud infrastructure using Terraform.
+
+Terraform will be used to make the project's cloud infrastructure reproducible and version controlled.
+
+---
+
+## Artificial Intelligence & Responsible AI
+
+12. National Institute of Standards and Technology. (2023). *Artificial Intelligence Risk Management Framework (AI RMF 1.0)*. NIST AI 100-1.
+    [NIST AI Risk Management Framework](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10?utm_source=chatgpt.com)
+
+    Used to guide the project's approach to AI risk management, evaluation, trustworthiness, and human oversight.
+
+13. National Institute of Standards and Technology. (2024). *Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile*. NIST AI 600-1.
+    [NIST Generative AI Profile](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence?utm_source=chatgpt.com)
+
+    Used to address risks and evaluation considerations specific to generative AI and LLM-based functionality.
+
+14. National Institute of Standards and Technology. (2023). *AI RMF — Human-AI Interaction and Oversight*.
+    [NIST AI RMF — Human-AI Interaction](https://airc.nist.gov/airmf-resources/airmf/appendices/app-c-ai-risk-management-and-human-ai-interaction/?utm_source=chatgpt.com)
+
+    This reference supports the project's decision to use the LLM as an analytical aid rather than allowing it to autonomously make emergency-dispatch decisions. NIST specifically discusses configurations in which AI provides an additional opinion while a human remains responsible for decision-making and oversight.
+
+---
+
+# 12. Reference-to-Project Mapping
+
+| Project Component       | Primary Reference                   |
+| ----------------------- | ----------------------------------- |
+| Python REST API         | FastAPI Documentation               |
+| PostgreSQL Database     | PostgreSQL Documentation            |
+| Cloud-hosted backend    | Google Cloud Run                    |
+| Managed PostgreSQL      | Google Cloud SQL                    |
+| Containerization        | Docker Documentation                |
+| CI/CD                   | GitHub Actions                      |
+| Infrastructure as Code  | Terraform Google Cloud Provider     |
+| Secret Management       | Google Cloud Secret Manager         |
+| Event-driven processing | Google Cloud Pub/Sub                |
+| LLM/Generative AI Risk  | NIST AI RMF                         |
+| Human-in-the-loop AI    | NIST AI RMF                         |
+| AI Evaluation           | NIST AI RMF / Generative AI Profile |
+| Cloud Scaling           | Google Cloud Run                    |
+
+# 13. Important Project Scope and Safety Note
+
+This project is intended as an **educational simulation of a text-based emergency communication and analysis system**. It will use synthetic messages and simulated emergency scenarios.
+
+The LLM will **not** make autonomous real-world emergency dispatch decisions. Instead, it will generate an analytical recommendation that can be reviewed and overridden by an administrator.
+
+This human-in-the-loop design is particularly important because the application operates in a simulated high-risk domain. NIST's AI Risk Management Framework emphasizes defining human oversight and evaluating AI capabilities, risks, and limitations when designing AI systems.
+ 
+**This references section has been formatted and assisted by AI**
 ---  
-
 
 ## Technologies Used
 
 Suggestions:
 
 * FastAPI
-* MariaDB
+* PostgresSQL
+* GCP
 * LLM to create darfted responses and classification
-
-
-## References
-
-
-
