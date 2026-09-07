@@ -293,6 +293,7 @@ The application will be deployed to a cloud environment. The frontend, backend A
 
 The deployment architecture will resemble:
 
+```
                 Internet
                    │
                    ▼
@@ -313,7 +314,7 @@ The deployment architecture will resemble:
    │ PostgreSQL  │   │ Text Analysis│
    │ Database    │   │ Service      │
    └─────────────┘   └──────────────┘
-
+```
 
 Milestone 6 — Final Testing
 
@@ -365,6 +366,7 @@ End of Week 10
 
 The final demonstration will show the complete workflow:
 
+```
 1. User submits emergency text
    
              ↓
@@ -395,23 +397,33 @@ The final demonstration will show the complete workflow:
     
              ↓
 10. Data appears in analytics
+```
 
 ---
 
 ### 7. Resources & Budget  
 
-To keep the budegt small and do most of the development on the local computer, I will develop a mock llm service, that does not actually uses an llm but returns information in the same format an LLM would return.  Before any cloud services are used, the implementation is done locally with the mock service, then it is replicated on the cloud. In the final step I will use real llm services, but will more carefully evaluate which are realistic. I propose choosing the smallest and cheapest possible models. A configuration file in yaml will be used to describe the nature of the service and the resource need and where they are hosted. The chosen DevOps framework will then provision and stage the services.
+The proposed 911 Call Center Analysis application is designed to minimize development and operational costs by using open-source technologies and Google Cloud services with free usage tiers. The project will use synthetic 911 data for development and demonstration purposes.
 
-As part of this I plan also to host my application on GCP as it is easy to do and cost effective. 
+## Resource Budget
 
-| Resource | Qty | Cost (USD) | Reason |
-|----------|-----|------------|--------|
-| AWS Fargate (vCPU 0.5, 1 GB RAM) – 3 services – 30 days | – | $80 | Container execution |
-| OpenAI GPT‑3.5‑Turbo usage (estimated 100 k tokens) | – | $20 | Model A cost |
-| S3 storage (logs, 50 GB) | – | $5 | Persistence |
-| GitHub Team plan (5 users) | – | $60 | Private repo & Actions minutes |
-| Misc. – domain, SSL cert | – | $15 | Secure endpoint |
-| **Total** | | **≈ $180** |  |
+| Resource | Estimated Cost | Purpose |
+|---|---:|---|
+| **Python** | $0 | Primary programming language for the backend, analysis engine, and LLM integration. |
+| **FastAPI** | $0 | Python framework used to build the REST API for submitting, retrieving, and analyzing simulated 911 messages. |
+| **React** | $0 | Frontend framework used to create the simulated 911 messaging interface and administrator dashboard. |
+| **PostgreSQL** | $0 locally | Local relational database used during development and testing. |
+| **Google Cloud SQL for PostgreSQL** | ~$8–$20/month | Managed PostgreSQL database used for the deployed application. Costs depend on instance size, storage, networking, and configuration. |
+| **Google Cloud Run** | $0–$5/month | Hosts the containerized FastAPI backend. Cloud Run uses pay-per-use pricing and includes a monthly free tier. |
+| **Vertex AI / Gemini** | ~$1–$10/month | Performs semantic analysis of simulated 911 messages, including emergency classification, severity analysis, contextual analysis, and identification of immediate danger indicators. |
+| **Google Artifact Registry** | $0–$1/month | Stores Docker container images used to deploy the application to Cloud Run. |
+| **Google Cloud Secret Manager** | ~$0 | Securely stores database credentials, API keys, and other application secrets. |
+| **Google Cloud Logging & Monitoring** | $0–$2/month | Provides application and infrastructure monitoring, including API errors, performance, service health, and LLM failures. |
+| **GitHub** | $0 | Provides source-code management, version control, issue tracking, and project documentation. |
+| **GitHub Actions** | $0–$5/month | Automates testing, linting, security checks, Docker builds, and cloud deployments. |
+| **Docker** | $0 | Packages the backend application and its dependencies into portable containers for deployment. |
+| **Terraform** | $0 | Infrastructure-as-code tool used to define and reproduce the Google Cloud infrastructure. |
+| **Google Cloud Pub/Sub — Optional** | $0–$1/month | Provides asynchronous message processing if the project is expanded to use an event-driven architecture. 
 
 *(If your institution provides free credits, update accordingly.)*
 
@@ -445,19 +457,9 @@ Emergency-style communications may contain sensitive information.
 
 Mitigation: Only synthetic data will be used, administrator access will require authentication, and security testing will be performed before final deployment.
 
-### 9. Evaluation & Success Metrics  
-
-| Metric | Target | Tool |
-|--------|--------|------|
-| Average routing latency (prompt → response) | ≤ 1.2 s (fast mode) | CloudWatch Custom Metric |
-| End‑to‑end cost per 1 k tokens | ≤ $0.025 (vs. baseline $0.041) | OpenAI usage dashboard + custom script |
-| CLI success rate (no error) | 100 % over 100 automated calls | GitHub Actions test matrix |
-| Documentation completeness | 100 % of required sections with examples | Peer‑review checklist |
-| Student satisfaction (survey) | ≥ 4/5 average | Post‑demo questionnaire |
-
 ---
 
-### 10. Deliverables  
+### 9. Deliverables  
 
 | Deliverable | Format | Due |
 |-------------|--------|-----|
@@ -471,7 +473,7 @@ Mitigation: Only synthetic data will be used, administrator access will require 
 
 ---
 
-### 11. References  
+### 10. References  
 
 The following sources provide the technical and architectural foundations for the technologies, development practices, cloud services, and responsible-AI principles proposed for this project.
 
@@ -571,7 +573,7 @@ Terraform will be used to make the project's cloud infrastructure reproducible a
 
 ---
 
-# 12. Reference-to-Project Mapping
+# 11. Reference-to-Project Mapping
 
 | Project Component       | Primary Reference                   |
 | ----------------------- | ----------------------------------- |
@@ -589,7 +591,7 @@ Terraform will be used to make the project's cloud infrastructure reproducible a
 | AI Evaluation           | NIST AI RMF / Generative AI Profile |
 | Cloud Scaling           | Google Cloud Run                    |
 
-# 13. Important Project Scope and Safety Note
+# 12. Important Project Scope and Safety Note
 
 This project is intended as an **educational simulation of a text-based emergency communication and analysis system**. It will use synthetic messages and simulated emergency scenarios.
 
@@ -597,7 +599,7 @@ The LLM will **not** make autonomous real-world emergency dispatch decisions. In
 
 This human-in-the-loop design is particularly important because the application operates in a simulated high-risk domain. NIST's AI Risk Management Framework emphasizes defining human oversight and evaluating AI capabilities, risks, and limitations when designing AI systems.
  
-**This references section has been formatted and assisted by AI**
+**This references section has been formatted with the assistance of AI. All ideas, verbage, and content remain at the discretion of the project owner.**
 ---  
 
 ## Technologies Used
