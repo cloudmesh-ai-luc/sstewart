@@ -57,8 +57,7 @@ A simulated text-to-911 system provides an opportunity to explore how emergency 
 | 4 | Priority Classification | Messages will receive a preliminary priority classifaction (Critical, High, Moderate, Low) |
 | 5 | Admin Dashboard | Create an admin dashboard that allows authorized users to monitor incoming messages |
 | 6 | Analytics | The application will provide basic analytics about emergency messages |
-| 7 | Provide VS Code CLI (`llm-select`) and Python SDK (`llm_client.py`). | CLI and SDK pass unit tests; documentation covers 5 common use‑cases. |
-| 8 | Set up CI/CD pipeline that automatically builds Docker images, runs tests, and deploys to staging on every push. | 2‑minute pipeline run, 0 failed builds for 3 consecutive commits. |
+| 7 | Set up CI/CD pipeline that automatically builds Docker images, runs tests, and deploys to staging on every push. | 2‑minute pipeline run, 0 failed builds for 3 consecutive commits. |
 
 ---
 
@@ -401,33 +400,41 @@ Milestone 5 — Cloud Deployment
 
 End of Week 8
 
-The application will be deployed to a cloud environment. The frontend, backend API, and PostgreSQL database will operate as cloud-hosted components.
+The application will be deployed to a cloud environment. The frontend, backend API, and MariaDB database will operate as cloud-hosted components.
 
 The deployment architecture will resemble:
 
+```                     ┌─────────────────────┐
+                    │     React/Vite      │
+                    │    Web Interface    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │       FastAPI       │
+                    │      REST API       │
+                    └──────────┬──────────┘
+                               │
+             ┌─────────────────┼─────────────────┐
+             │                 │                 │
+             ▼                 ▼                 ▼
+      ┌────────────┐    ┌──────────────┐   ┌──────────────┐
+      │  MariaDB   │    │    Keyword   │   │   Ollama     │
+      │  Database  │    │    Engine    │   │ Local LLM    │
+      └────────────┘    └──────┬───────┘   └──────┬───────┘
+                                │                  │
+                                └────────┬─────────┘
+                                         ▼
+                                ┌─────────────────┐
+                                │ Priority Engine │
+                                └────────┬────────┘
+                                         │
+                                         ▼
+                                ┌─────────────────┐
+                                │  Admin Dashboard │
+                                │ Human Review     │
+                                └─────────────────┘
 ```
-                Internet
-                   │
-                   ▼
-           ┌───────────────┐
-           │ React Frontend│
-           └───────┬───────┘
-                   │
-                   ▼
-           ┌───────────────┐
-           │ Spring Boot   │
-           │ REST API      │
-           └───────┬───────┘
-                   │
-          ┌────────┴────────┐
-          |                 |
-          ▼                 ▼
-   ┌─────────────┐   ┌──────────────┐
-   │ PostgreSQL  │   │ Text Analysis│
-   │ Database    │   │ Service      │
-   └─────────────┘   └──────────────┘
-```
-
 Milestone 6 — Final Testing
 
 End of Week 9
@@ -519,23 +526,26 @@ The proposed 911 Call Center Analysis application is designed to minimize develo
 
 ## Resource Budget
 
-| Resource | Estimated Cost | Purpose |
-|---|---:|---|
-| **Python** | $0 | Primary programming language for the backend, analysis engine, and LLM integration. |
-| **FastAPI** | $0 | Python framework used to build the REST API for submitting, retrieving, and analyzing simulated 911 messages. |
-| **React** | $0 | Frontend framework used to create the simulated 911 messaging interface and administrator dashboard. |
-| **PostgreSQL** | $0 locally | Local relational database used during development and testing. |
-| **Google Cloud SQL for PostgreSQL** | ~$8–$20/month | Managed PostgreSQL database used for the deployed application. Costs depend on instance size, storage, networking, and configuration. |
-| **Google Cloud Run** | $0–$5/month | Hosts the containerized FastAPI backend. Cloud Run uses pay-per-use pricing and includes a monthly free tier. |
-| **Vertex AI / Gemini** | ~$1–$10/month | Performs semantic analysis of simulated 911 messages, including emergency classification, severity analysis, contextual analysis, and identification of immediate danger indicators. |
-| **Google Artifact Registry** | $0–$1/month | Stores Docker container images used to deploy the application to Cloud Run. |
-| **Google Cloud Secret Manager** | ~$0 | Securely stores database credentials, API keys, and other application secrets. |
-| **Google Cloud Logging & Monitoring** | $0–$2/month | Provides application and infrastructure monitoring, including API errors, performance, service health, and LLM failures. |
-| **GitHub** | $0 | Provides source-code management, version control, issue tracking, and project documentation. |
-| **GitHub Actions** | $0–$5/month | Automates testing, linting, security checks, Docker builds, and cloud deployments. |
-| **Docker** | $0 | Packages the backend application and its dependencies into portable containers for deployment. |
-| **Terraform** | $0 | Infrastructure-as-code tool used to define and reproduce the Google Cloud infrastructure. |
-| **Google Cloud Pub/Sub — Optional** | $0–$1/month | Provides asynchronous message processing if the project is expanded to use an event-driven architecture. 
+| Layer                  | Technology                           |   Cost | Purpose                                                        |
+| ---------------------- | ------------------------------------ | -----: | -------------------------------------------------------------- |
+| Frontend               | **React + Vite**                     |     $0 | 911 simulation interface and admin dashboard                   |
+| Backend                | **FastAPI**                          |     $0 | REST API and application logic                                 |
+| Database               | **MariaDB Community Server**         |     $0 | Store messages, users, analysis, priorities, and audit records |
+| ORM                    | **SQLAlchemy**                       |     $0 | Python database interaction                                    |
+| Database migrations    | **Alembic**                          |     $0 | Manage database schema changes                                 |
+| AI/LLM                 | **Ollama + local open-source model** |     $0 | Local semantic analysis without paying an API provider         |
+| Containerization       | **Docker + Docker Compose**          |     $0 | Run the entire application stack consistently                  |
+| Reverse proxy          | **Caddy**                            |     $0 | HTTPS and reverse proxy if you expose the application          |
+| Version control        | **Git + GitHub**                     |     $0 | Source control and collaboration                               |
+| CI/CD                  | **GitHub Actions**                   |     $0 | Automated testing and builds                                   |
+| Testing                | **pytest**                           |     $0 | Backend unit/integration testing                               |
+| API testing            | **Swagger/OpenAPI**                  |     $0 | Test and document FastAPI endpoints                            |
+| Infrastructure         | **Your MacBook**                     |     $0 | Development and local hosting                                  |
+| Monitoring             | **Prometheus + Grafana**             |     $0 | Application/system monitoring                                  |
+| Logging                | **Loki**                             |     $0 | Centralized application logs                                   |
+| Infrastructure-as-code | **Docker Compose**                   |     $0 | Reproducible local infrastructure                              |
+| **Total**              |                                      | **$0** |                                                                |
+
 
 *(If your institution provides free credits, update accordingly.)*
 
