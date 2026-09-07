@@ -1,6 +1,6 @@
 # Samaira Stewart
 
-*  Accounts: [LINK to your Piazza account post]
+*  Accounts: [https://piazza.com/class/mt5rkdsycb31c3/post/11]
 
 Note:
 *  replace `<repor>/assignments/week3.md` and others with your real links.
@@ -32,7 +32,7 @@ Note:
   * [ ] Put all assignment answers into `<repor>/assignments/week3.md`. [LINK]
      
 * [ ] Assignment W3.5: README.md (Due Sep 17, 2026, 9am)
-  * [ ] put your link here  [https://github.com/cloudmesh-ai-luc/sstewart/new/main?filename=README.md]
+  * [ ] put your link here  [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/README.md]
 
 
 
@@ -46,7 +46,7 @@ Note:
 
 * [x] Assignment W2.2: GitHub Repository (Due Sep 10, 2026, 9am)
   * [x] Verify that you can write into a file in your assigned GitHub repository.
-  * [x] Put something useful into the README such as your first and last name. [LINK]
+  * [x] Put something useful into the README such as your first and last name. [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/README.md]
   * [x] Upload your public key. [LINK]
 
 
@@ -56,7 +56,7 @@ Note:
   * [x] Choose one backup method and outline the setup steps.
   * [x] Create a weekly backup schedule (day, time, what to back up).
   * [x] Research an example from cloud computing where a missing backup strategy led to issues and write a short incident case.
-  * [x] Submit to `/assignments/week2/backup.md`. [LINK]
+  * [x] Submit to `/assignments/week2/backup.md`. [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/assignments/week2/backup.md]
 
 
 * [ ] Assignment W2.4: Local VM (Due Sep 10, 2026, 9am)
@@ -64,16 +64,16 @@ Note:
   * [x] Pick a hypervisor (VirtualBox, VMware, Hyper-V, Multipass). [Which?]
   * [x] Create and start a minimal VM (e.g., Ubuntu 22.04).
   * [x] Capture proof of login with a terminal screenshot (≤ 800×600 px) showing your prompt and a command.
-  * [x] Write/update the tutorial in `assignments/week1/local-vm.md` and save the screenshot as `assignments/week1/vm-login.png`. [LINK/s]
-
+  * [x] Write/update the tutorial in `assignments/week1/local-vm.md` and save the screenshot as `assignments/week1/vm-login.png`. [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/assignments/week1/local-vm.md]
+[https://github.com/cloudmesh-ai-luc/sstewart/blob/main/assignments/week1/vm-login.png]
 
 * [x] Assignment W2.5: Project proposal (Due Sep 10, 2026, 9am)
-  * [x] Start working towards a project proposal and fill out administrative fields and text. [LINK]
+  * [x] Start working towards a project proposal and fill out administrative fields and text. [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/project/project.md]
 
 
 # Week 1
 
-  * [x] Assignment W1.1: What hardware do you have? (Past Due) [LINK]
+  * [x] Assignment W1.1: What hardware do you have? (Past Due) []
   * [x] Fill out the LUC Hardware Questionnaire.
 
 
@@ -89,7 +89,7 @@ Note:
   * [x] Create an account on access-ci.org.
   * [x] Create an account on chameleoncloud.org.
   * [x] Set up a GitHub account.
-  * [x] Post account information to Piazza under the accounts category. [LINK]
+  * [x] Post account information to Piazza under the accounts category. [https://piazza.com/class/mt5rkdsycb31c3/post/11]
 
 
 * [x] Assignment W1.5: Work ahead: Refresh knowledge about Python and Linux (Past Due)
