@@ -34,6 +34,9 @@ Note:
 * [x] Assignment W3.5: README.md (Due Sep 17, 2026, 9am)
   * [x] put your link here  [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/README.md]
 
+* [x] Assignment W3.6 git from commandline
+  * [x] put the url of a pull request here (https://github.com/cloudmesh-ai-luc/sstewart/pull/2)
+
 
 
  ## Week 2
