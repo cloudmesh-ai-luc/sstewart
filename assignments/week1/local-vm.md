@@ -4,6 +4,7 @@ Before we begin the tutorial, let's answer a key question: What is UTM?
 
 The typical structure of a MacBook could look like the following:
 
+```
 YOUR MAC
 │
 ├── macOS  ← Your normal operating system
@@ -21,9 +22,11 @@ YOUR MAC
                ├── Windows
                ├── Kali Linux
                └── etc.
+```
 
 The virtual machine behaves like another computer - a key aspect of UTM. For example, you could have:
 
+```
 MacBook
    ↓
  macOS
@@ -31,6 +34,7 @@ MacBook
   UTM
    ↓
 Ubuntu Linux
+```
 
 This allows you to open Ubuntu in a window while continuing to use applications on your macbook.
 With that being said, let's start the tutorial!
@@ -43,20 +47,20 @@ Look for either:
 *Apple Silicon*
 
 Some examples are:
-
+```
 Chip: Apple M1
 Chip: Apple M2
 Chip: Apple M3
 Chip: Apple M4
 Chip: Apple M5
-
+```
 or
 
 *Intel*
 
 You'll see:
 
-Processor: 2.6 GHz 6-Core Intel Core i7
+> Processor: 2.6 GHz 6-Core Intel Core i7
 
 **Why this matters**
 
@@ -90,6 +94,7 @@ for automatic updates versus having to update manually.
 
 4. Once installed, open UTM on your macbook. At first, you will have no virtual machines, and your screen should look something like this:
 
+```
 ┌──────────────────────────────────┐
 │ UTM                         +    │
 ├──────────────────────────────────┤
@@ -98,6 +103,7 @@ for automatic updates versus having to update manually.
 │                                  │
 │                                  │
 └──────────────────────────────────┘
+```
 
 To create a virtual machine, press the + button on the top right hand corner.
 
@@ -109,11 +115,13 @@ As an example:
 
 **Virtualize**
 
+```
 M-series Mac
      ↓
     UTM
      ↓
 Ubuntu ARM64
+```
 
 This is fast.
 
@@ -123,11 +131,13 @@ Emulation allows you to pretend your computer has completely different hardware.
 
 For example:
 
+```
 M-series Mac
      ↓
     UTM
      ↓
 Intel x86 Windows
+```
 
 This is much more computationally expensive.
 
@@ -164,9 +174,11 @@ The exact filename will vary by Ubuntu release.
 
 Back in UTM:
 
+```
 + → Virtualize → Linux
+```
 
-You'll then be asked for the installation media.
+You will then be asked for the installation media.
 
 Select:
 
