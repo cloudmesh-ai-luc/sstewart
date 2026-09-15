@@ -8,9 +8,9 @@ Note:
 ## Week 3
 
 * [ ] Assignment W3.1: VM on Jetstream (Due Sep 17, 2026, 9am)
-  * [ ] Start a VM on Jetstream and follow the tutorial provided.
+  * [x] Start a VM on Jetstream and follow the tutorial provided.
   * [ ] Improve the tutorial while creating pull requests in the lecture notes if you see issues.
-  * [ ] Document your activity with a screenshot of the terminal (800x600).
+  * [x] Document your activity with a screenshot of the terminal (800x600). [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/assignments/week3/jetstream-vm-login.png]
 
 
 * [ ] Assignment W3.2: VM on Chameleon Cloud (Due Sep 17, 2026, 9am)
@@ -36,7 +36,6 @@ Note:
 
 * [x] Assignment W3.6 git from commandline
   * [x] put the url of a pull request here (https://github.com/cloudmesh-ai-luc/sstewart/pull/2)
-
 
 
  ## Week 2
