@@ -1,0 +1,73 @@
+.PHONY: help setup update upgrade install status clean
+
+help:
+	@echo "Ubuntu VM Management"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  make setup    - Set up the VM"
+	@echo "  make update   - Update package information"
+	@echo "  make upgrade  - Upgrade installed packages"
+	@echo "  make install  - Install development tools"
+	@echo "  make status   - Display VM information"
+	@echo "  make clean    - Clean unused packages"
+
+setup: update upgrade install
+	@echo "VM setup complete."
+
+update:
+	sudo apt update
+
+upgrade:
+	sudo apt upgrade -y
+
+install:
+	sudo apt install -y \
+		git \
+		curl \
+		wget \
+		vim \
+		unzip \
+		build-essential
+
+status:
+	@echo "Operating System:"
+	@lsb_release -ds
+	@echo ""
+	@echo "Kernel:"
+	@uname -r
+	@echo ""
+	@echo "Hostname:"
+	@hostname
+	@echo ""
+	@echo "Disk Usage:"
+	@df -h /
+
+clean:
+	sudo apt autoremove -y
+	sudo apt clean
+
+
+@REM  Can use SSH keys to interact with muliple VMs
+
+@REM  HOSTS := 192.168.1.10 192.168.1.11 192.168.1.12 <- IP address of different VMs
+
+@REM  update:
+@REM  	for host in $(HOSTS); do \
+@REM  		ssh $$host "sudo apt update"; \
+@REM  	done
+
+
+@REM Can also use directories to organize makefiles of different environments
+
+@REM  project/
+@REM  ├── Makefile
+@REM  ├── app/
+@REM  ├── tests/
+@REM  ├── requirements.txt
+@REM  └── environments/
+@REM      ├── local/
+@REM      │   └── Makefile
+@REM      ├── vm/
+@REM      │   └── Makefile
+@REM      └── cloud/
+@REM          └── Makefile
