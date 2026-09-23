@@ -61,9 +61,9 @@ Note:
   * [x] Document your activity with a screenshot of the terminal (800x600).
 
 
-* [ ] Assignment W3.3: OPTIONAL: VM on public cloud (Due Sep 17, 2026, 9am)
-  * [ ] Optional: Create a VM on a cloud of your choice (AWS, Azure, Google) using the free tier.
-  * [ ] Document with screenshots how you created your account, ensuring sensitive information is blurred out.
+* [-] Assignment W3.3: OPTIONAL: VM on public cloud (Due Sep 17, 2026, 9am)
+  * [-] Optional: Create a VM on a cloud of your choice (AWS, Azure, Google) using the free tier.
+  * [-] Document with screenshots how you created your account, ensuring sensitive information is blurred out.
 
 
 * [x] Assignment W3.4: Compare (Due Sep 17, 2026, 9am)
@@ -100,8 +100,8 @@ Note:
   * [x] Submit to `/assignments/week2/backup.md`. [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/assignments/week2/backup.md]
 
 
-* [ ] Assignment W2.4: Local VM (Due Sep 10, 2026, 9am)
-  * [ ] Windows: Install a terminal on Windows (Git Bash/WSL). <-- Not applicable, I am working on macOS
+* [x] Assignment W2.4: Local VM (Due Sep 10, 2026, 9am)
+  * [-] Windows: Install a terminal on Windows (Git Bash/WSL). <-- Not applicable, I am working on macOS
   * [x] Pick a hypervisor (VirtualBox, VMware, Hyper-V, Multipass). [Which?]
   * [x] Create and start a minimal VM (e.g., Ubuntu 22.04).
   * [x] Capture proof of login with a terminal screenshot (≤ 800×600 px) showing your prompt and a command.
