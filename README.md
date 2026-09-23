@@ -7,23 +7,23 @@ Note:
 
 ## Week 4 Tasks (Due Sep 24, 2026, 9am)
 
-- [ ] Assignment W4.1: VM on local machine via Makefile
+- [x] Assignment W4.1: VM on local machine via Makefile
 
     - [x] Pick a local VM framework and ensure it is installed. (I will be using UTM for this assignment on macOS)
-    - [ ] Write a Makefile with all the necessary targets to manage a single VM.
-    - [ ] Configure/determine how to manage multiple machines.
-    - [ ] Organize different Makefiles for different local and cloud environments using directories.
+    - [x] Write a Makefile with all the necessary targets to manage a single VM.
+    - [x] Configure/determine how to manage multiple machines.
+    - [x] Organize different Makefiles for different local and cloud environments using directories.
 
 - [ ] Assignment W4.2: VM on Jetstream 2
 
-    - [ ] Install the OpenStack command-line client.
+    - [x] Install the OpenStack command-line client.
     - [ ] Write a Makefile with all the necessary targets to manage a single VM.
     - [ ] Configure/determine how to manage multiple machines.
     - [ ] Check your work into your repository.
 
 - [ ] Assignment W4.3: VM on Chameleon Cloud
 
-    - [ ] Install the OpenStack command-line client.
+    - [x] Install the OpenStack command-line client.
     - [ ] Install python-chi.
     - [ ] Write a Makefile with all the necessary targets to manage a single VM.
     - [ ] Configure/determine how to manage multiple machines.
@@ -33,15 +33,15 @@ Note:
 
     - [ ] Set up a Python virtual environment (using venv or pyenv; avoid conda/miniconda unless strictly justified).
     - [ ] Ensure the OpenStack command-line tool is installed via pipx.
-    - [ ] Review using pip install and pipx install.
+    - [x] Review using pip install and pipx install.
     - [ ] Review import statements and os.system (write a program using os.system("ls")).
     - [ ] Review how to create a __main__ block.
-    - [ ] Review how to write a function.
+    - [x] Review how to write a function.
     - [ ] Review how to pass command-line arguments to a Python program (using click).
     - [ ] Review how to run shell commands from within Python, focusing on os.system() and subprocess.run().
     - [ ] Does it take more then 3 hours  please use Piazza to find out where you may need some more help.
           Indicate
-          - [ ] yes
+          - [x] yes
           - [ ] no
 
 ## Week 3
