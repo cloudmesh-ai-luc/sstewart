@@ -100,7 +100,7 @@ Note:
   * [x] Submit to `/assignments/week2/backup.md`. [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/assignments/week2/backup.md]
 
 
-* [ ] Assignment W2.4: Local VM (Due Sep 10, 2026, 9am)
+* [x] Assignment W2.4: Local VM (Due Sep 10, 2026, 9am)
   * [ ] Windows: Install a terminal on Windows (Git Bash/WSL). <-- Not applicable, I am working on macOS
   * [x] Pick a hypervisor (VirtualBox, VMware, Hyper-V, Multipass). [Which?]
   * [x] Create and start a minimal VM (e.g., Ubuntu 22.04).
