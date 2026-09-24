@@ -1,0 +1,106 @@
+# Jetstream2 VM Management Makefile
+
+VM_NAME = jetstream_sstewart
+FLAVOR = m3.small
+IMAGE = Ubuntu 24.04
+KEY_NAME = sstewart-temp
+SECURITY_GROUP = remotelogin
+
+VM_NAME2 = jetstream_sstewart2
+FLAVOR2 = m3.small
+IMAGE2 = Ubuntu 24.04
+KEY_NAME2 = sstewart-temp
+SECURITY_GROUP2 = remotelogin
+
+.PHONY: help check flavors images status create start stop reboot console ip ssh destroy
+
+help:
+	@echo "Jetstream2 VM Management"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  make check     - Check Jetstream authentication"
+	@echo "  make flavors   - List available VM flavors"
+	@echo "  make images    - List available images"
+	@echo "  make status    - Show VM status"
+	@echo "  make create    - Create the VM"
+	@echo "  make start     - Start the VM"
+	@echo "  make stop      - Stop the VM"
+	@echo "  make reboot    - Reboot the VM"
+	@echo "  make console   - Show VM console log"
+	@echo "  make ip        - Show VM floating IP"
+	@echo "  make ssh       - SSH into the VM"
+	@echo "  make destroy   - Delete the VM"
+
+check:
+	openstack token issue
+
+flavors:
+	openstack flavor list
+
+images:
+	openstack image list
+
+status:
+	openstack server show $(VM_NAME)
+
+create:
+	openstack server create $(VM_NAME) \
+		--flavor $(FLAVOR) \
+		--image "$(IMAGE)" \
+		--key-name $(KEY_NAME) \
+		--security-group $(SECURITY_GROUP) \
+		--wait
+
+start:
+	openstack server start $(VM_NAME)
+
+stop:
+	openstack server stop $(VM_NAME)
+
+reboot:
+	openstack server reboot $(VM_NAME)
+
+console:
+	openstack console log show $(VM_NAME)
+
+ip:
+	openstack server show $(VM_NAME) \
+		-c addresses \
+		-f value
+
+ssh:
+	ssh ubuntu@$$(openstack server show $(VM_NAME) -c addresses -f value | sed 's/.*=//')
+
+destroy:
+	openstack server delete $(VM_NAME)
+
+create second:
+    openstack server create $(VM_NAME2) \
+        --flavor $(FLAVOR2) \
+        --image "$(IMAGE2)" \
+        --key-name $(KEY_NAME2) \    
+        --security-group $(SECURITY_GROUP2) \
+        --wait
+
+start second:    
+    openstack server start $(VM_NAME2)
+
+stop second:
+    openstack server stop $(VM_NAME2)
+
+reboot second:
+    openstack server reboot $(VM_NAME2)
+
+console second:
+    openstack console log show $(VM_NAME2)
+
+ip second:
+    openstack server show $(VM_NAME2) \
+        -c addresses \
+        -f value
+
+ssh second:
+    ssh ubuntu@$$(openstack server show $(VM_NAME2) -c addresses -f value | sed 's/.*=//')
+
+destroy second:
+    openstack server delete $(VM_NAME2)

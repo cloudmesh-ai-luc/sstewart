@@ -1,73 +1,123 @@
-.PHONY: help setup update upgrade install status clean
+# COMP 488 - Week 4
+
+# Local VM Makefile
+
+# VM names
+
+VM1_NAME = luc-vm1
+VM2_NAME = luc-vm2
+
+# VM configuration
+
+IMAGE = ubuntu:24.04
+CPUS = 2
+MEMORY = 2G
+DISK = 10G
+
+# VM hosts 
+
+VM1_HOST = 192.168.1.10
+VM2_HOST = 192.168.1.11
+
+.PHONY: help setup setup-vm1 setup-vm2 update update-vm1 update-vm2 upgrade install status clean
 
 help:
-	@echo "Ubuntu VM Management"
-	@echo ""
-	@echo "Available targets:"
-	@echo "  make setup    - Set up the VM"
-	@echo "  make update   - Update package information"
-	@echo "  make upgrade  - Upgrade installed packages"
-	@echo "  make install  - Install development tools"
-	@echo "  make status   - Display VM information"
-	@echo "  make clean    - Clean unused packages"
+@echo "Ubuntu VM Management"
+@echo ""
+@echo "Available targets:"
+@echo "  make setup       - Set up both VMs"
+@echo "  make setup-vm1   - Set up VM1"
+@echo "  make setup-vm2   - Set up VM2"
+@echo "  make update      - Update package information on both VMs"
+@echo "  make upgrade     - Upgrade packages on both VMs"
+@echo "  make install     - Install development tools on both VMs"
+@echo "  make status      - Display information about both VMs"
+@echo "  make clean       - Clean unused packages on both VMs"
 
-setup: update upgrade install
-	@echo "VM setup complete."
+# Set up both VMs
 
-update:
-	sudo apt update
+setup: setup-vm1 setup-vm2
+@echo "Both VMs have been set up."
 
-upgrade:
-	sudo apt upgrade -y
+# Set up VM1
 
-install:
-	sudo apt install -y \
-		git \
-		curl \
-		wget \
-		vim \
-		unzip \
-		build-essential
+setup-vm1: update-vm1 upgrade-vm1 install-vm1
+@echo "$(VM1_NAME) setup complete."
 
-status:
-	@echo "Operating System:"
-	@lsb_release -ds
-	@echo ""
-	@echo "Kernel:"
-	@uname -r
-	@echo ""
-	@echo "Hostname:"
-	@hostname
-	@echo ""
-	@echo "Disk Usage:"
-	@df -h /
+# Set up VM2
 
-clean:
-	sudo apt autoremove -y
-	sudo apt clean
+setup-vm2: update-vm2 upgrade-vm2 install-vm2
+@echo "$(VM2_NAME) setup complete."
 
+# Update VM1
 
-@REM  Can use SSH keys to interact with muliple VMs
+update-vm1:
+ssh $(VM1_HOST) "sudo apt update"
 
-@REM  HOSTS := 192.168.1.10 192.168.1.11 192.168.1.12 <- IP address of different VMs
+# Update VM2
 
-@REM  update:
-@REM  	for host in $(HOSTS); do \
-@REM  		ssh $$host "sudo apt update"; \
-@REM  	done
+update-vm2:
+ssh $(VM2_HOST) "sudo apt update"
 
+# Update both VMs
 
-@REM Can also use directories to organize makefiles of different environments
+update: update-vm1 update-vm2
 
-@REM  project/
-@REM  ├── Makefile
-@REM  ├── app/
-@REM  ├── tests/
-@REM  ├── requirements.txt
-@REM  └── environments/
-@REM      ├── local/
-@REM      │   └── Makefile
-@REM      ├── vm/
-@REM      │   └── Makefile
-@REM      └── cloud/
-@REM          └── Makefile
+# Upgrade VM1
+
+upgrade-vm1:
+ssh $(VM1_HOST) "sudo apt upgrade -y"
+
+# Upgrade VM2
+
+upgrade-vm2:
+ssh $(VM2_HOST) "sudo apt upgrade -y"
+
+# Upgrade both VMs
+
+upgrade: upgrade-vm1 upgrade-vm2
+
+# Install development tools on VM1
+
+install-vm1:
+ssh $(VM1_HOST) "sudo apt install -y git curl wget vim unzip build-essential"
+
+# Install development tools on VM2
+
+install-vm2:
+ssh $(VM2_HOST) "sudo apt install -y git curl wget vim unzip build-essential"
+
+# Install development tools on both VMs
+
+install: install-vm1 install-vm2
+
+# Display VM1 status
+
+status-vm1:
+@echo "===== $(VM1_NAME) ====="
+ssh $(VM1_HOST) "echo 'Operating System:'; lsb_release -ds; echo ''; echo 'Kernel:'; uname -r; echo ''; echo 'Hostname:'; hostname; echo ''; echo 'Disk Usage:'; df -h /"
+
+# Display VM2 status
+
+status-vm2:
+@echo "===== $(VM2_NAME) ====="
+ssh $(VM2_HOST) "echo 'Operating System:'; lsb_release -ds; echo ''; echo 'Kernel:'; uname -r; echo ''; echo 'Hostname:'; hostname; echo ''; echo 'Disk Usage:'; df -h /"
+
+# Display status of both VMs
+
+status: status-vm1 status-vm2
+
+# Clean VM1
+
+clean-vm1:
+ssh $(VM1_HOST) "sudo apt autoremove -y && sudo apt clean"
+
+# Clean VM2
+
+clean-vm2:
+ssh $(VM2_HOST) "sudo apt autoremove -y && sudo apt clean"
+
+# Clean both VMs
+
+clean: clean-vm1 clean-vm2
+@echo "Both VMs have been cleaned."

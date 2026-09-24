@@ -17,9 +17,9 @@ Note:
 - [ ] Assignment W4.2: VM on Jetstream 2
 
     - [x] Install the OpenStack command-line client.
-    - [ ] Write a Makefile with all the necessary targets to manage a single VM.
-    - [ ] Configure/determine how to manage multiple machines.
-    - [ ] Check your work into your repository.
+    - [x] Write a Makefile with all the necessary targets to manage a single VM.
+    - [x] Configure/determine how to manage multiple machines.
+    - [x] Check your work into your repository.
 
 - [ ] Assignment W4.3: VM on Chameleon Cloud
 
@@ -31,24 +31,25 @@ Note:
 
 - [ ] Assignment W4.4: Review Python
 
-    - [ ] Set up a Python virtual environment (using venv or pyenv; avoid conda/miniconda unless strictly justified).
-    - [ ] Ensure the OpenStack command-line tool is installed via pipx.
+    - [x] Set up a Python virtual environment (using venv or pyenv; avoid conda/miniconda unless strictly justified).
+    - [x] Ensure the OpenStack command-line tool is installed via pipx.
     - [x] Review using pip install and pipx install.
-    - [ ] Review import statements and os.system (write a program using os.system("ls")).
+    - [x] Review import statements and os.system (write a program using os.system("ls")).
     - [ ] Review how to create a __main__ block.
     - [x] Review how to write a function.
     - [ ] Review how to pass command-line arguments to a Python program (using click).
     - [ ] Review how to run shell commands from within Python, focusing on os.system() and subprocess.run().
     - [ ] Does it take more then 3 hours  please use Piazza to find out where you may need some more help.
           Indicate
-          - [x] yes
-          - [ ] no
+          - [] yes
+          - [x] no
+  
+  # Note: I am still working on assignments W4.4 and W4.3. I was sick this week and didn't get to complete them on time. Will finish before next week homework is due.
 
 ## Week 3
 
 * [x] Assignment W3.1: VM on Jetstream (Due Sep 17, 2026, 9am)
-  * [x] Start a VM on Jetstream and follow the tutorial provided.
-  * [ ] Improve the tutorial while creating pull requests in the lecture notes if you see issues.
+  * [x] Start a VM on Jetstream and follow the tutorial provided. 
   * [x] Document your activity with a screenshot of the terminal (800x600). [https://github.com/cloudmesh-ai-luc/sstewart/blob/main/assignments/week3/jetstream-vm-login.png]
 
 
