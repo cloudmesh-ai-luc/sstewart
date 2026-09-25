@@ -43,8 +43,6 @@ Note:
           Indicate
           - [] yes
           - [x] no
-  
-  # Note: I am still working on assignments W4.4 and W4.3. I was sick this week and didn't get to complete them on time. Will finish before next week homework is due.
 
 ## Week 3
 
