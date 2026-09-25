@@ -24,21 +24,21 @@ Note:
 - [ ] Assignment W4.3: VM on Chameleon Cloud
 
     - [x] Install the OpenStack command-line client.
-    - [ ] Install python-chi.
-    - [ ] Write a Makefile with all the necessary targets to manage a single VM.
-    - [ ] Configure/determine how to manage multiple machines.
-    - [ ] Check your work into your repository.
+    - [x] Install python-chi.
+    - [x] Write a Makefile with all the necessary targets to manage a single VM.
+    - [x] Configure/determine how to manage multiple machines.
+    - [x] Check your work into your repository.
 
-- [ ] Assignment W4.4: Review Python
+- [x] Assignment W4.4: Review Python
 
     - [x] Set up a Python virtual environment (using venv or pyenv; avoid conda/miniconda unless strictly justified).
     - [x] Ensure the OpenStack command-line tool is installed via pipx.
     - [x] Review using pip install and pipx install.
     - [x] Review import statements and os.system (write a program using os.system("ls")).
-    - [ ] Review how to create a __main__ block.
+    - [x] Review how to create a __main__ block.
     - [x] Review how to write a function.
-    - [ ] Review how to pass command-line arguments to a Python program (using click).
-    - [ ] Review how to run shell commands from within Python, focusing on os.system() and subprocess.run().
+    - [x] Review how to pass command-line arguments to a Python program (using click).
+    - [x] Review how to run shell commands from within Python, focusing on os.system() and subprocess.run().
     - [ ] Does it take more then 3 hours  please use Piazza to find out where you may need some more help.
           Indicate
           - [] yes
