@@ -1,7 +1,7 @@
 NAME ?= sstewwart-week4-chameleon-vm
-FLAVOR ?= reservation:82b76d41-98ca-496d-ad13-b48d372b7b72
+FLAVOR ?= reservation:7d76f230-1470-47a8-aaf9-4471ff271125
 IMAGE ?= CC-Ubuntu24.04
-KEY ?= sstewart-wk4-key
+KEY ?= sstewart-w4-key
 NETWORK ?= sharednet1
 SECURITY_GROUP ?= allow-ssh
 
