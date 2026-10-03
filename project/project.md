@@ -130,7 +130,7 @@ Cloud monitoring tools can track:
 
 **High Level Architecture Diagram**
 
-![High Level Architecture](images/high_level_architecture.png)
+![High Level Architecture](images/high-level-architecture.png)
 
 
 #### 5.2 Open-Source DevOps and Deployment Pipeline  
