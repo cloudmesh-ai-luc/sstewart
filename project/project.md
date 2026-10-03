@@ -130,7 +130,7 @@ Cloud monitoring tools can track:
 
 **High Level Architecture Diagram**
 
-<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/a6a2c794-7f38-4718-9761-03daefd27a6d" />
+![High Level Architecture](images/high_level_architecture.png)
 
 
 #### 5.2 Open-Source DevOps and Deployment Pipeline  
@@ -1581,7 +1581,7 @@ The following references document the technologies and infrastructure used in th
 17. **NIST.** (2024). *Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile*. National Institute of Standards and Technology.
     The Generative AI Profile provides additional guidance for identifying and managing risks associated with generative AI systems and is relevant to the project's use of an LLM for semantic message analysis.
     https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
-    
+
 **This references section has been formatted with the assistance of AI. All ideas, verbage, and content remain at the discretion of the project owner.**
 ---
 
