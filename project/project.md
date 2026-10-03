@@ -1,8 +1,5 @@
-Samaira Stewart
 
-
-
-## Project Proposal – 911 Text Message Analysis and Cloud-Based Emergency Triage System
+## 911 Text Message Analysis and Cloud-Based Emergency Triage System
 
 |                          |                                                               |
 |--------------------------|-----------------------------------------------------------------------|
@@ -16,9 +13,9 @@ Samaira Stewart
 
 ### 1. Project Overview
 
-This project proposes the development of a cloud-based application that simulates a text-to-911 emergency communication service. It will allow users to submit emergency text messages through a web-based interface. The messages will then be securely transmitted to a backend service and stored in a cloud-hosted database where authorized admin can retrieve, review, and manage incoming emergency messages.
+This project demonstrates the development of a cloud-based application that simulates a text-to-911 emergency communication service. It allows users to submit emergency text messages through a web-based interface. The messages will then be securely transmitted to a backend service and stored in a cloud-hosted database where authorized admin can retrieve, review, and manage incoming emergency messages.
 
-In addition to storing and displaying messages, the system will analyze the content of each message and assign a suggested priority level based on keywords and phrases often associated with emergency situations. For example, messages containing terms such as "shooting," "fire," "unconscious," "not breathing," or "trapped" may receive a higher preliminary priority than messages describing less immediately life-threatening situations.
+In addition to storing and displaying messages, the system analyzes the content of each message and assigns a suggested priority level based on keywords and phrases often associated with emergency situations. For example, messages containing terms such as "shooting," "fire," "unconscious," "not breathing," or "trapped" may receive a higher preliminary priority than messages describing less immediately life-threatening situations.
 
 The purpose of the system is to demonstrate how cloud computing, databases, APIs, and automated text analysis can be combined to support emergency communication and response workflows.
 
@@ -220,7 +217,7 @@ GitHub Actions supports both continuous integration and continuous deployment wo
 
 The project source code will be stored in a GitHub repository.
 
-A recommended repository structure is:
+The repository structure is:
 
 ```text
 911-analysis/
@@ -380,7 +377,7 @@ Docker Compose is particularly useful here because it can define the application
 
 The CI pipeline will perform automated security checks before an application can be deployed.
 
-Potential checks include:
+Checks will include:
 
 * Dependency vulnerability scanning.
 * Python package vulnerability scanning.
@@ -390,7 +387,7 @@ Potential checks include:
 * Static analysis.
 * Configuration validation.
 
-Example tools include:
+The tools include:
 
 ```text
 Python:
@@ -464,15 +461,13 @@ Docker Build
 Security Scan
       │
       ▼
-GHCR
+     GHCR
       │
       ▼
 Versioned Docker Image
 ```
 
-GitHub supports publishing Docker images to GitHub Container Registry directly through GitHub Actions.
-
-Images should use identifiable version tags.
+Images will use identifiable version tags.
 
 Example:
 
@@ -492,8 +487,6 @@ For production releases:
 ```
 ghcr.io/username/911-backend:v1.0.0
 ```
-
-This allows deployments to be traced back to a specific application version.
 
 ---
 
@@ -534,8 +527,6 @@ Once the `main` branch passes all CI checks, the CD workflow can deploy the new 
              Deployment
              Successful
 ```
-
-GitHub Actions supports automated deployment workflows and can restrict deployments to specific branches or environments.
 
 ---
 
@@ -1028,19 +1019,11 @@ def calculate_priority(text: str) -> Tuple[int, str, float]:
 
 ---
 
-### 6. Development Milestones
+### 6. Development Features
 
-The project will have several major milestones throughout development.
+The project will have several major features throughout development.
 
-Milestone 1 — Project Foundation
-
-End of Week 2
-
-The project architecture and database design will be complete. The development environment, source-control repository, database schema, and initial application structure will be established.
-
-Milestone 2 — Working Message System
-
-End of Week 4
+Feature 1 — Working Message System
 
 A user will be able to submit a simulated 911 text message through the React application, send it to the Spring Boot API, and have it persisted in MariaDB
 .
@@ -1055,9 +1038,7 @@ REST API
   ↓
 MariaDB
 
-Milestone 3 — Automated Prioritization
-
-End of Week 5
+Feature 2 — Automated Prioritization
 
 The system will automatically analyze incoming messages, identify keywords, calculate a priority score, and assign a preliminary priority level.
 
@@ -1073,9 +1054,7 @@ trapped    +8
 Priority Score: 16
 Priority: HIGH
 
-Milestone 4 — Functional Call Center Dashboard
-
-End of Week 7
+Feature 3 — Functional Call Center Dashboard
 
 An authenticated administrator will be able to:
 
@@ -1097,15 +1076,13 @@ View priority history
 
 At this point, the core MVP will be considered functionally complete.
 
-Milestone 5 — Cloud Deployment
-
-End of Week 8
+Feature 4 — Cloud Deployment
 
 The application will be deployed to a cloud environment. The frontend, backend API, and MariaDB database will operate as cloud-hosted components.
 
 The deployment architecture will resemble:
 
-```                     ┌─────────────────────┐
+```                 ┌─────────────────────┐
                     │     React/Vite      │
                     │    Web Interface    │
                     └──────────┬──────────┘
@@ -1132,13 +1109,11 @@ The deployment architecture will resemble:
                                          │
                                          ▼
                                 ┌─────────────────┐
-                                │  Admin Dashboard │
-                                │ Human Review     │
+                                │  Admin Dashboard│
+                                │ Human Review    │
                                 └─────────────────┘
 ```
-Milestone 6 — Final Testing
-
-End of Week 9
+Feature 5 — Final Testing
 
 Testing will verify that the application correctly handles normal and unexpected scenarios.
 
@@ -1180,7 +1155,7 @@ For example, the system should be tested against messages such as:
 
 This is important because a simplistic keyword search could detect "fire" and incorrectly increase the priority.
 
-Milestone 7 — Final Demonstration
+Feature 6 — Final Demonstration
 
 End of Week 10
 
@@ -1223,7 +1198,7 @@ The final demonstration will show the complete workflow:
 
 ### 7. Resources & Budget  
 
-The proposed 911 Call Center Analysis application is designed to minimize development and operational costs by using open-source technologies and Google Cloud services with free usage tiers. The project will use synthetic 911 data for development and demonstration purposes.
+The proposed 911 Call Center Analysis application is designed to minimize development and operational costs by using open-source technologies and jetstream infrastructure. The project will use synthetic 911 data for development and demonstration purposes.
 
 ## Resource Budget
 
@@ -1241,16 +1216,12 @@ The proposed 911 Call Center Analysis application is designed to minimize develo
 | CI/CD                  | **GitHub Actions**                   |     $0 | Automated testing and builds                                   |
 | Testing                | **pytest**                           |     $0 | Backend unit/integration testing                               |
 | API testing            | **Swagger/OpenAPI**                  |     $0 | Test and document FastAPI endpoints                            |
-| Infrastructure         | **Your MacBook**                     |     $0 | Development and local hosting                                  |
+| Infrastructure         | **Local Machine**                     |     $0 | Development and local hosting                                  |
 | Monitoring             | **Prometheus + Grafana**             |     $0 | Application/system monitoring                                  |
 | Logging                | **Loki**                             |     $0 | Centralized application logs                                   |
 | Infrastructure-as-code | **Docker Compose**                   |     $0 | Reproducible local infrastructure                              |
 | **Total**              |                                      | **$0** |                                                                |
 
-
-
-*Usage limits and account/repository configuration may apply.
-*(If your institution provides free credits, update accordingly.)*
 
 ---
 
@@ -1274,7 +1245,7 @@ Mitigation: The system will treat the automated priority as a recommendation and
 
 Cloud configuration can introduce unexpected deployment or networking issues.
 
-Mitigation: A local development environment will remain available throughout the project, and cloud deployment will begin by Week 8 rather than being left until the final week.
+Mitigation: A local development environment will remain available throughout the project, and cloud deployment will be performed as its own feature rather than being left until the final week.
 
 **Risk: Security Issues**
 
@@ -1610,53 +1581,7 @@ The following references document the technologies and infrastructure used in th
 17. **NIST.** (2024). *Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile*. National Institute of Standards and Technology.
     The Generative AI Profile provides additional guidance for identifying and managing risks associated with generative AI systems and is relevant to the project's use of an LLM for semantic message analysis.
     https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
-
-## 8. Reference-to-Project Mapping
-
-| Technology / Concept   | Primary Reference            | Project Purpose                           |
-| ---------------------- | ---------------------------- | ----------------------------------------- |
-| **MariaDB**            | MariaDB Community Server     | Relational database                       |
-| **Ollama**             | Ollama Documentation         | Local LLM execution and semantic analysis |
-| **FastAPI**            | FastAPI Documentation        | REST API and backend                      |
-| **React**              | React Documentation          | User interface and admin dashboard        |
-| **SQLAlchemy**         | SQLAlchemy Documentation     | Database access and ORM                   |
-| **Alembic**            | Alembic Documentation        | Database migrations                       |
-| **Docker**             | Docker Documentation         | Application containerization              |
-| **Docker Compose**     | Docker Compose Documentation | Multi-container infrastructure            |
-| **Caddy**              | Caddy Documentation          | Reverse proxy and HTTPS                   |
-| **Prometheus**         | Prometheus Documentation     | Metrics and monitoring                    |
-| **Grafana**            | Grafana Documentation        | Monitoring dashboards and visualization   |
-| **GitHub Actions**     | GitHub Actions Documentation | CI/CD automation                          |
-| **pytest**             | pytest Documentation         | Automated testing                         |
-| **NIST AI RMF**        | NIST                         | AI risk management and human oversight    |
-| **NIST GenAI Profile** | NIST                         | Generative AI risk management             |
-
-## 9. Infrastructure Philosophy
-
-The project prioritizes **free and open-source software (FOSS)** wherever practical. The core application can therefore be developed and demonstrated without requiring paid cloud infrastructure or proprietary software licenses.
-
-The proposed infrastructure consists primarily of:
-
-* React
-* FastAPI
-* MariaDB
-* SQLAlchemy
-* Alembic
-* Ollama
-* Docker
-* Docker Compose
-* Caddy
-* Prometheus
-* Grafana
-* GitHub Actions
-* pytest
-
-This approach reduces the project's financial requirements while providing practical experience with modern application development, containerization, database management, AI integration, CI/CD, monitoring, and security.
-
-The architecture is also designed to remain portable. If additional resources become available, the containerized application can later be deployed to a cloud provider without requiring a fundamental redesign of the application.
-
-
-
+    
 **This references section has been formatted with the assistance of AI. All ideas, verbage, and content remain at the discretion of the project owner.**
 ---
 
