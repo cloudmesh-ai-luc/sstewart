@@ -144,7 +144,7 @@ The project focuses on several software-engineering challenges:
 The project will be evaluated against functional, technical, and
 responsible-use criteria.
 
-```mermaid
+```
   -----------------------------------------------------------------------
   Objective                           Success criterion
   ----------------------------------- -----------------------------------
