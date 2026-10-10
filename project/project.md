@@ -1,1587 +1,1381 @@
+# 911 Call Center Analysis and Cloud-Based Emergency Triage System
 
-## 911 Text Message Analysis and Cloud-Based Emergency Triage System
-
-|                          |                                                               |
+|                          |                                                                       |
 |--------------------------|-----------------------------------------------------------------------|
 | **Course:**              | Cloud Computing, DevOps, and AI | 
-| **Team Members**         | -*Sam*
+| **Team Members**         | -*Sam Stewart*
 | **Contact**              | stewartsamaira4@gmail.com 
 | **Instructor**           | Gregor von Laszewski |
 | **Date**                 | *Sept. 6 2026* |
 
----
+------------------------------------------------------------------------
 
-### 1. Project Overview
+## Project Proposal
 
-This project demonstrates the development of a cloud-based application that simulates a text-to-911 emergency communication service. It allows users to submit emergency text messages through a web-based interface. The messages will then be securely transmitted to a backend service and stored in a cloud-hosted database where authorized admin can retrieve, review, and manage incoming emergency messages.
+**Project type:** Educational cloud-application simulation\
+**Primary purpose:** Demonstrate secure message intake, persistence,
+triage assistance, and an administrative review dashboard\
+**Status:** Prototype implementation
 
-In addition to storing and displaying messages, the system analyzes the content of each message and assigns a suggested priority level based on keywords and phrases often associated with emergency situations. For example, messages containing terms such as "shooting," "fire," "unconscious," "not breathing," or "trapped" may receive a higher preliminary priority than messages describing less immediately life-threatening situations.
+------------------------------------------------------------------------
 
-The purpose of the system is to demonstrate how cloud computing, databases, APIs, and automated text analysis can be combined to support emergency communication and response workflows.
+## Table of Contents
 
-**Disclaimer:**
+1.  [Project Overview](#1-project-overview)
+2.  [Problem Statement](#2-problem-statement)
+3.  [Objectives and Success
+    Criteria](#3-objectives-and-success-criteria)
+4.  [Minimum Viable Product Scope](#4-minimum-viable-product-mvp-scope)
+5.  [Technical Approach](#5-technical-approach)
+    -   [5.1 Cloud Architecture](#51-cloud-architecture)
+    -   [5.2 Open-Source DevOps and Deployment
+        Pipeline](#52-open-source-devops-and-deployment-pipeline)
+        -   [5.2.1 Source Control](#521-source-control)
+        -   [5.2.2 Continuous Integration](#522-continuous-integration)
+        -   [5.2.3 Database Testing](#523-database-testing)
+        -   [5.2.4 Security Testing](#524-security-testing)
+        -   [5.2.5 Docker Build](#525-docker-build)
+        -   [5.2.6 Container Image
+            Registry](#526-container-image-registry)
+        -   [5.2.7 Continuous Deployment](#527-continuous-deployment)
+        -   [5.2.8 Docker Compose
+            Deployment](#528-docker-compose-deployment)
+        -   [5.2.9 Database Deployment](#529-database-deployment)
+        -   [5.2.10 Ollama Deployment](#5210-ollama-deployment)
+        -   [5.2.11 Monitoring](#5211-monitoring)
+        -   [5.2.12 Health Checks](#5212-health-checks)
+        -   [5.2.13 Deployment
+            Verification](#5213-deployment-verification)
+        -   [5.2.14 Rollback Strategy](#5214-rollback-strategy)
+        -   [5.2.15 Complete Pipeline](#5215-complete-pipeline)
+        -   [5.2.16 Definition of Done](#5216-definition-of-done)
+    -   [5.3 Architecture Component
+        Description](#53-architecture-component-description)
+        -   [5.3.1 MariaDB Database
+            Schema](#531-mariadb-database-schema)
+        -   [5.3.2 Python Priority Ranking and Triage
+            Engine](#532-python-priority-ranking-and-triage-engine)
+    -   [5.4 Security, Privacy, and Responsible
+        Use](#54-security-privacy-and-responsible-use)
+6.  [Development Features](#6-development-features)
+    -   [6.1 Working Message System](#61-working-message-system)
+    -   [6.2 Automated Prioritization](#62-automated-prioritization)
+    -   [6.3 Functional Call Center
+        Dashboard](#63-functional-call-center-dashboard)
+    -   [6.4 Cloud Deployment](#64-cloud-deployment)
+    -   [6.5 Final Testing](#65-final-testing)
+    -   [6.6 Final Demonstration](#66-final-demonstration)
+7.  [Resources and Budget](#7-resources-and-budget)
+    -   [7.1 Resource Budget](#71-resource-budget)
+8.  [Risk Management](#8-risk-management)
+9.  [Deliverables](#9-deliverables)
+10. [Database Selection: PostgreSQL
+    vs. MariaDB](#10-database-selection-postgresql-vs-mariadb)
+    -   [10.1 Database Selection
+        Criteria](#101-database-selection-criteria)
+    -   [10.2 Why PostgreSQL Was
+        Considered](#102-why-postgresql-was-considered)
+    -   [10.3 Why MariaDB Is
+        Appropriate](#103-why-mariadb-is-appropriate-for-this-project)
+    -   [10.4 MariaDB's Role in the
+        Architecture](#104-mariadbs-role-in-the-overall-architecture)
+    -   [10.5 Limitations and Tradeoffs](#105-limitations-and-tradeoffs)
+    -   [10.6 Final Database Decision](#106-final-database-decision)
+11. [References](#11-references)
 
-This application is strictly for educational purposes. It will not connect to actual 911 infrastructure or dispatch emergency services. Priority classifications will assist admins but will not replace human judgement.
+------------------------------------------------------------------------
 
+## 1. Project Overview
 
-### 2. Problem Statement (150‑250 words)  
+This project proposes a cloud-based application that simulates a
+text-to-911 emergency communication service. A user submits a simulated
+emergency text message through a web interface. The application sends
+the message to a backend API, validates it, stores it in a relational
+database, and displays it in an administrative dashboard for authorized
+reviewers.
 
-**Problem:**  
-Traditional emergency communication systems primarily rely on voice calls. However, there are situations in which a person may not be able to communicate with emergency services through a traditional voice call (ex. deaf, non-verbal, etc.). 
+The application will also demonstrate a triage-assistance workflow. A
+Python service will evaluate message content using configurable keyword
+rules and, where available, an optional local large language model (LLM)
+served by Ollama. The resulting priority is a **suggestion for a human
+reviewer**, not a decision to dispatch emergency services. Reviewers can
+inspect the original message, see the rationale for a suggested
+priority, change the priority, and record their review.
 
-**Proposed solution:**  
-A simulated text-to-911 system provides an opportunity to explore how emergency communications can be collected, stored, analyzed, and presented to emergency personnel. This particularly serves well during times of high volume emergency messages. An emergency call center may receive many messages at the same time, making it difficult for personnel to manually evaluate every message in the same amount of time.
+The project is intended for software-engineering education and
+demonstration. It will use synthetic messages and will not connect to a
+public-safety answering point (PSAP), emergency telephone network, SMS
+gateway, or live dispatch system. It is not designed or certified for
+operational emergency use.
 
-**Benefits:**  
+The implementation emphasizes a consistent, maintainable open-source
+stack:
 
-1. Allows users to submit simulated emergency text messages.
-2. Stores messages in a centralized cloud database.
-3. Automatically analyzes message content.
-4. Assigns a preliminary priority level.
-5. Presents messages to administrators in priority order.
-6. Allows administrators to review and modify the assigned priority.
-7. Provides analytics about incoming emergency messages.
+-   **Frontend:** React and Vite.
+-   **Backend API:** Python and FastAPI.
+-   **Database:** MariaDB.
+-   **Data access and migrations:** SQLAlchemy and Alembic.
+-   **Triage assistance:** Python rules engine with optional Ollama
+    local LLM analysis.
+-   **Deployment:** Docker and Docker Compose.
+-   **CI/CD:** GitHub Actions and GitHub Container Registry (GHCR).
+-   **Reverse proxy and HTTPS:** Caddy.
+-   **Observability:** Prometheus, Grafana, and Loki.
 
----
+## 2. Problem Statement
 
-### 3. Objectives & Success Criteria  
+Emergency communication environments may receive messages that vary in
+urgency, clarity, and completeness. In a real environment, staff need
+reliable processes for reviewing incoming communications, identifying
+potentially urgent situations, and maintaining an accurate record of
+actions taken.
 
-| # | Objective | Success Metric |
-|---|-----------|----------------|
-| 1 | Create a user-facing interface where users can submit emergency text messages | Users are able to submit messages to the backend 
-| 2 | Cloud Based Message Storage | 100 % of test requests routed to the correct database for authorized admin to engage with
-| 3 | Automated Message Analysis | Develop a text-analysis service that examines incoming messages using predefined word and assign a preliminary priority score. Potential for implementation of an NLP model to analyze the meaning of the overall message rather than screening for keywords |
-| 4 | Priority Classification | Messages will receive a preliminary priority classifaction (Critical, High, Moderate, Low) |
-| 5 | Admin Dashboard | Create an admin dashboard that allows authorized users to monitor incoming messages |
-| 6 | Analytics | The application will provide basic analytics about emergency messages |
-| 7 | Set up CI/CD pipeline that automatically builds Docker images, runs tests, and deploys to staging on every push. | 2‑minute pipeline run, 0 failed builds for 3 consecutive commits. |
+This project does not attempt to solve real-world emergency dispatch.
+Instead, it models a limited portion of the workflow so students can
+explore how a web application might receive, store, present, and
+organize simulated incoming messages. It also demonstrates the
+challenges of assisting human decision-makers with rule-based and
+language-model-based analysis.
 
----
+The project focuses on several software-engineering challenges:
 
-### 4. MVP Scope  
+1.  Accepting and validating messages through a web application.
+2.  Persisting messages and their review history in a relational
+    database.
+3.  Applying transparent, testable rules to suggest priority levels.
+4.  Presenting incoming messages in an administrative dashboard.
+5.  Restricting access to administrative functions.
+6.  Testing, deploying, monitoring, and documenting a containerized
+    application.
+7.  Communicating the limitations of automated classification and
+    keeping a human reviewer in control.
 
-To keep the project achievable, the Minimum Viable Product will include:
+## 3. Objectives and Success Criteria
 
-**User**
-- Submit simulated emergency text
-- Receive submission confirmation
-**Backend**
-- REST API
-- Message validation
-- Database persistence
-- Keyword analysis
-- Priority scoring
-- LLM Integration
-**Administrator**
-- Login
-- View incoming messages
-- Sort by priority
-- Filter messages
-- View message details
-- Change status
-- Override priority
-**Analytics**
-- Total messages
-- Messages by priority
-- Messages by category
-- Average processing time
+The project will be evaluated against functional, technical, and
+responsible-use criteria.
 
-* Which LLMs to chose will be determined based on the resource capabilities.
-  
----
+  -----------------------------------------------------------------------
+  Objective                           Success criterion
+  ----------------------------------- -----------------------------------
+  Message submission                  A user can submit a synthetic
+                                      emergency message through the React
+                                      interface.
 
-### 5. Technical Approach  
+  API validation                      FastAPI validates required fields
+                                      and returns useful success or error
+                                      responses.
 
-#### 5.1 Cloud Architecture  
+  Data persistence                    Valid messages are stored in
+                                      MariaDB and remain available after
+                                      an application restart.
 
-The project will demonstrate several cloud computing concepts.
+  Priority assistance                 The triage engine assigns one of
+                                      four suggested levels: Critical,
+                                      High, Moderate, or Low.
 
-Cloud Database
+  Explainability                      A reviewer can see the rule matches
+                                      or analysis rationale behind a
+                                      suggested level.
 
-A managed MariaDB database will store emergency messages and application data.
+  Human oversight                     An authorized reviewer can change
+                                      the suggested level and record a
+                                      review note.
 
-Cloud Application Hosting
+  Auditability                        Message creation, analysis,
+                                      priority changes, and review
+                                      actions are recorded.
 
-The backend API and frontend application will be deployed to cloud infrastructure.
+  Dashboard                           An administrative user can view,
+                                      sort, filter, and inspect submitted
+                                      messages.
 
-Scalability
+  Automated testing                   Backend, API, database, and core
+                                      triage behavior are covered by
+                                      automated tests.
 
-The system could be designed so that additional backend instances can be created when message volume increases.
+  Deployment                          The application can be built and
+                                      run through Docker Compose using
+                                      documented configuration.
 
-Availability
+  CI/CD                               GitHub Actions runs checks and
+                                      builds versioned container images.
 
-The application can be designed with redundant services and managed cloud infrastructure to minimize downtime.
+  Security                            Secrets are not committed to source
+                                      control; access to administrative
+                                      functions is restricted.
 
-Security
+  Responsible use                     Only synthetic data is used, and
+                                      the interface clearly identifies
+                                      classifications as suggestions.
+  -----------------------------------------------------------------------
 
-Communication between clients and the backend will use HTTPS.
+The team should record actual test results and deployment evidence
+rather than claiming success before the features have been implemented
+and verified.
 
-Administrative functionality will require authentication and authorization.
+## 4. Minimum Viable Product (MVP) Scope
 
-Monitoring
+The MVP will prioritize a complete end-to-end workflow over advanced
+integrations.
 
-Cloud monitoring tools can track:
+### In scope
 
-- API response time
-- Application errors
-- Database usage
-- Number of incoming messages
-- System availability 
+-   React + Vite client interface for submitting synthetic messages.
+-   FastAPI endpoints for creating and retrieving messages.
+-   MariaDB storage using SQLAlchemy models and Alembic migrations.
+-   Four-level priority suggestions using a deterministic Python keyword
+    rules engine.
+-   Optional Ollama analysis behind a configuration flag; the
+    application must still work when Ollama is unavailable.
+-   Administrative dashboard for viewing, filtering, and reviewing
+    messages.
+-   Ability for a reviewer to override a suggested priority and record a
+    reason.
+-   Audit records for important message and review events.
+-   Basic authentication and role-based authorization for administrative
+    functionality.
+-   Docker Compose configuration for local development and
+    demonstration.
+-   Automated tests and a documented CI workflow.
+-   Synthetic seed data and a final demonstration script.
 
-**High Level Architecture Diagram**
+### Out of scope for the MVP
 
-![High Level Architecture](images/high-level-architecture.png)
+-   Connection to actual emergency services, PSAP systems, telephony, or
+    dispatch software.
+-   Sending real SMS messages or accepting live emergency
+    communications.
+-   Automatic dispatch or other consequential action based on model
+    output.
+-   Production-grade certification for public-safety use.
+-   Advanced multi-region availability or disaster recovery.
+-   A full production identity provider or enterprise single sign-on.
+-   Unreviewed use of third-party AI services with message content.
+-   Complex analytics, predictive modeling, or a public mobile
+    application.
 
+Features such as live updates through WebSockets, external SMS gateways,
+advanced analytics, and expanded monitoring can be considered future
+work after the core workflow is stable.
 
-#### 5.2 Open-Source DevOps and Deployment Pipeline  
+## 5. Technical Approach
 
-# DevOps Pipeline
+The system will use a modular architecture in which the frontend, API,
+database, triage logic, and supporting services have clearly defined
+responsibilities. Components will communicate through documented
+interfaces, and deployment configuration will be kept in version control
+without committing secrets.
 
-## Overview
+### 5.1 Cloud Architecture
 
-The application will use a containerized, open-source DevOps pipeline designed to minimize infrastructure costs while maintaining modern software engineering and deployment practices.
+The application will be developed locally using Docker Compose and may
+be deployed to a small cloud virtual machine for demonstration. The
+exact hosting provider will be selected based on course requirements,
+available credits, and budget. Docker Compose is the deployment target
+for this proposal; the design does not assume AWS ECS or another managed
+container orchestrator.
 
-The pipeline will use **GitHub Actions** for continuous integration and continuous deployment, **Docker and Docker Compose** for containerization and deployment, and **GitHub Container Registry (GHCR)** for storing application images.
-
-The core pipeline is:
-
-```text
-Developer
-    │
-    │ git push / pull request
-    ▼
-┌──────────────────────┐
-│       GitHub         │
-│  Source Repository   │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│   GitHub Actions     │
-│        CI            │
-├──────────────────────┤
-│ • Linting            │
-│ • Unit Tests         │
-│ • Integration Tests  │
-│ • Security Checks    │
-│ • Frontend Tests     │
-└──────────┬───────────┘
-           │
-       Tests Pass
-           │
-           ▼
-┌──────────────────────┐
-│    Docker Build      │
-├──────────────────────┤
-│ • FastAPI Image      │
-│ • React Image        │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│ GitHub Container     │
-│ Registry (GHCR)      │
-└──────────┬───────────┘
-           │
-           │ deployment
-           ▼
-┌──────────────────────────────────┐
-│       Docker Compose Host        │
-├──────────────────────────────────┤
-│                                  │
-│  ┌────────────┐  ┌────────────┐ │
-│  │   React    │  │  FastAPI   │ │
-│  │ Container  │  │ Container  │ │
-│  └────────────┘  └─────┬──────┘ │
-│                         │        │
-│             ┌───────────┼──────┐ │
-│             │           │      │ │
-│             ▼           ▼      ▼ │
-│         ┌────────┐ ┌────────┐    │
-│         │MariaDB │ │ Ollama │    │
-│         │        │ │  LLM   │    │
-│         └────────┘ └────────┘    │
-│                                  │
-│         Caddy Reverse Proxy      │
-│                │                 │
-│                ▼                 │
-│             HTTPS                │
-└──────────────────────────────────┘
+``` mermaid
+flowchart TD
+    U[Client Browser] -->|HTTPS| C[Caddy Reverse Proxy]
+    C --> F[React + Vite Frontend]
+    C --> A[FastAPI Backend]
+    A --> R[Python Priority Rules Engine]
+    A -. optional analysis .-> O[Ollama Local LLM]
+    A --> S[SQLAlchemy Data Access]
+    S --> D[(MariaDB)]
+    A --> L[Application Logs and Metrics]
+    L --> P[Prometheus]
+    L --> K[Loki]
+    P --> G[Grafana]
+    K --> G
 ```
 
-GitHub Actions supports both continuous integration and continuous deployment workflows, including automated testing, building, and deployment.
+**Component responsibilities**
 
----
+-   **React + Vite:** Provides the message submission interface and
+    administrative dashboard.
+-   **Caddy:** Acts as the public reverse proxy and handles HTTPS where
+    the deployment environment supports a valid domain and certificate.
+-   **FastAPI:** Exposes the application API, validates requests,
+    applies authorization, coordinates triage analysis, and returns
+    responses.
+-   **Python priority engine:** Applies deterministic keyword rules and
+    produces a suggested priority with reasons.
+-   **Ollama:** Optionally hosts a local model for supplementary
+    semantic analysis. Its output is untrusted input and must be
+    validated.
+-   **SQLAlchemy:** Maps application objects to relational database
+    records.
+-   **Alembic:** Tracks and applies schema migrations.
+-   **MariaDB:** Stores messages, analysis results, reviewer actions,
+    and audit history.
+-   **Prometheus, Grafana, and Loki:** Provide metrics, dashboards, and
+    log exploration when enabled.
 
-# 1. Source Control
+In development, services may be exposed only on the local machine. In a
+cloud deployment, only the required web entry point should be publicly
+reachable. MariaDB and Ollama should remain on an internal container
+network unless there is a specific, secured administrative requirement.
 
-The project source code will be stored in a GitHub repository.
+### 5.2 Open-Source DevOps and Deployment Pipeline
 
-The repository structure is:
+The pipeline will automate repeatable quality checks and container
+builds. A successful CI run does not by itself prove that a deployment
+is safe or operational; deployment verification remains a separate step.
 
-```text
-911-analysis/
-│
+#### 5.2.1 Source Control
+
+The project source code, application configuration templates, database
+migrations, tests, and deployment files will be maintained in a Git
+repository.
+
+Recommended repository organization:
+
+``` text
+911-call-center-analysis/
+├── frontend/
 ├── backend/
 │   ├── app/
 │   ├── tests/
-│   ├── requirements.txt
-│   └── Dockerfile
-│
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   └── Dockerfile
-│
-├── database/
-│   └── migrations/
-│
-├── infrastructure/
+│   ├── alembic/
+│   └── alembic.ini
+├── deployment/
 │   ├── docker-compose.yml
-│   ├── docker-compose.dev.yml
-│   └── docker-compose.prod.yml
-│
+│   └── Caddyfile
+├── monitoring/
+│   ├── prometheus/
+│   └── grafana/
+├── docs/
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml
-│       └── cd.yml
-│
+├── .env.example
 ├── .gitignore
-├── README.md
-└── LICENSE
+└── README.md
 ```
 
-The repository will use a branch strategy such as:
+The exact layout can be adjusted during implementation. The repository
+must exclude real `.env` files, credentials, database dumps containing
+sensitive data, and other secrets. Pull requests should be reviewed
+before merging to the main branch.
 
-```text
-main
- │
- ├── develop
- │
- ├── feature/message-analysis
- │
- ├── feature/admin-dashboard
- │
- └── feature/llm-integration
+#### 5.2.2 Continuous Integration
+
+GitHub Actions will run automated checks when a pull request is opened
+or code is pushed. The workflow should include:
+
+1.  Install the supported Python and Node.js versions.
+2.  Install backend dependencies from the project's dependency files.
+3.  Run backend formatting or lint checks.
+4.  Run Python unit and API tests.
+5.  Install frontend dependencies using the committed lockfile.
+6.  Run frontend lint checks and production build.
+7.  Start a disposable MariaDB service for integration tests where
+    supported.
+8.  Build application container images.
+9.  Publish test results and logs when a step fails.
+
+CI should fail when a required test or build fails. The workflow should
+not publish release images from untrusted pull requests or expose
+deployment secrets to pull-request code.
+
+#### 5.2.3 Database Testing
+
+Database tests will verify that SQLAlchemy models, Alembic migrations,
+and repository operations behave as expected.
+
+Tests should cover:
+
+-   Creating and retrieving messages.
+-   Validating required message fields.
+-   Persisting suggested priority and analysis rationale.
+-   Recording reviewer overrides and audit events.
+-   Enforcing relationships between messages, analyses, and audit
+    entries.
+-   Applying migrations to a clean database.
+-   Confirming that indexes and constraints exist as intended.
+
+Tests should use disposable test data and a dedicated test database.
+They must not connect to a production database or use real emergency
+records.
+
+#### 5.2.4 Security Testing
+
+The CI pipeline should include dependency vulnerability checks and basic
+static checks where practical. The team should also review:
+
+-   Whether secrets are absent from the repository.
+-   Whether administrative endpoints require authentication and
+    authorization.
+-   Whether user-supplied text is validated and safely rendered.
+-   Whether SQL is parameterized through the ORM or bound parameters.
+-   Whether container images use supported base images and avoid
+    unnecessary packages.
+-   Whether error responses expose stack traces, secrets, or internal
+    configuration.
+
+Automated checks supplement rather than replace a manual security
+review.
+
+#### 5.2.5 Docker Build
+
+Each service will have a reproducible container build. Images should use
+pinned or deliberately maintained base-image versions, install only
+necessary dependencies, and avoid running as root where feasible.
+
+The frontend should be built for production and served through the
+selected web-serving configuration rather than relying on the Vite
+development server in production. The backend container should start the
+FastAPI application with a production-appropriate server configuration.
+
+#### 5.2.6 Container Image Registry
+
+GitHub Container Registry (GHCR) will store versioned application
+images. The pipeline may publish images on merges to the main branch and
+create immutable release tags for approved versions.
+
+Images should be tagged with a commit SHA or release version. Deployment
+should use a known tag rather than an ambiguous `latest` tag wherever
+practical. Registry credentials must be stored as GitHub Actions secrets
+or equivalent protected credentials.
+
+#### 5.2.7 Continuous Deployment
+
+Continuous deployment will be implemented only to the extent supported
+by the hosting environment and project schedule. A deployment job may
+connect to the target host using a restricted deployment credential,
+pull the selected images, and restart services using Docker Compose.
+
+The deployment process should:
+
+-   Run only after required CI checks pass.
+-   Use protected secrets and restricted permissions.
+-   Avoid printing credentials in logs.
+-   Preserve the prior working image tags for rollback.
+-   Report success only after health checks and smoke tests pass.
+
+If automated deployment is not feasible for the course environment, the
+same documented commands can be run manually. This should be described
+accurately rather than represented as a fully automated deployment.
+
+#### 5.2.8 Docker Compose Deployment
+
+Docker Compose will define the frontend, backend, MariaDB, and optional
+supporting services. Caddy and observability services can be included in
+a deployment profile so they do not consume unnecessary resources during
+basic local development.
+
+The Compose configuration should define:
+
+-   A persistent volume for MariaDB data.
+-   Internal networking between application services.
+-   Health checks and service dependencies where appropriate.
+-   Environment-variable configuration.
+-   Restart policies appropriate to the environment.
+-   Resource limits where supported and useful.
+-   Separate development and demonstration settings when their
+    requirements differ.
+
+The application should not depend on a developer's local machine paths
+or hard-coded credentials.
+
+#### 5.2.9 Database Deployment
+
+MariaDB will run as a containerized service for the MVP. A persistent
+volume will protect database files across container recreation, but a
+volume alone is not a backup strategy. The team should document how to
+create and restore a database backup for demonstration purposes.
+
+Alembic migrations will be applied in a controlled deployment step
+before the new application version is considered ready. Migrations
+should be reviewed for compatibility and tested against a clean
+database. Destructive migrations require particular care because they
+may prevent rollback to an older application version.
+
+#### 5.2.10 Ollama Deployment
+
+Ollama is an optional service for local LLM analysis. The application
+must remain usable if Ollama is disabled, a model is not downloaded, or
+the service is unavailable.
+
+If enabled:
+
+-   The model should run locally in the same private environment where
+    practical.
+-   The selected model and required resources should be documented.
+-   Model downloads should be performed deliberately because models can
+    be large.
+-   Requests should have timeouts and bounded input lengths.
+-   Model output must be parsed and validated against a defined schema.
+-   A model failure should fall back to the deterministic rules engine.
+-   Model output must never trigger dispatch or another real-world
+    action.
+
+Ollama's resource requirements may exceed those of the core MVP. If the
+host lacks sufficient memory or compute, the LLM component should be
+disabled and demonstrated separately.
+
+#### 5.2.11 Monitoring
+
+Prometheus, Grafana, and Loki will provide an introductory observability
+stack when resources permit.
+
+-   **Prometheus:** Collects application and infrastructure metrics,
+    such as request counts, latency, error rates, and service
+    availability.
+-   **Grafana:** Displays metrics and, where configured, log-derived
+    information in dashboards.
+-   **Loki:** Aggregates application logs for troubleshooting.
+
+Logs must not include full message bodies, credentials, authentication
+tokens, or other sensitive data by default. Because the application uses
+synthetic messages, sample logs can be used for demonstrations, but the
+logging design should still follow data-minimization practices.
+
+#### 5.2.12 Health Checks
+
+The API should expose a health endpoint that indicates whether the
+application process is running. A separate readiness check may verify
+whether essential dependencies, such as MariaDB, are reachable.
+
+Health endpoints should return only the information needed for
+monitoring and must not disclose credentials, internal network details,
+or stack traces. Ollama should be treated as optional; its absence
+should not make the core API unhealthy when LLM analysis is disabled.
+
+#### 5.2.13 Deployment Verification
+
+After deployment, the team will run a smoke-test checklist:
+
+1.  Confirm that containers start successfully.
+2.  Confirm that the API health endpoint responds.
+3.  Confirm that the frontend loads through the configured web entry
+    point.
+4.  Submit a known synthetic message.
+5.  Verify that the message is stored in MariaDB.
+6.  Confirm that the priority suggestion and explanation appear in the
+    dashboard.
+7.  Change the priority as an authorized reviewer and verify that the
+    action is recorded.
+8.  Confirm that logs and metrics are available when monitoring is
+    enabled.
+9.  Check application logs for unexpected errors.
+10. Confirm that no secrets or full message contents appear in ordinary
+    logs.
+
+Deployment is considered verified only after the relevant checks have
+passed and the results are recorded.
+
+#### 5.2.14 Rollback Strategy
+
+If a release fails its smoke tests, the team should restore the
+previously known-good application image tags and restart the services.
+Database changes must be considered separately: an application rollback
+may not be safe if the new release has already applied a destructive
+schema migration.
+
+The preferred approach is to use backward-compatible migrations where
+possible, retain a recent backup before risky schema changes, and
+document a restore procedure. A rollback should be tested in a
+non-production environment before it is relied upon.
+
+#### 5.2.15 Complete Pipeline
+
+The intended workflow is:
+
+``` mermaid
+flowchart TD
+    A[Developer creates branch] --> B[Open pull request]
+    B --> C[Lint and automated tests]
+    C --> D{Checks pass?}
+    D -- No --> E[Fix issues and rerun checks]
+    E --> C
+    D -- Yes --> F[Review and merge]
+    F --> G[Build container images]
+    G --> H[Publish versioned images to GHCR]
+    H --> I[Deploy with Docker Compose]
+    I --> J[Run health checks and smoke tests]
+    J --> K{Deployment verified?}
+    K -- No --> L[Rollback and investigate]
+    K -- Yes --> M[Record release and verification evidence]
 ```
 
-The `main` branch will contain stable code suitable for deployment.
-
----
-
-# 2. Continuous Integration
-
-Every pull request and push to the development branches will trigger the CI pipeline.
-
-```text
-Git Push / Pull Request
-          │
-          ▼
-    GitHub Actions
-          │
-          ▼
-    Install Dependencies
-          │
-          ▼
-        Linting
-          │
-          ▼
-     Unit Testing
-          │
-          ▼
-  Integration Testing
-          │
-          ▼
-    Security Scanning
-          │
-          ▼
-      Docker Build
-          │
-          ▼
-     CI Successful
-```
-
-GitHub Actions can automatically run tests when code is pushed or when pull requests are created, allowing problems to be detected before changes are merged.
-
-## CI Tasks
-
-### Backend
-
-The backend CI pipeline will:
-
-* Install Python dependencies.
-* Run formatting checks.
-* Run linting.
-* Run unit tests.
-* Run API integration tests.
-* Test database interactions.
-* Test keyword analysis.
-* Test priority calculations.
-* Test Ollama integration using controlled test responses.
-* Check test coverage.
-
-Example:
-
-```bash
-pip install -r requirements.txt
-
-ruff check .
-
-pytest
-
-pytest --cov=app
-```
-
-### Frontend
-
-The frontend pipeline will:
-
-```bash
-npm ci
-
-npm run lint
-
-npm test
-
-npm run build
-```
-
----
-
-# 3. Database Testing
-
-The CI environment will use a temporary MariaDB container.
-
-```text
-GitHub Actions
-      │
-      ▼
-Docker Compose
-      │
-      ├── FastAPI
-      │
-      └── MariaDB
-             │
-             ▼
-       Integration Tests
-```
-
-This ensures that database-dependent tests are executed against the same database technology used by the application.
-
-Docker Compose is particularly useful here because it can define the application, database, networks, and volumes in a single configuration file and can be used in CI environments.
-
----
-
-# 4. Security Testing
-
-The CI pipeline will perform automated security checks before an application can be deployed.
-
-Checks will include:
-
-* Dependency vulnerability scanning.
-* Python package vulnerability scanning.
-* JavaScript dependency auditing.
-* Docker image vulnerability scanning.
-* Secret detection.
-* Static analysis.
-* Configuration validation.
-
-The tools include:
-
-```text
-Python:
-    Ruff
-    Bandit
-    pip-audit
-
-JavaScript:
-    npm audit
-
-Docker:
-    Docker Scout
-    Trivy
-
-Secrets:
-    Gitleaks
-```
-
-Docker provides official GitHub Actions that can build images and perform security analysis of Docker images.
-
----
-
-# 5. Docker Build
-
-After all tests pass, GitHub Actions will build the application containers.
-
-The primary application containers will be:
-
-```text
-┌──────────────────────┐
-│ React Container      │
-│ Frontend             │
-└──────────────────────┘
-
-┌──────────────────────┐
-│ FastAPI Container    │
-│ Backend/API          │
-└──────────────────────┘
-
-┌──────────────────────┐
-│ MariaDB Container    │
-│ Database             │
-└──────────────────────┘
-
-┌──────────────────────┐
-│ Ollama Container     │
-│ Local LLM            │
-└──────────────────────┘
-
-┌──────────────────────┐
-│ Caddy Container      │
-│ Reverse Proxy        │
-└──────────────────────┘
-```
-
-The containers will be defined using Dockerfiles and managed together through Docker Compose.
-
----
-
-# 6. Container Image Registry
-
-After successful CI testing, Docker images can be published to **GitHub Container Registry (GHCR)**.
-
-```
-GitHub Actions
-      │
-      ▼
-Docker Build
-      │
-      ▼
-Security Scan
-      │
-      ▼
-     GHCR
-      │
-      ▼
-Versioned Docker Image
-```
-
-Images will use identifiable version tags.
-
-Example:
-
-```
-ghcr.io/username/911-backend:1.0.0
-ghcr.io/username/911-frontend:1.0.0
-```
-
-For development builds:
-
-```
-ghcr.io/username/911-backend:develop
-```
-
-For production releases:
-
-```
-ghcr.io/username/911-backend:v1.0.0
-```
-
----
-
-# 7. Continuous Deployment
-
-Once the `main` branch passes all CI checks, the CD workflow can deploy the new version.
-
-```text
-             main branch
-                  │
-                  ▼
-          GitHub Actions
-                  │
-                  ▼
-          Run CI Pipeline
-                  │
-             Tests Pass
-                  │
-                  ▼
-           Build Images
-                  │
-                  ▼
-           Push to GHCR
-                  │
-                  ▼
-        Deployment Host
-                  │
-                  ▼
-        docker compose pull
-                  │
-                  ▼
-        docker compose up -d
-                  │
-                  ▼
-           Health Checks
-                  │
-                  ▼
-             Deployment
-             Successful
-```
-
----
-
-# 8. Docker Compose Deployment
-
-The deployment host will use Docker Compose to run the application.
-
-Example architecture:
-
-```
-services:
-
-  frontend:
-    image: ghcr.io/username/911-frontend:latest
-
-  backend:
-    image: ghcr.io/username/911-backend:latest
-    depends_on:
-      - mariadb
-      - ollama
-
-  mariadb:
-    image: mariadb:latest
-    volumes:
-      - mariadb_data:/var/lib/mysql
-
-  ollama:
-    image: ollama/ollama
-
-  caddy:
-    image: caddy:latest
-    depends_on:
-      - frontend
-      - backend
-
-volumes:
-  mariadb_data:
-```
-
-The actual production configuration will pin specific image versions rather than relying on `latest`.
-
----
-
-# 9. Database Deployment
-
-Database migrations will be handled using **Alembic**.
-
-The deployment process will be:
-
-```text
-New Application Version
-          │
-          ▼
-     Pull Containers
-          │
-          ▼
-    Database Backup
-          │
-          ▼
-    Run Alembic Migration
-          │
-          ▼
-     Start Application
-          │
-          ▼
-     Health Check
-```
-
-Database migrations should be designed to be backward-compatible whenever possible.
-
-For example:
-
-```text
-Version 1
-    │
-    ▼
-Add new nullable column
-    │
-    ▼
-Deploy application
-    │
-    ▼
-Populate existing records
-    │
-    ▼
-Enable new functionality
-```
-
-This reduces the risk of application downtime during deployments.
-
----
-
-# 10. Ollama Deployment
-
-Ollama will provide the local LLM inference layer.
-
-The architecture will be:
-
-```text
-FastAPI
-   │
-   │ HTTP request
-   ▼
-Ollama API
-   │
-   ▼
-Local LLM
-   │
-   ▼
-Structured Analysis
-   │
-   ▼
-FastAPI
-```
-
-The application will **not** allow the LLM to directly modify priority records or make dispatch decisions.
-
-Instead:
-
-```
-911 Message
-     │
-     ├───────────────┐
-     ▼               ▼
-Keyword Engine    Ollama
-     │               │
-     │               ▼
-     │         Semantic Analysis
-     │               │
-     └───────┬───────┘
-             ▼
-       Priority Engine
-             │
-             ▼
-       Human Review
-```
-
-The LLM therefore functions as an analysis component rather than an autonomous emergency-dispatch system.
-
----
-
-# 11. Monitoring
-
-The application will use open-source monitoring tools.
-
-```
-Application
-     │
-     ├──────────────┐
-     │              │
-     ▼              ▼
-Prometheus        Loki
-     │              │
-     ▼              ▼
-          Grafana
-             │
-             ▼
-       Monitoring Dashboard
-```
-
-Metrics can include:
-
-* API response time
-* HTTP status codes
-* Request volume
-* Database connections
-* Database errors
-* LLM response time
-* LLM failures
-* Analysis processing time
-* CPU usage
-* Memory usage
-* Container health
-* Number of analyzed messages
-
----
-
-# 12. Health Checks
-
-Each major service should expose or support a health check.
-
-Example:
-
-```text
-GET /health
-```
-
-Expected response:
-
-```json
-{
-  "status": "healthy",
-  "database": "healthy",
-  "ollama": "healthy"
-}
-```
-
-Docker Compose can then be used to manage service startup and health dependencies.
-
----
-
-# 13. Deployment Verification
-
-After deployment, the CD pipeline will perform automated smoke tests.
-
-```text
-Deployment
-    │
-    ▼
-Health Check
-    │
-    ▼
-API Test
-    │
-    ▼
-Database Test
-    │
-    ▼
-LLM Test
-    │
-    ▼
-Frontend Test
-    │
-    ▼
-Deployment Confirmed
-```
-
-Example tests:
-
-```
-GET /health                 → 200 OK
-
-POST /messages              → 201 Created
-
-GET /messages/{id}          → 200 OK
-
-POST /messages/{id}/analyze → 200 OK
-
-GET /admin/messages         → 200 OK
-```
-
-If a critical health check fails, the deployment should be considered unsuccessful.
-
----
-
-# 14. Rollback Strategy
-
-Each Docker image will have a version number.
-
-For example:
-
-```
-v1.0.0
-v1.1.0
-v1.2.0
-```
-
-If version `v1.2.0` fails:
-
-```
-v1.2.0
-   │
-   ▼
-Deployment Failure
-   │
-   ▼
-Restore v1.1.0
-   │
-   ▼
-docker compose pull
-   │
-   ▼
-docker compose up -d
-```
-
-This provides a simple rollback mechanism without requiring a complex cloud orchestration platform.
-
----
-
-# 15. Complete Pipeline
-
-The final DevOps lifecycle will be:
-
-```
-┌───────────────────────┐
-│      Developer        │
-└───────────┬───────────┘
-            │
-            │ git push / PR
-            ▼
-┌───────────────────────┐
-│       GitHub          │
-└───────────┬───────────┘
-            │
-            ▼
-┌───────────────────────┐
-│    GitHub Actions     │
-│                       │
-│  Lint                 │
-│  Unit Tests            │
-│  Integration Tests     │
-│  Security Scans        │
-│  Build                 │
-└───────────┬───────────┘
-            │
-       Tests Pass
-            │
-            ▼
-┌───────────────────────┐
-│     Docker Build      │
-└───────────┬───────────┘
-            │
-            ▼
-┌───────────────────────┐
-│ Security / Image Scan │
-└───────────┬───────────┘
-            │
-            ▼
-┌───────────────────────┐
-│         GHCR          │
-│ Docker Image Registry │
-└───────────┬───────────┘
-            │
-            ▼
-┌───────────────────────┐
-│   Deployment Host     │
-│                       │
-│   Docker Compose      │
-└───────────┬───────────┘
-            │
-     ┌──────┼─────────┐
-     │      │         │
-     ▼      ▼         ▼
-  React  FastAPI   MariaDB
-             │
-             ▼
-           Ollama
-             │
-             ▼
-       Local LLM
-            │
-                        ▼
-┌───────────────────────┐
-│  Prometheus / Loki    │
-│       + Grafana       │
-└───────────────────────┘
-```
-
-## Definition of "Done"
-
-A deployment will be considered successful when:
-
-* [ ] All automated tests pass.
-* [ ] Code passes linting and static analysis.
-* [ ] Dependencies have been checked for known vulnerabilities.
-* [ ] Docker images build successfully.
-* [ ] Docker images pass security scanning.
-* [ ] Images are published to GHCR.
-* [ ] Database migrations complete successfully.
-* [ ] MariaDB is accessible.
-* [ ] Ollama is accessible.
-* [ ] FastAPI health check returns `200 OK`.
-* [ ] React frontend loads successfully.
-* [ ] API smoke tests pass.
-* [ ] LLM analysis test succeeds.
-* [ ] Monitoring services are operational.
-* [ ] Application logs are available.
-* [ ] Deployment version is recorded.
-* [ ] Previous version can be restored if necessary.                    
+#### 5.2.16 Definition of Done
+
+A feature or release is complete when:
+
+-   Its acceptance criteria are met.
+-   Relevant automated tests pass.
+-   The frontend production build and backend checks pass.
+-   Database migrations are reviewed and tested when applicable.
+-   Authentication and authorization behavior has been checked.
+-   Documentation and configuration examples are updated.
+-   No secrets or real emergency data are committed.
+-   The feature is demonstrated using synthetic data.
+-   Deployment and rollback instructions are current when the feature
+    affects deployment.
+-   Any known limitations are documented rather than hidden.
 
 ### 5.3 Architecture Component Description
 
-1. Not yet sure if this is needed, it is possible to simulate with a mock service, which actually may be better: **F/OSS SMS Gateway:** Replaces paid commercial APIs. This could be a self-hosted Kannel server connected to a cellular modem (SMPP) or an open-source Android application that forwards received SMS messages via HTTP POST to the API layer.
-2. **FastAPI Application:** The central integration point. It handles HTTP requests from the gateway, invokes the Triage Engine, manages database transactions, and pushes real-time updates to the dashboard via WebSockets.
-3. **Triage Engine:** A distinct Python module that performs keyword analysis on message bodies to calculate priority scores (see Section 3).
-4. **PostgresSQL:** The source of truth. It stores session state, full message logs, and dispatcher activity logs with full ACID compliance.
-5. **Admin Dispatch Dashboard:** A React-based single-page application that provides dispatchers with a live view of incoming emergencies, sorted by priority.
 
----
+### High Level Architecture Diagram(images/high-level-architecture-diagram.png)
 
-## MariaDB Database Schema
+#### Frontend: React + Vite
 
-The database uses sample (incomplete) tables configured for transactional integrity, automatic timestamp updates, and performance indexing to instantly surface high-priority emergencies.
+The frontend will contain two main user-facing areas:
 
-```sql
--- Active Emergency Sessions / Threads
+1.  **Client message submission:** A simple form for entering synthetic
+    message text and any other fields required by the scenario.
+2.  **Administrative dashboard:** A protected interface for authorized
+    reviewers to browse messages, filter by suggested priority and
+    status, inspect analysis rationale, and record review actions.
+
+The frontend will call the FastAPI API over HTTP. It will not connect
+directly to MariaDB or Ollama. Client-side validation will improve
+usability, while the backend remains responsible for enforcing
+validation and authorization.
+
+#### Backend API: FastAPI
+
+FastAPI will provide endpoints for message creation, message retrieval,
+analysis, reviewer actions, and health checks. Request and response
+models will be explicitly defined, and errors will use predictable HTTP
+status codes and response structures.
+
+Example endpoint outline:
+
+  -------------------------------------------------------------------------------
+  Method                  Endpoint                        Purpose
+  ----------------------- ------------------------------- -----------------------
+  `POST`                  `/api/messages`                 Validate and store a
+                                                          synthetic message, then
+                                                          create a priority
+                                                          suggestion.
+
+  `GET`                   `/api/messages`                 Return a paginated list
+                                                          for authorized
+                                                          dashboard users.
+
+  `GET`                   `/api/messages/{id}`            Return message details
+                                                          and associated
+                                                          analysis/review
+                                                          history.
+
+  `PATCH`                 `/api/messages/{id}/priority`   Record an authorized
+                                                          reviewer's priority
+                                                          override and reason.
+
+  `POST`                  `/api/messages/{id}/review`     Record a review action
+                                                          or note.
+
+  `GET`                   `/health`                       Return process health.
+
+  `GET`                   `/ready`                        Report readiness of
+                                                          essential dependencies.
+  -------------------------------------------------------------------------------
+
+This is a proposed contract; exact fields, pagination conventions, and
+response formats should be finalized before implementation.
+Administrative endpoints must enforce authorization on the server, not
+merely hide controls in the frontend.
+
+#### Data access: SQLAlchemy and Alembic
+
+SQLAlchemy will provide the database models and queries. Alembic will
+maintain versioned schema migrations. Database access should be isolated
+from API route handlers where practical, and transaction boundaries
+should ensure that a message and its associated audit event are not left
+in an inconsistent state.
+
+#### Triage assistance: Python and Ollama
+
+The Python rules engine will be the baseline classifier because its
+behavior can be tested and explained. Ollama can provide optional
+semantic analysis, but it must not replace the deterministic baseline or
+become a required dependency for core message submission.
+
+#### Database and monitoring
+
+MariaDB will be the system of record. Prometheus, Grafana, and Loki will
+be optional supporting services for metrics, dashboards, and logs.
+Docker Compose will make the services reproducible across developer
+machines and the demonstration host.
+
+#### 5.3.1 MariaDB Database Schema
+
+The schema below is a starting point for the MVP. It should be
+implemented through SQLAlchemy models and Alembic migrations rather than
+maintained only as a manually executed SQL script. Field sizes, deletion
+behavior, and indexes should be confirmed during implementation.
+
+``` sql
 CREATE TABLE emergency_sessions (
-    session_id INT AUTO_INCREMENT PRIMARY KEY,
-    phone_number VARCHAR(20) NOT NULL,
-    current_status VARCHAR(50) DEFAULT 'QUEUED', -- QUEUED, DISPATCHED, RESOLVED
-    assigned_dispatcher_id INT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    session_reference VARCHAR(64) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('OPEN', 'CLOSED') NOT NULL DEFAULT 'OPEN',
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_emergency_sessions_reference (session_reference)
 );
 
--- Individual Text Messages
 CREATE TABLE messages (
-    message_id INT AUTO_INCREMENT PRIMARY KEY,
-    session_id INT,
-    sender_type ENUM('CITIZEN', 'DISPATCHER', 'SYSTEM') NOT NULL,
-    body TEXT NOT NULL,
-    priority_score FLOAT DEFAULT 0.0,
-    priority_tier TINYINT CHECK (priority_tier BETWEEN 1 AND 3),
-    classification_label VARCHAR(20),
-    received_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (session_id) REFERENCES emergency_sessions(session_id) ON DELETE CASCADE
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    session_id BIGINT UNSIGNED NULL,
+    message_text TEXT NOT NULL,
+    submitted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    suggested_priority ENUM('CRITICAL', 'HIGH', 'MODERATE', 'LOW')
+        NOT NULL DEFAULT 'MODERATE',
+    current_priority ENUM('CRITICAL', 'HIGH', 'MODERATE', 'LOW')
+        NOT NULL DEFAULT 'MODERATE',
+    review_status ENUM('NEW', 'IN_REVIEW', 'REVIEWED', 'CLOSED')
+        NOT NULL DEFAULT 'NEW',
+    reviewed_at TIMESTAMP NULL,
+    reviewer_reference VARCHAR(64) NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_messages_session
+        FOREIGN KEY (session_id) REFERENCES emergency_sessions(id)
+        ON DELETE SET NULL,
+    KEY idx_messages_submitted_at (submitted_at),
+    KEY idx_messages_current_priority_status (current_priority, review_status)
 );
 
--- Indexing for real-time dashboard sorting performance
-CREATE INDEX idx_messages_priority ON messages (priority_tier ASC, received_at DESC);
-CREATE INDEX idx_sessions_status ON emergency_sessions (current_status);
+CREATE TABLE message_analysis (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    message_id BIGINT UNSIGNED NOT NULL,
+    analysis_method ENUM('KEYWORD_RULES', 'OLLAMA', 'HYBRID')
+        NOT NULL DEFAULT 'KEYWORD_RULES',
+    model_name VARCHAR(128) NULL,
+    suggested_priority ENUM('CRITICAL', 'HIGH', 'MODERATE', 'LOW')
+        NOT NULL,
+    confidence DECIMAL(5,4) NULL,
+    explanation TEXT NULL,
+    matched_terms JSON NULL,
+    disagreement_flag BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_message_analysis_message
+        FOREIGN KEY (message_id) REFERENCES messages(id)
+        ON DELETE CASCADE,
+    KEY idx_message_analysis_message_created (message_id, created_at)
+);
 
+CREATE TABLE message_audit_log (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    message_id BIGINT UNSIGNED NOT NULL,
+    event_type VARCHAR(64) NOT NULL,
+    actor_reference VARCHAR(64) NULL,
+    previous_value VARCHAR(255) NULL,
+    new_value VARCHAR(255) NULL,
+    reason TEXT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_message_audit_message
+        FOREIGN KEY (message_id) REFERENCES messages(id)
+        ON DELETE CASCADE,
+    KEY idx_message_audit_message_created (message_id, created_at)
+);
 ```
 
----
-
-## Python Priority Ranking & Triage Engine
-
-The triage engine analyzes incoming text content to assign a priority tier 
-(`1` for Critical, `2` for Urgent, `3` for Routine), protecting against false positives by accounting for simple negations.
-
-```python
-import re
-from typing import Tuple
-
-# Weighted keyword dictionary mapping emergency terms to severity scores
-KEYWORD_WEIGHTS = {
-    # Critical Life Safety (Priority 1)
-    "gun": 50, "shot": 50, "shooting": 50, "stab": 50, "bleeding": 45,
-    "unconscious": 45, "not breathing": 50, "cpr": 50, "fire": 45,
-    "choking": 45, "suicide": 50, "overdose": 45, "knife": 45,
-    
-    # Urgent Safety / Property (Priority 2)
-    "robbery": 30, "break-in": 30, "intruder": 35, "car accident": 30,
-    "crash": 30, "fight": 25, "harassment": 20,
-    
-    # Non-Urgent / Routine (Priority 3)
-    "noise": 5, "theft": 10, "lost": 5, "property": 5
-}
-
-NEGATION_TERMS = {"no", "not", "isn't", "wasn't", "never", "no longer"}
-
-def calculate_priority(text: str) -> Tuple[int, str, float]:
-    """
-    Scans text message for weighted keywords, checks for immediate negation context,
-    and returns a priority tier, label, and cumulative score.
-    """
-    cleaned_text = text.lower()
-    words = re.findall(r'\b\w+\b', cleaned_text)
-    
-    score = 0.0
-    matched_triggers = []
-
-    for i, word in enumerate(words):
-        if word in KEYWORD_WEIGHTS:
-            # Check context window for negation (e.g., "no weapon")
-            context_window = words[max(0, i-2):i]
-            is_negated = any(neg in context_window for neg in NEGATION_TERMS)
-            
-            if is_negated:
-                score += (KEYWORD_WEIGHTS[word] * 0.1)
-                matched_triggers.append(f"{word} (negated)")
-            else:
-                score += KEYWORD_WEIGHTS[word]
-                matched_triggers.append(word)
-
-    # Map cumulative score to Priority Tiers
-    if score >= 40:
-        priority_tier = 1
-        label = "CRITICAL"
-    elif score >= 20:
-        priority_tier = 2
-        label = "URGENT"
-    else:
-        priority_tier = 3
-        label = "ROUTINE"
-
-    return priority_tier, label, score
-
-```
-
----
-
-#### 5.4 Security  
-
-- **IAM**: least‑privilege role for ECS task execution.  
-- **Secrets**: OpenAI API key stored in GCP Secrets Manager; injected as env‑var at runtime.  
-- **Network**: LLM containers run in a private subnet; only the chooser has a public endpoint.  
-- **TLS**: API Gateway enforces HTTPS.
-
----
-
-### 6. Development Features
-
-The project will have several major features throughout development.
-
-Feature 1 — Working Message System
-
-A user will be able to submit a simulated 911 text message through the React application, send it to the Spring Boot API, and have it persisted in MariaDB
-.
-
-The complete workflow will be:
-
-User
-  ↓
-React Application
-  ↓
-REST API
-  ↓
-MariaDB
-
-Feature 2 — Automated Prioritization
-
-The system will automatically analyze incoming messages, identify keywords, calculate a priority score, and assign a preliminary priority level.
-
-Example:
-
-Message:
-"I'm trapped in my house. There is a fire."
-
-Analysis:
-fire       +8
-trapped    +8
-
-Priority Score: 16
-Priority: HIGH
-
-Feature 3 — Functional Call Center Dashboard
-
-An authenticated administrator will be able to:
-
-Log in
-
-View incoming messages
-
-Sort messages by priority
-
-Filter messages by category/status
-
-View message details
-
-Change message status
-
-Override automated priority
-
-View priority history
-
-At this point, the core MVP will be considered functionally complete.
-
-Feature 4 — Cloud Deployment
-
-The application will be deployed to a cloud environment. The frontend, backend API, and MariaDB database will operate as cloud-hosted components.
-
-The deployment architecture will resemble:
-
-```                 ┌─────────────────────┐
-                    │     React/Vite      │
-                    │    Web Interface    │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │       FastAPI       │
-                    │      REST API       │
-                    └──────────┬──────────┘
-                               │
-             ┌─────────────────┼─────────────────┐
-             │                 │                 │
-             ▼                 ▼                 ▼
-      ┌────────────┐    ┌──────────────┐   ┌──────────────┐
-      │  MariaDB   │    │    Keyword   │   │   Ollama     │
-      │  Database  │    │    Engine    │   │ Local LLM    │
-      └────────────┘    └──────┬───────┘   └──────┬───────┘
-                                │                  │
-                                └────────┬─────────┘
-                                         ▼
-                                ┌─────────────────┐
-                                │ Priority Engine │
-                                └────────┬────────┘
-                                         │
-                                         ▼
-                                ┌─────────────────┐
-                                │  Admin Dashboard│
-                                │ Human Review    │
-                                └─────────────────┘
-```
-Feature 5 — Final Testing
-
-Testing will verify that the application correctly handles normal and unexpected scenarios.
-
-Testing will include:
-
-- Valid message submission
-
-- Empty messages
-
-- Extremely long messages
-
-- Invalid API requests
-
-- Authentication failures
-
-- Unauthorized administrator actions
-
-- Keyword detection
-
-- Priority scoring
-
-- Priority overrides
-
-- Database operations
-
-- Concurrent message submissions
-
-- API error handling
-
-- Frontend validation
-
-- Security vulnerabilities
-
-*Special attention will be given to false positives and false negatives in the priority system.*
-
-For example, the system should be tested against messages such as:
-
-"There is no fire at my house."
-
-This is important because a simplistic keyword search could detect "fire" and incorrectly increase the priority.
-
-Feature 6 — Final Demonstration
-
-End of Week 10
-
-The final demonstration will show the complete workflow:
-
-```
-1. User submits emergency text
-   
-             ↓
-   
-2. API receives message
-   
-             ↓
-   
-3. Message stored in database
-
-             ↓
-4. Analysis service evaluates message
-
-             ↓
-5. Priority score calculated
-   
-             ↓
-6. Message appears in admin queue
-    
-             ↓
-7. Administrator reviews message
-    
-             ↓
-8. Administrator confirms/overrides priority
-    
-             ↓
-9. Message status updated
-    
-             ↓
-10. Data appears in analytics
-```
-
----
-
-### 7. Resources & Budget  
-
-The proposed 911 Call Center Analysis application is designed to minimize development and operational costs by using open-source technologies and jetstream infrastructure. The project will use synthetic 911 data for development and demonstration purposes.
-
-## Resource Budget
-
-| Layer                  | Technology                           |   Cost | Purpose                                                        |
-| ---------------------- | ------------------------------------ | -----: | -------------------------------------------------------------- |
-| Frontend               | **React + Vite**                     |     $0 | 911 simulation interface and admin dashboard                   |
-| Backend                | **FastAPI**                          |     $0 | REST API and application logic                                 |
-| Database               | **MariaDB Community Server**         |     $0 | Store messages, users, analysis, priorities, and audit records |
-| ORM                    | **SQLAlchemy**                       |     $0 | Python database interaction                                    |
-| Database migrations    | **Alembic**                          |     $0 | Manage database schema changes                                 |
-| AI/LLM                 | **Ollama + local open-source model** |     $0 | Local semantic analysis without paying an API provider         |
-| Containerization       | **Docker + Docker Compose**          |     $0 | Run the entire application stack consistently                  |
-| Reverse proxy          | **Caddy**                            |     $0 | HTTPS and reverse proxy if you expose the application          |
-| Version control        | **Git + GitHub**                     |     $0 | Source control and collaboration                               |
-| CI/CD                  | **GitHub Actions**                   |     $0 | Automated testing and builds                                   |
-| Testing                | **pytest**                           |     $0 | Backend unit/integration testing                               |
-| API testing            | **Swagger/OpenAPI**                  |     $0 | Test and document FastAPI endpoints                            |
-| Infrastructure         | **Local Machine**                     |     $0 | Development and local hosting                                  |
-| Monitoring             | **Prometheus + Grafana**             |     $0 | Application/system monitoring                                  |
-| Logging                | **Loki**                             |     $0 | Centralized application logs                                   |
-| Infrastructure-as-code | **Docker Compose**                   |     $0 | Reproducible local infrastructure                              |
-| **Total**              |                                      | **$0** |                                                                |
-
-
----
-
-### 8. Risk Management  
-
-Several risks could affect the project timeline. To reduce these risks, the project will prioritize the core message submission, database, analysis, and administrative dashboard functionality before implementing advanced features.
-
-**Risk: Scope Expansion**
-
-Features such as machine learning, real-time communications, geospatial mapping, and SMS integration could significantly increase development time.
-
-Mitigation: These features will remain future enhancements unless the MVP is completed ahead of schedule.
-
-**Risk: Automated Classification Accuracy**
-
-Keyword-based classification may produce incorrect priority levels.
-
-Mitigation: The system will treat the automated priority as a recommendation and provide administrators with the ability to override it.
-
-**Risk: Cloud Deployment Problems**
-
-Cloud configuration can introduce unexpected deployment or networking issues.
-
-Mitigation: A local development environment will remain available throughout the project, and cloud deployment will be performed as its own feature rather than being left until the final week.
-
-**Risk: Security Issues**
-
-Emergency-style communications may contain sensitive information.
-
-Mitigation: Only synthetic data will be used, administrator access will require authentication, and security testing will be performed before final deployment.
-
----
-
-### 9. Deliverables  
-
-| Deliverable | Format | Due |
-|-------------|--------|-----|
-| Architecture diagram | PNG / PDF | End of Design |
-| Terraform IaC code | .tf files (Git repo) | End of Implementation |
-| LLM‑Chooser micro‑service | Docker image (ECR) + source | End of Implementation |
-| Python SDK (`llm_client.py`) | .py file + docs | End of Implementation |
-| React demo instance | URL (staging) | End of Demo |
-| Test suite (PyTest, others?) | repo + CI badge | End of Testing |
-| Final report & presentation & live demo | PDF + Slides + Demo | End of Evaluation |
-
----
-### 10. PostgreSQL vs. MariaDB
-
-*Database Selection: PostgreSQL vs. MariaDB*
-
-The 911 Call Center Analysis application requires a relational database capable of storing simulated 911 messages, user accounts, emergency classifications, keyword-analysis results, LLM analysis results, priority scores, and audit records. Two suitable open-source database options considered for the project are *PostgreSQL* and *MariaDB*.
-
-Both databases provide the relational functionality required by the application and are available without software licensing costs. PostgreSQL is distributed under the PostgreSQL License, a permissive open-source license similar to the BSD and MIT licenses. MariaDB Community Server is distributed under the GNU General Public License v2.
-
-After comparing the requirements of the application, MariaDB is selected as the preferred database for this project because it provides the required relational capabilities while fitting particularly well with the project's goal of creating a completely free, open-source, containerized infrastructure.
-
-*Why Postgres was considered*
-
-PostgreSQL is a powerful open-source object-relational database system with support for foreign keys, transactions, triggers, complex queries, extensibility, and multiversion concurrency control. It is also available free of charge for academic and commercial use.
-
-PostgreSQL would therefore be a completely valid choice for this application. It would be particularly attractive if the project required sophisticated analytical queries, advanced database extensions, or more complex data-processing workloads.
-
-However, many of these capabilities exceed the requirements of the proposed prototype.
-
-The application primarily needs to:
-
-Store simulated 911 messages.
-Store user and administrator information.
-Store message classifications.
-Store keyword-analysis results.
-Store LLM analysis results.
-Store priority levels.
-Retrieve messages efficiently.
-Maintain relationships between messages and their analyses.
-Maintain an audit history.
-Support standard CRUD operations.
-Perform basic filtering, sorting, and reporting.
-
-These requirements do not require many of PostgreSQL's more advanced capabilities.
-
-*Why MariaDB Is Ideal for This Project*
-
-1. Completely Open Source
-
-MariaDB Community Server is released under the GNU General Public License v2 and is explicitly maintained as an open-source database.
-
-This directly supports the project's objective of creating a zero-cost software infrastructure, meets the requirements for a CRUD based application, and is appropriate for the projected scale of the project. 
-
-The project does not need to purchase a database license, enterprise database software, or proprietary development tools.
-
-2. Excellent Fit for a CRUD-Based Application
-
-The primary operations of the application will involve:
-
-```
-CREATE
-    ↓
-911 Message
-
-READ
-    ↓
-Admin Dashboard
-
-UPDATE
-    ↓
-Human Review / Priority
-
-DELETE
-    ↓
-Data Management
-```
-
-MariaDB is well suited to this type of workload.
-
-3. Strong Compatibility with the Proposed Technologies
-
-The proposed backend architecture uses:
-
-Python
-   ↓
-FastAPI
-   ↓
-SQLAlchemy
-   ↓
-MariaDB
-
-SQLAlchemy provides the database abstraction layer between the Python application and MariaDB.
-
-This means the application code can remain relatively independent of the underlying database implementation.
-
-For example:
-
-class Message:
-    id
-    user_id
-    message_text
-    created_at
-    priority
-
-The application can interact with the model through SQLAlchemy rather than embedding large amounts of database-specific SQL throughout the FastAPI application.
-
-This also improves the project's future portability.
-
-4. Excellent Docker Compatibility
-
-MariaDB can be deployed as a Docker container alongside the other components of the application.
-
-The proposed infrastructure can therefore be defined through Docker Compose:
-
-Docker Compose
-│
-├── React
-│
-├── FastAPI
-│
-├── MariaDB
-│
-├── Ollama
-│
-├── Caddy
-│
-└── Monitoring
-
-This creates a reproducible development environment in which the database does not need to be installed directly on the developer's operating system.
-
-MariaDB also provides official Docker installation options through its Community Server distribution.
-
-5. Familiar SQL-Based Development Model
-
-MariaDB uses SQL and shares significant compatibility with the MySQL ecosystem. MariaDB was originally created by the developers behind MySQL and maintains substantial compatibility with MySQL protocols, clients, APIs, and tools.
-
-This provides an additional benefit for the project because SQL knowledge developed while working with MariaDB is broadly applicable to other relational database environments.
-
-6. Appropriate for the Project's Expected Scale
-
-The proposed application is an academic prototype, not a production 911 emergency dispatch system.
-
-The expected workload will consist primarily of:
-
-A relatively small number of simulated users.
-A relatively small message database.
-Administrative queries.
-Automated analysis requests.
-Development and testing traffic.
-
-There is therefore little justification for introducing additional database complexity that the project does not require.
-
-MariaDB provides more than enough capacity for this scale while keeping the infrastructure straightforward.
-
-7. Supports the Zero-Cost Infrastructure Goal
-
-One of the major changes to the project architecture is the decision to prioritize free and open-source infrastructure.
-
-The revised stack can therefore be represented as:
-```
-Frontend
-React
-  │
-  ▼
-Backend
-FastAPI
-  │
-  ▼
-Database
-MariaDB
-  │
-  ├── Message Data
-  ├── User Data
-  ├── Keyword Analysis
-  ├── LLM Analysis
-  ├── Priority Results
-  └── Audit Records
-```
-All of these components can run locally using free software.
-
-This eliminates the requirement for a paid managed database service such as Google Cloud SQL during development.
-
-MariaDB's Role in the Overall Architecture
-
-The database will intentionally have a focused responsibility within the architecture.
-
-MariaDB will store and retrieve application data, while other components will perform specialized processing.
-
-                  911 Message
-                       │
-                       ▼
-                   FastAPI
-                       │
-            ┌──────────┴──────────┐
-            │                     │
-            ▼                     ▼
-     Keyword Engine           Ollama
-            │                     │
-            │              Local LLM Analysis
-            │                     │
-            └──────────┬──────────┘
-                       ▼
-                Priority Engine
-                       │
-                       ▼
-                   MariaDB
-                       │
-            ┌──────────┴──────────┐
-            │                     │
-            ▼                     ▼
-      Admin Dashboard        Audit Records
-
-This separation of responsibilities follows a modular architecture:
-
-- FastAPI manages application and API logic.
-- MariaDB manages persistent relational data.
-- Keyword Engine performs deterministic analysis.
-- Ollama performs semantic LLM analysis.
-- Priority Engine combines analysis results.
-- React provides the user interface.
-- Caddy manages external HTTP/HTTPS access.
-- Prometheus/Grafana provide observability.
-
-
-**Limitations and Tradeoffs**
-
-MariaDB is not being selected because it is objectively superior to PostgreSQL.
-
-PostgreSQL has several advantages that could make it the better choice for a different version of this project. PostgreSQL provides extensive extensibility and advanced database functionality and is particularly strong for complex queries and sophisticated data workloads.
-
-MariaDB also has differences from PostgreSQL that should be acknowledged. The two database systems are not interchangeable, and applications should be tested against their target database rather than assuming complete SQL compatibility.
-
-For this project, however, those differences are unlikely to create significant problems because the application primarily requires conventional relational database functionality.
-
-**Final Decision**
-
-MariaDB will be used as the primary relational database for the 911 Call Center Analysis application.
-
-The decision is based on the following factors:
-
-1. $0 software licensing cost.
-2. Strong open-source commitment.
-3. Sufficient relational functionality for the application's requirements.
-4. Excellent compatibility with Docker and Docker Compose.
-5. Straightforward integration with Python, FastAPI, and SQLAlchemy.
-6. Strong support for conventional CRUD and transactional workloads.
-7. Familiar SQL-based development model.
-8. Appropriate complexity for an academic prototype.
-9. Alignment with the project's goal of completely free infrastructure.
-10. Ability to maintain a modular architecture that could support a future database migration if requirements change.
-
-Overall, MariaDB provides the necessary functionality without introducing unnecessary infrastructure complexity. Its combination of open-source licensing, relational capabilities, Docker compatibility, and suitability for the application's expected workload makes it the most appropriate database for the proposed implementation.
-
-### 11. References  
-
-The following references document the technologies and infrastructure used in the proposed 911 Call Center Analysis application. Official documentation and primary project sources are preferred where available.
-
-1. **MariaDB Foundation.** (2026). *MariaDB Community Server*.
-   MariaDB Community Server is the open-source relational database used to store simulated 911 messages, user information, analysis results, priority levels, and audit records. MariaDB Community Server is released under the GNU General Public License v2.0.
-   https://mariadb.com/products/community-server/
-
-2. **Ollama.** (2026). *Ollama Documentation — API Introduction*.
-   Ollama provides a local runtime and API for running and interacting with large language models. It will be used to provide local semantic analysis of simulated 911 messages without requiring a paid external AI API.
-   https://docs.ollama.com/api/introduction
-
-3. **Ollama.** (2026). *Ollama GitHub Repository*.
-   The Ollama source repository provides implementation details, source code, licensing information, and documentation for the Ollama project. The Ollama repository is distributed under the MIT License.
-   https://github.com/ollama/ollama
-
-4. **FastAPI.** (2026). *FastAPI Documentation*.
-   FastAPI is the Python web framework used to implement the application's REST API and backend services.
-   https://fastapi.tiangolo.com/
-
-5. **React.** (2026). *React Documentation*.
-   React is used to develop the application's simulated 911 messaging interface and administrative dashboard.
-   https://react.dev/
-
-6. **SQLAlchemy.** (2026). *SQLAlchemy Documentation*.
-   SQLAlchemy provides the Python SQL toolkit and Object Relational Mapper used to interact with the MariaDB database from the FastAPI backend.
-   https://docs.sqlalchemy.org/
-
-7. **Alembic.** (2026). *Alembic Documentation*.
-   Alembic is a database migration tool designed for use with SQLAlchemy. It will be used to manage database schema changes throughout development.
-   https://alembic.sqlalchemy.org/
-
-8. **Docker.** (2026). *Docker Documentation*.
-   Docker provides containerization capabilities for packaging the FastAPI backend, MariaDB database, Ollama service, and supporting infrastructure into reproducible environments.
-   https://docs.docker.com/
-
-9. **Docker.** (2026). *Docker Compose Documentation*.
-   Docker Compose will be used to define and run the application's multi-container development environment.
-   https://docs.docker.com/compose/
-
-10. **Caddy.** (2026). *Caddy Documentation — Reverse Proxy*.
-    Caddy can serve as the application's reverse proxy and provide automatic HTTPS when the application is deployed to a publicly accessible domain.
-    https://caddyserver.com/docs/quick-starts/reverse-proxy
-
-11. **Prometheus Authors.** (2026). *Prometheus Documentation*.
-    Prometheus is an open-source monitoring and alerting system that can collect application and infrastructure metrics for the project.
-    https://prometheus.io/docs/introduction/overview/
-
-12. **Grafana Labs.** (2026). *Grafana Open Source Documentation*.
-    Grafana OSS can be used to visualize application metrics, logs, and other observability data collected from the application infrastructure.
-    https://grafana.com/docs/grafana/latest/
-
-13. **GitHub.** (2026). *GitHub Actions Documentation*.
-    GitHub Actions provides the project's continuous integration and continuous delivery (CI/CD) capabilities, including automated testing, builds, and deployment workflows.
-    https://docs.github.com/en/actions
-
-14. **Python Software Foundation.** (2026). *Python Documentation*.
-    Python is the primary programming language used to implement the FastAPI backend, keyword analysis engine, priority engine, and Ollama integration.
-    https://docs.python.org/
-
-15. **pytest Development Team.** (2026). *pytest Documentation*.
-    pytest will be used to implement automated unit and integration tests for the backend and analysis components.
-    https://docs.pytest.org/
-
-16. **NIST.** (2023). *Artificial Intelligence Risk Management Framework (AI RMF 1.0)*. National Institute of Standards and Technology.
-    The NIST AI Risk Management Framework provides guidance for managing risks associated with artificial intelligence systems. It supports the project's use of human oversight, evaluation, transparency, and risk management when incorporating LLM-based analysis.
-    https://www.nist.gov/itl/ai-risk-management-framework
-
-17. **NIST.** (2024). *Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile*. National Institute of Standards and Technology.
-    The Generative AI Profile provides additional guidance for identifying and managing risks associated with generative AI systems and is relevant to the project's use of an LLM for semantic message analysis.
-    https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
-
-**This references section has been formatted with the assistance of AI. All ideas, verbage, and content remain at the discretion of the project owner.**
----
-
+**Schema notes**
+
+-   All records must contain synthetic data only.
+-   The `current_priority` field represents the current value shown to
+    the reviewer; `suggested_priority` preserves the initial system
+    suggestion.
+-   `message_analysis` allows multiple analysis attempts to be recorded
+    over time.
+-   `message_audit_log` records relevant events, including priority
+    overrides and review-status changes.
+-   The `reviewer_reference` and `actor_reference` fields are
+    illustrative identifiers. If a users table is added, they should be
+    replaced or supplemented with appropriate foreign keys.
+-   A production-grade audit design would require stricter retention,
+    access, and tamper-resistance controls than this educational schema
+    provides.
+-   JSON support and enum behavior should be verified against the
+    selected MariaDB version and SQLAlchemy dialect.
+-   The schema should be migrated and tested from a clean database in
+    CI.
+
+#### 5.3.2 Python Priority Ranking and Triage Engine
+
+The triage engine will provide a suggested priority for each submitted
+synthetic message. The first version will use deterministic rules that
+match configured phrases or keywords. Rules should be versioned and
+tested, and each suggestion should include a short explanation of the
+matches that influenced it.
+
+The four suggested levels are:
+
+  -----------------------------------------------------------------------
+  Priority                            Illustrative interpretation
+  ----------------------------------- -----------------------------------
+  **Critical**                        Text contains configured indicators
+                                      of immediate, potentially
+                                      life-threatening danger.
+
+  **High**                            Text indicates a potentially
+                                      serious or time-sensitive
+                                      situation.
+
+  **Moderate**                        Text describes a concern requiring
+                                      review but contains no configured
+                                      higher-priority indicator.
+
+  **Low**                             Text appears non-urgent or
+                                      informational under the configured
+                                      demonstration rules.
+  -----------------------------------------------------------------------
+
+These labels are illustrative, not validated emergency-dispatch
+categories. The project must not imply that the rules are clinically,
+operationally, or legally approved.
+
+A basic classification workflow:
+
+1.  Normalize text for matching while preserving the original message.
+2.  Evaluate configured high-priority and lower-priority rules.
+3.  Record matched terms or rule identifiers.
+4.  Select a suggested level according to documented precedence.
+5.  Store the suggestion and explanation.
+6.  Display the suggestion to the reviewer with a clear notice that it
+    requires human review.
+
+Keyword matching has limitations. A word such as "breathing" may appear
+in a serious statement, a negated statement, or a hypothetical example.
+The test suite should include negation, misspellings, ambiguous phrases,
+multiple simultaneous indicators, and messages that do not match any
+configured rule. The system should prefer transparent uncertainty over
+claiming that a message has been understood reliably.
+
+**Optional Ollama analysis**
+
+If enabled, the application may send a bounded synthetic message to a
+locally hosted Ollama model and request structured output. The response
+should include a suggested level, concise rationale, and uncertainty
+indicator. The application must validate every field against an explicit
+schema, reject malformed output, and treat the model's explanation as
+untrusted generated content.
+
+The LLM must not be the sole authority for priority. If the rules engine
+and LLM disagree, the application should record the disagreement and
+make it visible to the reviewer. If Ollama times out or is unavailable,
+the rules-based workflow must continue. Model confidence values, if
+present, should not be treated as calibrated probabilities unless
+calibration has been tested.
+
+### 5.4 Security, Privacy, and Responsible Use
+
+Although this project is educational, it represents a sensitive domain
+and should model conservative security practices.
+
+-   **Authentication and authorization:** Administrative pages and
+    endpoints must require authentication. Server-side role checks must
+    protect listing, reviewing, and priority-override actions.
+-   **Secret management:** Credentials and signing keys must be supplied
+    through environment variables or a secrets manager. `.env` files
+    containing real secrets must not be committed. `.env.example` should
+    contain placeholders only.
+-   **Transport security:** Use HTTPS through Caddy when deployed with a
+    valid domain and certificate. Local development may use localhost
+    configuration.
+-   **Network isolation:** MariaDB and Ollama should not be publicly
+    exposed. Only required application ports should be reachable.
+-   **Input validation:** Validate required fields, maximum message
+    length, identifiers, and accepted enum values on the backend.
+-   **Database safety:** Use SQLAlchemy or bound parameters, enforce
+    appropriate constraints, and avoid returning raw database errors to
+    clients.
+-   **Dependency and container security:** Keep dependencies and base
+    images maintained; run vulnerability checks where practical; use
+    least-privilege container settings.
+-   **Auditability:** Record reviewer overrides and important state
+    changes without logging unnecessary personal information.
+-   **Data minimization:** Use synthetic messages and avoid collecting
+    names, phone numbers, precise addresses, or other real personal
+    information.
+-   **LLM safety:** Keep Ollama internal, limit input size, validate
+    structured output, handle timeouts, and prevent model text from
+    being interpreted as instructions or executable actions.
+-   **Human oversight:** Every automated priority is advisory. No model
+    or rule should trigger a dispatch action or contact emergency
+    services.
+-   **Clear disclaimer:** The interface, README, and demonstration
+    should state that the application is a simulation and is not
+    suitable for real emergency use.
+
+## 6. Development Features
+
+### 6.1 Working Message System
+
+A user will enter a synthetic emergency message in the React interface
+and submit it to the FastAPI backend. The backend will validate the
+request, save the message in MariaDB through SQLAlchemy, and create an
+initial priority analysis. The API will return a message identifier and
+the resulting status.
+
+Acceptance criteria:
+
+-   Required fields are validated on the server.
+-   Invalid submissions return a clear error response.
+-   Valid submissions are stored and can be retrieved.
+-   The submitted message appears in the administrative dashboard.
+-   The message and its analysis can be traced through a stable
+    identifier.
+-   All demonstration messages are synthetic.
+
+### 6.2 Automated Prioritization
+
+The MVP will use the Python keyword rules engine to assign one of four
+suggested priority levels: Critical, High, Moderate, or Low. Each result
+should include an explanation or matched rule identifiers. Ollama
+semantic analysis is optional and should be introduced only after the
+baseline workflow and tests work.
+
+Acceptance criteria:
+
+-   The rules engine returns a valid priority for supported inputs.
+-   The explanation records the rules or indicators that were matched.
+-   The four-level vocabulary is used consistently in the API, database,
+    and interface.
+-   Ambiguous, negated, and conflicting indicators are covered by tests.
+-   Failure of optional LLM analysis does not prevent message submission
+    or review.
+-   The interface identifies results as suggestions requiring human
+    review.
+
+### 6.3 Functional Call Center Dashboard
+
+The dashboard will provide a single place for an authorized reviewer to
+inspect simulated incoming messages. It will show message submission
+time, current and suggested priority, review status, and the explanation
+available from the triage engine.
+
+Core functionality:
+
+-   List and inspect messages.
+-   Filter by priority and review status.
+-   Sort by submission time or priority.
+-   View analysis details and audit history.
+-   Override the current priority with a recorded reason.
+-   Update the review status.
+-   Clearly distinguish the original system suggestion from the
+    reviewer's current decision.
+
+The dashboard must not imply that an item has been dispatched, that an
+actual emergency service has received it, or that a priority suggestion
+is authoritative.
+
+### 6.4 Cloud Deployment
+
+The application will be containerized and run through Docker Compose.
+The demonstration environment may use a small cloud VM if one is
+available within the budget. Caddy may serve as the HTTPS reverse proxy,
+while MariaDB remains on a private network. The optional monitoring
+stack will be enabled only when the host has adequate resources.
+
+Acceptance criteria:
+
+-   A new environment can be configured from documented steps.
+-   Required variables are documented in `.env.example`.
+-   Services start through the documented Compose command.
+-   Persistent database storage is configured.
+-   Health checks and a smoke test are documented.
+-   Secrets are not embedded in images or committed to the repository.
+
+### 6.5 Final Testing
+
+Testing will include unit, integration, API, and end-to-end checks
+appropriate to the available schedule.
+
+  -----------------------------------------------------------------------
+  Test area                           Examples
+  ----------------------------------- -----------------------------------
+  API validation                      Missing text, empty text, excessive
+                                      length, invalid enum values
+
+  Persistence                         Create and retrieve messages;
+                                      verify data survives container
+                                      recreation
+
+  Triage rules                        Critical indicators, multiple
+                                      indicators, unknown wording,
+                                      negation, misspellings
+
+  LLM fallback                        Ollama unavailable, timeout,
+                                      malformed JSON, unsupported
+                                      priority
+
+  Authorization                       Anonymous access to protected
+                                      endpoints; unauthorized override
+                                      attempts
+
+  Audit history                       Priority change records old value,
+                                      new value, actor, reason, and
+                                      timestamp
+
+  UI workflow                         Submit message, view dashboard,
+                                      filter, inspect details, record
+                                      review
+
+  Deployment                          Startup, readiness, persistence,
+                                      HTTPS configuration, smoke tests
+
+  Logging                             Confirm secrets and full message
+                                      text are not unintentionally logged
+  -----------------------------------------------------------------------
+
+The team should document known false positives and false negatives in
+the triage rules. A small educational test set cannot establish
+operational safety or validate the classifier for real emergency use.
+
+### 6.6 Final Demonstration
+
+The final demonstration should walk through a complete simulated
+workflow:
+
+1.  Start the services with Docker Compose.
+2.  Open the React message-submission page.
+3.  Submit a prepared synthetic message.
+4.  Show the API response and verify persistence in MariaDB.
+5.  Open the administrative dashboard.
+6.  Inspect the suggested priority and its explanation.
+7.  Filter messages by priority or review status.
+8.  Override a priority and record a review reason.
+9.  Show the audit history proving the override was recorded.
+10. Demonstrate the behavior when Ollama is disabled or unavailable, if
+    the optional LLM component has been implemented.
+11. Show automated test results, the CI workflow, and the deployment
+    health check.
+12. Restate that the application is an educational simulation and is not
+    connected to real emergency services.
+
+## 7. Resources and Budget
+
+The project will use open-source software and a small deployment
+footprint. Actual costs depend on the selected hosting provider, usage,
+region, and whether free educational credits are available. The budget
+should be treated as an estimate, not a quote.
+
+### 7.1 Resource Budget
+
+  ------------------------------------------------------------------------
+  Resource              Planned use                         Estimated cost
+  --------------------- --------------------- ----------------------------
+  React + Vite          Frontend development          \$0 software license
+
+  Python + FastAPI      Backend development           \$0 software license
+
+  MariaDB               Relational database           \$0 software license
+
+  SQLAlchemy + Alembic  ORM and migrations            \$0 software license
+
+  Ollama                Optional local model         \$0 software license;
+                        serving                   hardware costs may apply
+
+  Docker + Docker       Local development and  \$0 for typical educational
+  Compose               deployment             use; check applicable terms
+
+  GitHub Actions + GHCR CI and container        \$0 within applicable free
+                        registry                   quotas; usage may incur
+                                                                   charges
+
+  Caddy                 Reverse proxy and             \$0 software license
+                        HTTPS                 
+
+  Prometheus, Grafana,  Monitoring and logs   \$0 software license for the
+  Loki                                                selected open-source
+                                                                components
+
+  Cloud VM and storage  Public demonstration            Variable; estimate
+                        environment              approximately \$35--\$126
+                                              for a limited project period
+
+  Domain name           Optional              Variable; may be unnecessary
+                        HTTPS-friendly              if a domain is already
+                        demonstration URL                        available
+
+  **Planning ceiling**  **Proposed target for              **Approximately
+                        cloud resources and                 \$100--\$150**
+                        related usage**       
+  ------------------------------------------------------------------------
+
+Local development can be performed at no cloud-hosting cost if suitable
+hardware is available. The optional LLM and monitoring stack may
+increase memory, storage, and compute requirements. The team should
+check provider pricing and free-tier limits before provisioning
+resources, configure budget alerts where available, and shut down unused
+cloud resources.
+
+## 8. Risk Management
+
+  -----------------------------------------------------------------------------
+  Risk              Likelihood        Impact            Mitigation
+  ----------------- ----------------- ----------------- -----------------------
+  Automated         High              High              Use transparent rules,
+  classification is                                     test edge cases, show
+  incorrect                                             explanations, and
+                                                        require human review.
+
+  Keyword rules     High              High              Include negation,
+  miss context or                                       ambiguity, spelling
+  negation                                              variation, and
+                                                        conflicting-indicator
+                                                        tests; document
+                                                        limitations.
+
+  LLM output is     Medium            Medium--High      Validate structured
+  malformed or                                          output, use timeouts,
+  inconsistent                                          record failures, and
+                                                        fall back to rules.
+
+  Ollama exceeds    Medium            Medium            Treat it as optional,
+  host resources                                        document hardware
+                                                        needs, and disable it
+                                                        on constrained hosts.
+
+  Sensitive data is Medium            High              Use synthetic-only
+  entered                                               data, display a
+  accidentally                                          warning, limit logging,
+                                                        and avoid collecting
+                                                        unnecessary fields.
+
+  Unauthorized user Medium            High              Enforce server-side
+  accesses                                              authentication and
+  administrative                                        authorization; test
+  actions                                               access-control
+                                                        failures.
+
+  Secrets are       Medium            High              Use environment
+  exposed in Git or                                     variables or secrets
+  logs                                                  management, secret
+                                                        scanning, and log
+                                                        review.
+
+  Database          Medium            High              Test migrations, back
+  migration breaks                                      up before risky
+  deployment                                            changes, prefer
+                                                        backward-compatible
+                                                        changes, and document
+                                                        rollback.
+
+  Cloud service     Medium            Medium            Set budget alerts, use
+  exceeds budget                                        small resources, limit
+                                                        runtime, and shut down
+                                                        unused services.
+
+  Deployment        Medium            Medium            Use Compose, document
+  differs from                                          configuration, and run
+  local environment                                     smoke tests after
+                                                        deployment.
+
+  Project scope     High              Medium            Deliver the core
+  becomes too large                                     message, database,
+                                                        rules, and dashboard
+                                                        workflow before
+                                                        optional features.
+
+  Monitoring        Medium            Low--Medium       Make observability
+  consumes too many                                     services optional and
+  resources                                             enable them only when
+                                                        resources allow.
+
+  Project is        Low--Medium       High              Display a prominent
+  mistaken for a                                        educational-use
+  real emergency                                        disclaimer and avoid
+  service                                               real integrations or
+                                                        dispatch claims.
+  -----------------------------------------------------------------------------
+
+Risks should be revisited as the project develops. The team should
+record risk owners, triggers, and status in its project tracker if this
+proposal is used as a working project plan.
+
+## 9. Deliverables
+
+The completed project is expected to include:
+
+-   [ ] React + Vite frontend for synthetic message submission.
+-   [ ] Administrative dashboard for reviewing and filtering messages.
+-   [ ] FastAPI backend with documented request and response schemas.
+-   [ ] SQLAlchemy models and Alembic migrations.
+-   [ ] MariaDB schema and persistent storage configuration.
+-   [ ] Python keyword priority engine with explanations.
+-   [ ] Optional Ollama integration with schema validation and fallback
+    behavior, if time and hardware permit.
+-   [ ] Authentication and server-side authorization for administrative
+    functions.
+-   [ ] Audit trail for priority changes and review actions.
+-   [ ] Automated backend, API, database, and triage tests.
+-   [ ] Frontend lint and production build checks.
+-   [ ] Dockerfiles and Docker Compose configuration.
+-   [ ] GitHub Actions CI workflow.
+-   [ ] GHCR image publishing workflow if registry publishing is
+    enabled.
+-   [ ] Caddy configuration for a demonstration deployment, if a domain
+    and HTTPS are available.
+-   [ ] Optional Prometheus, Grafana, and Loki configuration.
+-   [ ] `.env.example` and secret-handling instructions.
+-   [ ] README with architecture, setup, test, deployment, and
+    troubleshooting instructions.
+-   [ ] Deployment smoke-test evidence and rollback notes.
+-   [ ] Synthetic demonstration data and final demonstration script.
+-   [ ] Known limitations and responsible-use disclaimer.
+
+A deliverable should be marked complete only after it has been
+implemented and verified. Optional features should be identified as
+optional rather than included in the MVP commitment by default.
+
+## 10. Database Selection: PostgreSQL vs. MariaDB
+
+The application requires a relational database for messages, analysis
+results, review states, and audit history. PostgreSQL and MariaDB are
+both mature open-source relational database systems that can support
+this type of application. The project will use MariaDB for consistency
+with the selected implementation plan, while retaining PostgreSQL as a
+considered alternative.
+
+### 10.1 Database Selection Criteria
+
+The database choice should consider:
+
+-   Reliability and transaction support.
+-   Compatibility with Python and SQLAlchemy.
+-   Migration support through Alembic.
+-   Ease of local development and Docker deployment.
+-   Availability on the selected hosting environment.
+-   Familiarity for the project team.
+-   Documentation and community support.
+-   Backup, restore, and monitoring options.
+-   Resource requirements and expected project scale.
+-   The complexity of the data model and queries.
+
+For the MVP, both candidates meet the main functional requirements. The
+selection is therefore primarily a project consistency and
+implementation decision, not a claim that one database is universally
+superior.
+
+### 10.2 Why PostgreSQL Was Considered
+
+PostgreSQL is a strong open-source relational database with robust
+transaction support, advanced SQL capabilities, extensive indexing
+options, and a mature ecosystem. It works well with Python applications
+and SQLAlchemy and could support the message, analysis, and audit tables
+required by this project.
+
+PostgreSQL would be a reasonable choice if the team had already
+standardized on it, needed a PostgreSQL-specific feature, or had an
+existing deployment environment built around it. It remains a viable
+alternative if implementation constraints change.
+
+### 10.3 Why MariaDB Is Appropriate for This Project
+
+MariaDB is a mature open-source relational database that supports the
+relational tables, constraints, indexes, and transactions required by
+the MVP. It can be run in Docker Compose and accessed from FastAPI
+through SQLAlchemy.
+
+MariaDB is appropriate for this project because:
+
+-   It satisfies the application's current relational-data requirements.
+-   It can be deployed consistently with the rest of the containerized
+    stack.
+-   SQLAlchemy and Alembic can support the application's data-access and
+    migration workflow.
+-   It provides a practical environment for demonstrating database
+    schema design, persistence, indexing, and migration testing.
+-   It avoids introducing multiple database options into a small MVP
+    without a demonstrated need.
+
+These reasons are based on the project's scope. They do not imply that
+MariaDB is categorically better than PostgreSQL.
+
+### 10.4 MariaDB's Role in the Overall Architecture
+
+MariaDB will serve as the system of record for:
+
+-   Synthetic emergency messages.
+-   Suggested and current priority values.
+-   Analysis results and explanations.
+-   Review status and reviewer references.
+-   Audit events for important state changes.
+-   Optional session or scenario metadata.
+
+FastAPI will be the only application component that directly accesses
+the database. The React frontend will communicate with FastAPI and will
+never connect directly to MariaDB. SQLAlchemy will handle data access,
+and Alembic will track schema changes.
+
+Indexes will support common dashboard queries, especially sorting by
+submission time and filtering by priority and review status. The
+database will run on an internal network and should not be exposed
+directly to the public internet.
+
+### 10.5 Limitations and Tradeoffs
+
+The selected database does not remove the need for sound data modeling,
+migration discipline, access control, backups, or performance testing.
+Some features and data types differ between MariaDB and PostgreSQL, so
+database-specific SQL should be minimized unless there is a clear reason
+to use it.
+
+The team should verify behavior against the selected MariaDB version,
+particularly for JSON fields, enum handling, timestamp behavior, and
+SQLAlchemy dialect support. A future move to PostgreSQL would require
+compatibility testing and possibly schema or migration changes.
+
+For this educational project, operational complexity and implementation
+consistency matter more than advanced database features that the MVP
+does not need.
+
+### 10.6 Final Database Decision
+
+**Decision: Use MariaDB for the MVP.**
+
+MariaDB will be the only supported database target in the initial
+implementation. SQLAlchemy will provide data access and Alembic will
+manage migrations. PostgreSQL remains a technically viable alternative
+but will not be maintained as a parallel target unless a concrete
+requirement justifies the additional work.
+
+This decision keeps the deployment and testing plan focused while
+meeting the project's current persistence needs.
+
+## 11. References
+
+The following official documentation provides implementation guidance.
+Specific versions should be checked and recorded when dependencies are
+selected.
+
+1.  React documentation --- https://react.dev/
+2.  Vite documentation --- https://vite.dev/guide/
+3.  FastAPI documentation --- https://fastapi.tiangolo.com/
+4.  Python documentation --- https://docs.python.org/3/
+5.  MariaDB documentation --- https://mariadb.com/kb/en/documentation/
+6.  SQLAlchemy documentation --- https://docs.sqlalchemy.org/
+7.  Alembic documentation --- https://alembic.sqlalchemy.org/
+8.  Ollama documentation --- https://docs.ollama.com/
+9.  Docker documentation --- https://docs.docker.com/
+10. Docker Compose documentation --- https://docs.docker.com/compose/
+11. GitHub Actions documentation --- https://docs.github.com/actions
+12. GitHub Container Registry documentation ---
+    https://docs.github.com/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+13. Caddy documentation --- https://caddyserver.com/docs/
+14. Prometheus documentation --- https://prometheus.io/docs/
+15. Grafana documentation --- https://grafana.com/docs/grafana/latest/
+16. Grafana Loki documentation --- https://grafana.com/docs/loki/latest/
+
+------------------------------------------------------------------------
+
+## Project Disclaimer
+
+This application is an educational simulation. It uses synthetic
+messages and is not connected to emergency communications
+infrastructure. It is not certified, validated, or intended for
+real-world emergency dispatch, and its automated priority suggestions
+must not be used to make real emergency-response decisions.
