@@ -85,7 +85,7 @@ reviewers.
 
 The application will also demonstrate a triage-assistance workflow. A
 Python service will evaluate message content using configurable keyword
-rules and, where available, an optional local large language model (LLM)
+rules and, where available, an local large language model (LLM)
 served by Ollama. The resulting priority is a **suggestion for a human
 reviewer**, not a decision to dispatch emergency services. Reviewers can
 inspect the original message, see the rationale for a suggested
@@ -104,7 +104,7 @@ stack:
 -   **Backend API:** Python and FastAPI.
 -   **Database:** MariaDB.
 -   **Data access and migrations:** SQLAlchemy and Alembic.
--   **Triage assistance:** Python rules engine with optional Ollama
+-   **Triage assistance:** Python rules engine with Ollama
     local LLM analysis.
 -   **Deployment:** Docker and Docker Compose.
 -   **CI/CD:** GitHub Actions and GitHub Container Registry (GHCR).
