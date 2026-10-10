@@ -8,17 +8,6 @@
 | **Instructor**           | Gregor von Laszewski |
 | **Date**                 | *Sept. 6 2026* |
 
-------------------------------------------------------------------------
-
-## Project Proposal
-
-**Project type:** Educational cloud-application simulation\
-**Primary purpose:** Demonstrate secure message intake, persistence,
-triage assistance, and an administrative review dashboard\
-**Status:** Prototype implementation
-
-------------------------------------------------------------------------
-
 ## Table of Contents
 
 1.  [Project Overview](#1-project-overview)
