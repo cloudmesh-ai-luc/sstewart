@@ -629,7 +629,7 @@ A feature or release is complete when:
 
 ### 5.3 Architecture Component Description
 
-### High Level Architecture Diagram(images/high-level-architecture-diagram.png)
+### [High Level Architecture Diagram](images/high-level-architecture-diagram.png)
 
 #### Frontend: React + Vite
 
