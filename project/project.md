@@ -913,7 +913,7 @@ and should model conservative security practices.
 
 ## 5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform
 
-### 5.5.1 Overview
+#### 5.5.1 Overview
 
 The 911 Call Center Analysis and Cloud-Based Emergency Triage System uses a multi-environment cloud strategy to support local development, cloud infrastructure testing, and deployment demonstrations. The project uses **Multipass** to create local Ubuntu virtual machines, **Jetstream 2** to test virtual machine provisioning through OpenStack, and **Google Cloud Platform (GCP)** to demonstrate public-cloud deployment capabilities when resources and project requirements permit.
 
@@ -921,7 +921,7 @@ The application follows a containerized architecture consisting of a React front
 
 The system is an educational simulation. It uses synthetic emergency messages and does not connect to real 911 infrastructure or dispatch services.
 
-### 5.5.2 Local Development with Multipass
+#### 5.5.2 Local Development with Multipass
 
 Multipass provides lightweight Ubuntu virtual machines on the local development machine. These virtual machines create a Linux environment for testing application components and deployment configurations without requiring a separate physical server or public-cloud instance.
 
@@ -931,7 +931,7 @@ Multipass also supports testing of configuration changes, database persistence, 
 
 Resource-intensive components, including local LLM inference and the full monitoring stack, depend on the host machine's available CPU, memory, and storage. These components remain optional during local development so the core application can run within reasonable hardware constraints.
 
-### 5.5.3 OpenStack Infrastructure Testing with Jetstream 2
+#### 5.5.3 OpenStack Infrastructure Testing with Jetstream 2
 
 Jetstream 2 provides cloud-based virtual machine infrastructure through OpenStack. The project uses this environment to explore cloud resource provisioning and verify the deployment process outside the local development machine.
 
@@ -943,7 +943,7 @@ Security groups restrict network access to the ports required for administration
 
 Jetstream 2 also provides an environment for examining infrastructure-related failures, including unavailable compute resources, incorrect credentials, and networking misconfiguration. Since cloud resource availability depends on the platform's current capacity and allocation policies, successful provisioning is recorded separately from successful application testing.
 
-### 5.5.4 Public-Cloud Deployment with Google Cloud Platform
+#### 5.5.4 Public-Cloud Deployment with Google Cloud Platform
 
 Google Cloud Platform provides a public-cloud environment for demonstrating how the containerized application operates outside the local and academic research cloud environments.
 
@@ -955,7 +955,7 @@ The GCP environment also illustrates operational considerations associated with 
 
 The project retains the option to discuss managed services such as Cloud SQL or container orchestration through Google Kubernetes Engine (GKE) as possible architectural extensions. These services are distinct from the core deployment and are not required to run the current application.
 
-### 5.5.5 Environment Usage Across the Project Lifecycle
+#### 5.5.5 Environment Usage Across the Project Lifecycle
 
 The three environments serve different purposes throughout the software development lifecycle.
 
@@ -971,7 +971,7 @@ The three environments serve different purposes throughout the software developm
 
 The environments complement one another rather than functioning as interchangeable platforms. Multipass supports fast, repeatable development; Jetstream 2 provides experience with OpenStack infrastructure; and GCP demonstrates a public-cloud deployment model.
 
-### 5.5.6 Configuration, CI/CD, and Observability
+#### 5.5.6 Configuration, CI/CD, and Observability
 
 The project uses Docker images and environment-specific configuration to maintain consistency across deployment environments. Application code and container definitions remain version-controlled, while environment variables hold settings that differ between local and remote deployments. Database schema changes are managed through Alembic migrations, allowing the database structure to be updated consistently.
 
@@ -981,7 +981,7 @@ The CI/CD pipeline verifies the checks included in its workflow, but a successfu
 
 Prometheus, Grafana, and Loki provide the project's observability architecture for collecting metrics, visualizing system behavior, and examining logs when these components are enabled. Together with application health checks, these tools support troubleshooting across the frontend, backend, database, and deployment infrastructure. Their resource requirements are considered when deciding which components run in each environment.
 
-### 5.5.7 Security, Cost, and Environment Validation
+#### 5.5.7 Security, Cost, and Environment Validation
 
 Security and cost management are considered throughout the deployment workflow. The project avoids committing secrets to version control, restricts access to administrative and database services, and uses environment-specific settings to separate local testing from remote deployments. Synthetic data is used throughout the educational simulation, and the application does not process real emergency dispatch traffic.
 
