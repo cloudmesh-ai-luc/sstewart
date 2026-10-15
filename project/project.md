@@ -46,6 +46,7 @@
             Engine](#532-python-priority-ranking-and-triage-engine)
     -   [5.4 Security, Privacy, and Responsible
         Use](#54-security-privacy-and-responsible-use)
+    -    [5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform](#55-multi-env-cloud-strategy)
 6.  [Development Features](#6-development-features)
     -   [6.1 Working Message System](#61-working-message-system)
     -   [6.2 Automated Prioritization](#62-automated-prioritization)
@@ -217,7 +218,7 @@ integrations.
 -   MariaDB storage using SQLAlchemy models and Alembic migrations.
 -   Four-level priority suggestions using a deterministic Python keyword
     rules engine.
--   Optional Ollama analysis behind a configuration flag; the
+-   Optional Ollama analysis behind a configuration flag or mechanism; the
     application must still work when Ollama is unavailable.
 -   Administrative dashboard for viewing, filtering, and reviewing
     messages.
@@ -899,6 +900,86 @@ and should model conservative security practices.
 -   **Clear disclaimer:** The interface, README, and demonstration
     should state that the application is a simulation and is not
     suitable for real emergency use.
+
+## 5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform
+
+### 5.5.1 Overview
+
+The 911 Call Center Analysis and Cloud-Based Emergency Triage System uses a multi-environment cloud strategy to support local development, cloud infrastructure testing, and deployment demonstrations. The project uses **Multipass** to create local Ubuntu virtual machines, **Jetstream 2** to test virtual machine provisioning through OpenStack, and **Google Cloud Platform (GCP)** to demonstrate public-cloud deployment capabilities when resources and project requirements permit.
+
+The application follows a containerized architecture consisting of a React frontend, a FastAPI backend, and a MariaDB database. Docker and Docker Compose provide a consistent method for running the application across environments. The backend uses SQLAlchemy and Alembic for database access and schema migrations, while the triage component analyzes submitted messages and assigns preliminary priority levels based on predefined keywords. An optional local large language model (LLM), such as Ollama, supports additional message analysis without directly controlling emergency dispatch decisions.
+
+The system is an educational simulation. It uses synthetic emergency messages and does not connect to real 911 infrastructure or dispatch services.
+
+### 5.5.2 Local Development with Multipass
+
+Multipass provides lightweight Ubuntu virtual machines on the local development machine. These virtual machines create a Linux environment for testing application components and deployment configurations without requiring a separate physical server or public-cloud instance.
+
+Within the Multipass environment, the project runs Docker and Docker Compose to start the frontend, backend, and database services. Developers use this environment to verify application functionality, test API endpoints, apply database migrations, and examine communication between containers.
+
+Multipass also supports testing of configuration changes, database persistence, service startup, and recovery after individual containers stop or restart. The environment provides a repeatable testing setup that helps identify configuration and integration issues before the application runs on remote infrastructure.
+
+Resource-intensive components, including local LLM inference and the full monitoring stack, depend on the host machine's available CPU, memory, and storage. These components remain optional during local development so the core application can run within reasonable hardware constraints.
+
+### 5.5.3 OpenStack Infrastructure Testing with Jetstream 2
+
+Jetstream 2 provides cloud-based virtual machine infrastructure through OpenStack. The project uses this environment to explore cloud resource provisioning and verify the deployment process outside the local development machine.
+
+The workflow uses OpenStack credentials and configuration to authenticate with Jetstream 2, provision a virtual machine, configure network access, and connect through SSH. After the instance is available, the deployment environment installs or uses the required container tooling, retrieves the application's container images from the GitHub Container Registry (GHCR), and starts the services with Docker Compose.
+
+The project verifies that the application starts successfully, that the frontend can communicate with the backend, and that the backend can connect to MariaDB. Smoke tests and command-line checks help identify failures involving provisioning, authentication, networking, container startup, and application configuration.
+
+Security groups restrict network access to the ports required for administration and application traffic. Database access remains limited to the application environment rather than being exposed publicly. Credentials and other sensitive configuration values are supplied through environment-specific configuration instead of being stored in the source code.
+
+Jetstream 2 also provides an environment for examining infrastructure-related failures, including unavailable compute resources, incorrect credentials, and networking misconfiguration. Since cloud resource availability depends on the platform's current capacity and allocation policies, successful provisioning is recorded separately from successful application testing.
+
+### 5.5.4 Public-Cloud Deployment with Google Cloud Platform
+
+Google Cloud Platform provides a public-cloud environment for demonstrating how the containerized application operates outside the local and academic research cloud environments.
+
+The project uses a Compute Engine virtual machine as the primary deployment model for GCP. The VM runs the containerized application through Docker Compose, using the same application components and container images as the other environments. This approach limits environment-specific changes and keeps the deployment process consistent.
+
+Caddy provides HTTPS termination when the deployment configuration and domain or certificate arrangements support it. Network firewall rules restrict access to the necessary services, while SSH access and service credentials follow least-privilege practices. Application health checks and logs help verify service availability and troubleshoot deployment issues.
+
+The GCP environment also illustrates operational considerations associated with public-cloud hosting, including resource sizing, access control, external network exposure, and cost management. Compute resources are shut down or removed when they are no longer needed to avoid unnecessary charges.
+
+The project retains the option to discuss managed services such as Cloud SQL or container orchestration through Google Kubernetes Engine (GKE) as possible architectural extensions. These services are distinct from the core deployment and are not required to run the current application.
+
+### 5.5.5 Environment Usage Across the Project Lifecycle
+
+The three environments serve different purposes throughout the software development lifecycle.
+
+| Project stage | Environment | Purpose |
+|---|---|---|
+| Application development | Multipass | Develop and test the application in a local Linux environment. |
+| Integration testing | Multipass | Verify communication between React, FastAPI, MariaDB, and supporting services. |
+| Infrastructure testing | Jetstream 2 | Practice OpenStack authentication, virtual machine provisioning, security group configuration, and SSH access. |
+| Remote deployment testing | Jetstream 2 | Run containerized services on a provisioned cloud VM and verify application connectivity. |
+| Public-cloud demonstration | GCP | Demonstrate deployment on public-cloud infrastructure and examine operational security and cost considerations. |
+| Continuous integration | GitHub Actions | Run automated checks and build application container images when configured workflow events occur. |
+| Release verification | Jetstream 2 and/or GCP | Verify deployment behavior in the remote environments that are available and included in the project scope. |
+
+The environments complement one another rather than functioning as interchangeable platforms. Multipass supports fast, repeatable development; Jetstream 2 provides experience with OpenStack infrastructure; and GCP demonstrates a public-cloud deployment model.
+
+### 5.5.6 Configuration, CI/CD, and Observability
+
+The project uses Docker images and environment-specific configuration to maintain consistency across deployment environments. Application code and container definitions remain version-controlled, while environment variables hold settings that differ between local and remote deployments. Database schema changes are managed through Alembic migrations, allowing the database structure to be updated consistently.
+
+GitHub Actions supports continuous integration by running automated tests and other quality checks when configured events, such as pushes or pull requests, occur. The pipeline can also build and publish versioned container images to GHCR. Remote deployments use identifiable image versions so the running application can be traced to a specific build.
+
+The CI/CD pipeline verifies the checks included in its workflow, but a successful build does not by itself prove that a remote deployment is healthy. Application startup, database connectivity, network access, and endpoint availability are checked separately in the target environment.
+
+Prometheus, Grafana, and Loki provide the project's observability architecture for collecting metrics, visualizing system behavior, and examining logs when these components are enabled. Together with application health checks, these tools support troubleshooting across the frontend, backend, database, and deployment infrastructure. Their resource requirements are considered when deciding which components run in each environment.
+
+### 5.5.7 Security, Cost, and Environment Validation
+
+Security and cost management are considered throughout the deployment workflow. The project avoids committing secrets to version control, restricts access to administrative and database services, and uses environment-specific settings to separate local testing from remote deployments. Synthetic data is used throughout the educational simulation, and the application does not process real emergency dispatch traffic.
+
+Local development through Multipass limits reliance on paid cloud infrastructure. Jetstream 2 supports cloud infrastructure experimentation subject to account permissions and available resources, while GCP provides a separate public-cloud environment with its own usage costs and access requirements. Remote resources are monitored and removed when no longer needed.
+
+Environment validation records the results of application tests and infrastructure operations separately. The project documents which environments successfully run the application, which provisioning and deployment steps pass, and which operations remain limited by configuration, permissions, available resources, or project scope.
+
+The multi-environment approach demonstrates how a single containerized application can move from local development to cloud infrastructure testing and public-cloud deployment while maintaining consistent application components, controlled configuration, repeatable deployment steps, and clear verification procedures.
 
 ## 6. Development Features
 
