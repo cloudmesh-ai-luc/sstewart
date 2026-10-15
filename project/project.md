@@ -76,7 +76,7 @@
 
 ## 1. Project Overview
 
-This project proposes a cloud-based application that simulates a
+This project is a cloud-based application that simulates a
 text-to-911 emergency communication service. A user submits a simulated
 emergency text message through a web interface. The application sends
 the message to a backend API, validates it, stores it in a relational
