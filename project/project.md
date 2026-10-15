@@ -46,7 +46,7 @@
             Engine](#532-python-priority-ranking-and-triage-engine)
     -   [5.4 Security, Privacy, and Responsible
         Use](#54-security-privacy-and-responsible-use)
-    -   [5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform](#55-multi-environment-cloud-strategy:-Multipass, Jetstream 2,-and-Google Cloud Platform)
+    -   [5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform](#55-multi-environment-cloud-strategy-multipass-jetstream-2-and-google-cloud-platform)
     - [5.5.1 Overview](#551-overview)
     - [5.5.2 Local Development with Multipass](#552-local-development-with-multipass)
     - [5.5.3 OpenStack Infrastructure Testing with Jetstream 2](#553-openstack-infrastructure-testing-with-jetstream-2)
