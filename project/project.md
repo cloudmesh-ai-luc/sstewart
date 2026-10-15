@@ -62,10 +62,20 @@
     -   [6.4 Cloud Deployment](#64-cloud-deployment)
     -   [6.5 Final Testing](#65-final-testing)
     -   [6.6 Final Demonstration](#66-final-demonstration)
-7.  [Resources and Budget](#7-resources-and-budget)
-    -   [7.1 Resource Budget](#71-resource-budget)
+ 7. [Resources and Project Infrastructure](#7-Resources-and-Project-Infrastructure)
+  - [7.1 Resource Budget](#71-resource-budget)
+  - [7.1.1 Development and Cloud Infrastructure Resources](#711-development-and-cloud-infrastructure-resources)
+  - [7.1.2 Environment Allocation](#712-environment-allocation)
+  - [7.1.3 Cost Management and Constraints](#713-cost-management-and-constraints)
 8.  [Risk Management](#8-risk-management)
-9.  [Deliverables](#9-deliverables)
+9.  [Deliverables Checklist and Environment Verification](#9-Deliverables-Checklist-and-Environment-Verification)
+   - [9.1 Core Application Deliverables](#91-core-application-deliverables)
+   - [9.2 Local Environment: Multipass](#92-local-environment-multipass)
+   - [9.3 OpenStack Environment: Jetstream 2](#93-openstack-environment-jetstream-2)
+   - [9.4 Public-Cloud Environment: Google Cloud Platform](#94-public-cloud-environment-google-cloud-platform)
+   - [9.5 CI/CD, Security, and Observability](#95-cicd-security-and-observability)
+   - [9.6 Environment Test Results and Evidence](#96-environment-test-results-and-evidence)
+   - [9.7 Final Project Verification](#97-final-project-verification)
 10. [Database Selection: PostgreSQL
     vs. MariaDB](#10-database-selection-postgresql-vs-mariadb)
     -   [10.1 Database Selection
@@ -1144,55 +1154,61 @@ footprint. Actual costs depend on the selected hosting provider, usage,
 region, and whether free educational credits are available. The budget
 should be treated as an estimate, not a quote.
 
-### 7.1 Resource Budget
+### 7.1.1 Development and Cloud Infrastructure Resources
 
-  ------------------------------------------------------------------------
-  Resource              Planned use                         Estimated cost
-  --------------------- --------------------- ----------------------------
-  React + Vite          Frontend development          \$0 software license
+| Resource | Role in the Project | Cost Considerations |
+|---|---|---|
+| **Multipass** | Provides local Ubuntu virtual machines for development, integration testing, Docker execution, and deployment preparation. | Available without a software licensing fee. Uses local CPU, memory, disk space, and electricity. Resource-intensive services, including local LLM inference and monitoring tools, depend on the host machine's capacity. |
+| **Jetstream 2 (OpenStack)** | Provides remote virtual machines for testing OpenStack authentication, provisioning, security groups, SSH access, container deployment, and application connectivity. | Access depends on project eligibility, allocations, quotas, and resource availability. The project uses available academic allocations where applicable and accounts for limits on compute, storage, and instance availability. |
+| **Google Cloud Platform (GCP)** | Provides an optional public-cloud environment for demonstrating deployment on a Compute Engine virtual machine and evaluating cloud security, availability, and cost management. | Compute instances, disks, network traffic, and other services may incur charges. Actual costs depend on usage, region, resource size, and applicable free-tier eligibility. GCP resources are used only when access, budget, and project scope permit. |
+| **Docker and Docker Compose** | Package and run the React frontend, FastAPI backend, MariaDB database, and supporting services consistently across environments. | Container tooling reduces environment differences. Running containers consumes local or cloud compute and storage resources. |
+| **GitHub Actions and GitHub Container Registry (GHCR)** | Support automated testing, container image builds, and image storage for deployment. | Usage is subject to the account's available minutes, storage limits, and applicable plan. The project minimizes unnecessary builds and stored images. |
+| **MariaDB and database migrations** | Store application messages, triage results, and other required application data. SQLAlchemy and Alembic support database access and schema management. | The database runs within the project's development or deployment environment. Storage and backup requirements depend on the environment and amount of test data. |
+| **Prometheus, Grafana, and Loki** | Provide metrics collection, dashboards, and log analysis when observability services are enabled. | These services consume additional CPU, memory, and storage. The project enables them selectively according to available resources and testing needs. |
+| **Ollama and a local LLM** | Support optional experimentation with language-model-assisted message analysis. | Local inference requires additional memory, processing capacity, and model storage. It remains optional and does not replace the system's core keyword-based triage logic. |
+| **Caddy and HTTPS configuration** | Support HTTPS termination for deployments where a suitable domain and certificate configuration are available. | Caddy is available without a software licensing fee. Hosting, domain registration, and associated cloud resources may incur costs. |
+7.1.2 Environment Allocation
 
-  Python + FastAPI      Backend development           \$0 software license
+The project assigns each environment a distinct role to avoid unnecessary resource use and duplicated effort.
 
-  MariaDB               Relational database           \$0 software license
+Local development: Multipass provides the primary environment for developing and testing application components. It supports rapid iteration without requiring a cloud VM for every change.
 
-  SQLAlchemy + Alembic  ORM and migrations            \$0 software license
+Cloud infrastructure testing: Jetstream 2 supports remote provisioning and deployment tests through OpenStack. Testing is subject to the available project allocation and cloud resource capacity.
 
-  Ollama                Optional local model         \$0 software license;
-                        serving                   hardware costs may apply
+Public-cloud demonstration: GCP provides an optional environment for demonstrating public-cloud deployment. It is not a prerequisite for completing local development or the core application tests.
 
-  Docker + Docker       Local development and  \$0 for typical educational
-  Compose               deployment             use; check applicable terms
+Continuous integration: GitHub Actions runs the automated checks defined in the project workflow. GHCR stores container images used by remote deployments.
 
-  GitHub Actions + GHCR CI and container        \$0 within applicable free
-                        registry                   quotas; usage may incur
-                                                                   charges
+Optional supporting services: Monitoring tools and local LLM inference run when they provide value to a particular test and the available resources support them.
 
-  Caddy                 Reverse proxy and             \$0 software license
-                        HTTPS                 
+7.1.3 Cost Management and Constraints
 
-  Prometheus, Grafana,  Monitoring and logs   \$0 software license for the
-  Loki                                                selected open-source
-                                                                components
+The project favors local testing and available academic infrastructure before using potentially billable public-cloud resources. Cloud usage is limited to the resources needed for the relevant tests and demonstrations.
 
-  Cloud VM and storage  Public demonstration            Variable; estimate
-                        environment              approximately \$35--\$126
-                                              for a limited project period
+The project follows these cost-management practices:
 
-  Domain name           Optional              Variable; may be unnecessary
-                        HTTPS-friendly              if a domain is already
-                        demonstration URL                        available
+- Check resource availability and quotas before provisioning cloud instances.
 
-  **Planning ceiling**  **Proposed target for              **Approximately
-                        cloud resources and                 \$100--\$150**
-                        related usage**       
-  ------------------------------------------------------------------------
+- Select VM sizes based on application requirements rather than provisioning unnecessary capacity.
 
-Local development can be performed at no cloud-hosting cost if suitable
-hardware is available. The optional LLM and monitoring stack may
-increase memory, storage, and compute requirements. The team should
-check provider pricing and free-tier limits before provisioning
-resources, configure budget alerts where available, and shut down unused
-cloud resources.
+- Stop or delete cloud resources when testing is complete.
+
+- Review persistent disk, image storage, network traffic, and other potentially billable services.
+
+- Use synthetic test data and avoid unnecessary storage of generated logs or artifacts.
+
+- Keep LLM inference and monitoring services optional when resource constraints make them impractical.
+
+- Record cloud limitations, unavailable services, and cost-related decisions in the project documentation.
+
+The budget distinguishes between resources that are used directly, resources that are available for testing, and optional services that depend on access or funding. This approach keeps the core application testable even when a remote cloud environment is unavailable.
+
+9. Deliverables Checklist and Environment Verification
+
+This section tracks the project's implementation and testing evidence across local development, OpenStack infrastructure, and optional public-cloud deployment. Each item reflects work that is verifiable through source code, test results, command output, deployment logs, configuration files, or screenshots.
+
+Items are classified as Completed, Pending, Optional, or Blocked/Unavailable. A completed status requires supporting evidence. Optional items are outside the required core scope unless the project requirements explicitly make them mandatory. Blocked or unavailable items identify work that cannot be verified because of access, quota, configuration, resource, or other constraints.
+
 
 ## 8. Risk Management
 
@@ -1278,40 +1294,103 @@ Risks should be revisited as the project develops. The team should
 record risk owners, triggers, and status in its project tracker if this
 proposal is used as a working project plan.
 
-## 9. Deliverables
+## 9. Deliverables Checklist and Environment Verification
 
-The completed project is expected to include:
+This section tracks the project's implementation and testing evidence across local development, OpenStack infrastructure, and optional public-cloud deployment. Each item reflects work that can be verified through source code, test results, command output, deployment logs, configuration files, or screenshots.
 
--   [ ] React + Vite frontend for synthetic message submission.
--   [ ] Administrative dashboard for reviewing and filtering messages.
--   [ ] FastAPI backend with documented request and response schemas.
--   [ ] SQLAlchemy models and Alembic migrations.
--   [ ] MariaDB schema and persistent storage configuration.
--   [ ] Python keyword priority engine with explanations.
--   [ ] Optional Ollama integration with schema validation and fallback
-    behavior, if time and hardware permit.
--   [ ] Authentication and server-side authorization for administrative
-    functions.
--   [ ] Audit trail for priority changes and review actions.
--   [ ] Automated backend, API, database, and triage tests.
--   [ ] Frontend lint and production build checks.
--   [ ] Dockerfiles and Docker Compose configuration.
--   [ ] GitHub Actions CI workflow.
--   [ ] GHCR image publishing workflow if registry publishing is
-    enabled.
--   [ ] Caddy configuration for a demonstration deployment, if a domain
-    and HTTPS are available.
--   [ ] Optional Prometheus, Grafana, and Loki configuration.
--   [ ] `.env.example` and secret-handling instructions.
--   [ ] README with architecture, setup, test, deployment, and
-    troubleshooting instructions.
--   [ ] Deployment smoke-test evidence and rollback notes.
--   [ ] Synthetic demonstration data and final demonstration script.
--   [ ] Known limitations and responsible-use disclaimer.
+Items are classified as **Completed**, **Pending**, **Optional**, or **Blocked/Unavailable**. An item is marked complete only when supporting evidence confirms that the work has been performed. Optional items remain outside the required core scope unless project requirements explicitly make them mandatory. Blocked or unavailable items identify work that cannot be verified because of access, quota, configuration, resource, or other constraints.
 
-A deliverable should be marked complete only after it has been
-implemented and verified. Optional features should be identified as
-optional rather than included in the MVP commitment by default.
+### 9.1 Core Application Deliverables
+
+- [ ] React frontend provides the client-facing interface for submitting simulated emergency messages.
+- [ ] React frontend provides the administrative interface for reviewing and managing submitted messages.
+- [ ] FastAPI exposes the backend endpoints required by the application.
+- [ ] MariaDB stores application data.
+- [ ] SQLAlchemy provides database access, and Alembic manages schema migrations.
+- [ ] The triage component assigns preliminary priority levels using predefined keywords.
+- [ ] The application supports reviewing, filtering, sorting, and updating the status of submitted messages.
+- [ ] The application uses synthetic data and clearly identifies itself as an educational simulation rather than a real emergency dispatch service.
+- [ ] Docker and Docker Compose define the application services and their configuration.
+- [ ] Environment-specific settings and sensitive values are kept out of committed source code.
+
+### 9.2 Local Environment: Multipass
+
+- [ ] Multipass is installed, and a local Ubuntu virtual machine is available for testing.
+- [ ] Required development and container tools are configured in the local environment.
+- [ ] Application services start using the documented Docker Compose configuration.
+- [ ] Smoke-test commands execute, and their results are recorded.
+- [ ] API endpoints and service-to-service communication are verified.
+- [ ] Database connectivity and persistence are tested.
+- [ ] Container startup, restart, and failure behavior are examined.
+- [ ] Test results are saved in command output, test reports, or other reproducible evidence.
+- [ ] Resource limitations and tests omitted because of local hardware constraints are documented.
+
+### 9.3 OpenStack Environment: Jetstream 2
+
+- [ ] OpenStack authentication and cloud configuration are verified.
+- [ ] The configured provider and cloud settings are documented.
+- [ ] Virtual machine provisioning is attempted, and the command result is recorded.
+- [ ] Security group and network access settings are checked.
+- [ ] SSH connectivity is tested when a virtual machine is successfully provisioned.
+- [ ] Docker and Docker Compose are available on the remote virtual machine.
+- [ ] Application container images can be retrieved from GitHub Container Registry (GHCR).
+- [ ] Application services start on the remote virtual machine.
+- [ ] Frontend, backend, and database connectivity are verified remotely.
+- [ ] Remote smoke tests and deployment results are recorded.
+- [ ] Provisioning, authentication, quota, networking, or capacity failures are documented with their error output.
+
+### 9.4 Public-Cloud Environment: Google Cloud Platform
+
+**Status:** Optional deployment, subject to project scope, access, and budget.
+
+- [ ] GCP project access and billing requirements are reviewed before resources are created.
+- [ ] A Compute Engine virtual machine is provisioned if deployment is included in the project scope.
+- [ ] Firewall rules and administrative access are configured.
+- [ ] The containerized application is deployed to the virtual machine.
+- [ ] Application health and frontend-to-backend connectivity are verified.
+- [ ] Database access is restricted to the required application services.
+- [ ] HTTPS is configured where the required domain and certificate setup are available.
+- [ ] Logs and health-check results are captured as deployment evidence.
+- [ ] Cloud resource usage and applicable charges are reviewed.
+- [ ] Cloud resources are stopped or removed when no longer required.
+- [ ] If deployment is not performed, the reason is recorded and the GCP deployment remains explicitly classified as optional, pending, or blocked.
+
+### 9.5 CI/CD, Security, and Observability
+
+- [ ] GitHub Actions workflows run the automated checks configured for the project.
+- [ ] Test results and build outcomes are recorded.
+- [ ] Container images are built and published to GHCR when the corresponding workflow is enabled.
+- [ ] Container image versions can be identified for remote deployment.
+- [ ] Secrets are excluded from source control.
+- [ ] Database migrations are verified in the environments where they are executed.
+- [ ] Application logs support troubleshooting of failures.
+- [ ] Prometheus, Grafana, and Loki are configured and tested if included in the active environment.
+- [ ] Optional Ollama or LLM-based analysis is tested separately from the required keyword-based triage functionality.
+- [ ] Security and dependency checks are recorded for the tools included in the CI/CD workflow.
+
+### 9.6 Environment Test Results and Evidence
+
+The following table identifies the evidence required to report each environment accurately.
+
+| Environment or Capability | Evidence of Completion | Reporting Rule |
+|---|---|---|
+| Multipass local environment | VM status, smoke-test output, and application or container test results | Mark complete only for tests that successfully run and have recorded evidence. |
+| Jetstream 2 provisioning | OpenStack command output showing the provisioning result | Record provisioning separately from application deployment. A failed provisioning attempt does not count as a successful VM deployment. |
+| Jetstream 2 remote application | VM access, container status, application health, and connectivity results | Mark complete only after the application is verified on the remote instance. |
+| GCP deployment | VM details, deployment output, health checks, and relevant configuration evidence | Mark complete only if the deployment occurs and is tested. Otherwise, label it optional, pending, or blocked. |
+| CI/CD | Workflow runs, automated test reports, and image build or publication results | Report only workflow stages that are configured and verified. |
+| Monitoring and optional LLM | Configuration, service status, and test results | Distinguish optional components from required core functionality. |
+
+### 9.7 Final Project Verification
+
+- [ ] The project documentation describes the architecture and the roles of Multipass, Jetstream 2, and GCP.
+- [ ] Commands required to set up and test the application are documented.
+- [ ] Successful tests are supported by reproducible output or other evidence.
+- [ ] Failed tests and infrastructure limitations are recorded without being reported as successful.
+- [ ] Completed local testing is distinguished from attempted or completed remote deployment.
+- [ ] Optional GCP deployment and optional supporting services are clearly identified.
+- [ ] The final report reflects the environments actually used and the work completed by the team.
+- [ ] The project is clearly identified as an educational simulation that is not connected to real emergency dispatch infrastructure.
 
 ## 10. Database Selection: PostgreSQL vs. MariaDB
 
