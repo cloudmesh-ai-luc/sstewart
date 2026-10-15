@@ -644,6 +644,7 @@ status codes and response structures.
 
 Example endpoint outline:
 
+```
   -------------------------------------------------------------------------------
   Method                  Endpoint                        Purpose
   ----------------------- ------------------------------- -----------------------
@@ -673,6 +674,7 @@ Example endpoint outline:
   `GET`                   `/ready`                        Report readiness of
                                                           essential dependencies.
   -------------------------------------------------------------------------------
+```
 
 This is a proposed contract; exact fields, pagination conventions, and
 response formats should be finalized before implementation.
@@ -909,7 +911,7 @@ and should model conservative security practices.
     should state that the application is a simulation and is not
     suitable for real emergency use.
 
-#### 5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform
+## 5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform
 
 ### 5.5.1 Overview
 
