@@ -810,6 +810,7 @@ matches that influenced it.
 
 The four suggested levels are:
 
+```
   -----------------------------------------------------------------------
   Priority                            Illustrative interpretation
   ----------------------------------- -----------------------------------
@@ -829,6 +830,7 @@ The four suggested levels are:
                                       informational under the configured
                                       demonstration rules.
   -----------------------------------------------------------------------
+```
 
 These labels are illustrative, not validated emergency-dispatch
 categories. The project must not imply that the rules are clinically,
