@@ -54,6 +54,7 @@
     - [5.5.5 Environment Usage Across the Project Lifecycle](#555-environment-usage-across-the-project-lifecycle)
     - [5.5.6 Configuration, CI/CD, and Observability](#556-configuration-cicd-and-observability)
     - [5.5.7 Security, Cost, and Environment Validation](#557-security-cost-and-environment-validation)
+    - [5.5.8 Infrastructure Provisioning with Cloudmesh `cmx vm`](#558-infrastructure-provisioning-with-cloudmesh-cmx-vm)
 6.  [Development Features](#6-development-features)
     -   [6.1 Working Message System](#61-working-message-system)
     -   [6.2 Automated Prioritization](#62-automated-prioritization)
@@ -1001,6 +1002,57 @@ Environment validation records the results of application tests and infrastructu
 
 The multi-environment approach demonstrates how a single containerized application can move from local development to cloud infrastructure testing and public-cloud deployment while maintaining consistent application components, controlled configuration, repeatable deployment steps, and clear verification procedures.
 
+### 5.5.8 Infrastructure Provisioning with Cloudmesh `cmx vm`
+
+The project integrates the Cloudmesh `cmx vm` command-line interface to support virtual machine management and infrastructure automation. Cloudmesh provides a command-line interface for interacting with configured cloud providers, allowing infrastructure operations to be performed and tested through repeatable commands rather than relying exclusively on a cloud provider's web interface.
+
+Within the project's multi-environment strategy, `cmx vm` supports the cloud infrastructure workflow by helping manage virtual machine providers, initiate VM provisioning, and inspect available instances. It complements Docker and Docker Compose, which manage the application's containerized services after the underlying virtual machine is available.
+
+**Role in the project**
+
+The `cmx vm` workflow supports the following activities:
+
+- **Provider configuration:** Inspect configured cloud providers and select the provider used for infrastructure testing.
+- **Virtual machine provisioning:** Submit commands to create a virtual machine using the selected provider's configuration and available resources.
+- **Instance inspection:** List virtual machines and inspect command results to determine whether an instance is available.
+- **Infrastructure testing:** Run repeatable command-line tests that record which VM operations succeed, fail, or are skipped because of environmental constraints.
+- **Deployment preparation:** Use a successfully provisioned and accessible VM as the target for installing or running Docker and Docker Compose.
+- **Troubleshooting:** Capture command output and error messages to investigate authentication problems, missing configuration, key-pair mismatches, resource limits, and provisioning failures.
+
+**Integration with Jetstream 2 and other environments**
+
+Jetstream 2 provides the cloud infrastructure environment for OpenStack-related testing when the appropriate provider configuration, credentials, and resources are available. The project uses `cmx vm` for supported provider operations and records the outcomes of those operations as part of its infrastructure testing.
+
+Multipass remains the local virtual machine environment for development and integration testing. GCP remains the optional public-cloud deployment environment and uses its own supported provisioning and access mechanisms unless a compatible Cloudmesh integration is explicitly configured and tested. The project does not assume that `cmx vm` manages every environment through the same commands.
+
+**Testing and verification**
+
+The project uses Python tests with `pytest` to exercise selected `cmx vm` command-line operations. The tests invoke commands through a command runner, capture exit codes and output, and record whether each operation passes, fails, or is skipped. This approach makes the infrastructure workflow reproducible and helps distinguish a command-line failure from an application deployment failure.
+
+The tests cover applicable operations such as:
+
+- Listing configured VM providers.
+- Selecting the configured provider.
+- Starting a test VM.
+- Listing virtual machines after a provisioning attempt.
+- Recording errors when authentication, configuration, key-pair validation, or resource availability prevents an operation from completing.
+
+Tests that create cloud resources are designed to account for external dependencies. A failed provisioning attempt is recorded as a failure or an environment-dependent skip according to the test's defined criteria; it is not treated as evidence of successful deployment.
+
+**Relationship to the application deployment pipeline**
+
+The `cmx vm` workflow and the Docker Compose workflow have separate responsibilities:
+
+1. Cloudmesh commands manage supported cloud infrastructure operations.
+2. The cloud provider supplies the virtual machine and its network resources.
+3. The deployment process prepares the VM and starts the application's containers.
+4. Smoke tests verify application health, frontend-to-backend communication, and database connectivity.
+5. Test output and deployment evidence are recorded in the project documentation.
+
+This separation allows the project to evaluate infrastructure automation independently from application functionality. A successful `cmx vm` command does not, by itself, demonstrate that the application is deployed or operational. Application-level verification remains a separate requirement.
+
+Integrating `cmx vm` therefore extends the project's cloud computing and DevOps coverage by combining command-line infrastructure management, automated testing, failure reporting, and containerized application deployment.
+
 ## 6. Development Features
 
 ### 6.1 Working Message System
@@ -1338,6 +1390,18 @@ Items are classified as **Completed**, **Pending**, **Optional**, or **Blocked/U
 - [ ] Frontend, backend, and database connectivity are verified remotely.
 - [ ] Remote smoke tests and deployment results are recorded.
 - [ ] Provisioning, authentication, quota, networking, or capacity failures are documented with their error output.
+
+### Cloudmesh `cmx vm` Infrastructure Tests
+
+- [ ] Cloudmesh VM provider configuration is inspected and documented.
+- [ ] Provider selection is tested and the command result is recorded.
+- [ ] VM provisioning is attempted using the configured provider.
+- [ ] VM listing is tested and the output is recorded.
+- [ ] Python `pytest` tests exercise the selected Cloudmesh CLI operations.
+- [ ] Test results distinguish passed, failed, and skipped operations.
+- [ ] Authentication, key-pair, configuration, and resource-availability errors are documented when encountered.
+- [ ] Successful VM provisioning is distinguished from successful application deployment.
+- [ ] Application containers and connectivity are verified separately when a usable VM is available.
 
 ### 9.4 Public-Cloud Environment: Google Cloud Platform
 
