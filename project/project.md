@@ -629,8 +629,8 @@ A feature or release is complete when:
 
 ### 5.3 Architecture Component Description
 
-<!-- Insert component diagram -->
-![High Level Component Diagram](images/high-level-component-diagram.png)
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/e1f75df7-8aea-4c52-9bf7-86f7163e75dc" />
+
 
 
 #### Frontend: React + Vite
