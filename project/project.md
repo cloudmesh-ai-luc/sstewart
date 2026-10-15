@@ -611,7 +611,6 @@ A feature or release is complete when:
 
 ### 5.3 Architecture Component Description
 
-
 ### High Level Architecture Diagram(images/high-level-architecture-diagram.png)
 
 #### Frontend: React + Vite
@@ -901,7 +900,7 @@ and should model conservative security practices.
     should state that the application is a simulation and is not
     suitable for real emergency use.
 
-## 5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform
+#### 5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform
 
 ### 5.5.1 Overview
 
