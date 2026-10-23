@@ -1,0 +1,645 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>System Design Document: Text-Based 911 Emergency Dispatch Prototype - sstewart Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#system-design-document-text-based-911-emergency-dispatch-prototype" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="sstewart Documentation" class="md-header__button md-logo" aria-label="sstewart Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            sstewart Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              System Design Document: Text-Based 911 Emergency Dispatch Prototype
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../project/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Project
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="sstewart Documentation" class="md-nav__button md-logo" aria-label="sstewart Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    sstewart Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#warning-this-is-not-the-final-design-but-just-some-preliminary-and-initial-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &gt; WARNING: THIS IS NOT THE FINAL DESIGN, BUT JUST SOME PRELIMINARY AND INITIAL FEEDBACK
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-high-level-architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. High-Level Architecture Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. High-Level Architecture Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-component-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Component Description
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-mariadb-database-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. MariaDB Database Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-python-priority-ranking-triage-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Python Priority Ranking &amp; Triage Engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-operational-security-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Operational &amp; Security Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="system-design-document-text-based-911-emergency-dispatch-prototype">System Design Document: Text-Based 911 Emergency Dispatch Prototype</h1>
+<hr />
+<h2 id="warning-this-is-not-the-final-design-but-just-some-preliminary-and-initial-feedback">&gt; WARNING: THIS IS NOT THE FINAL DESIGN, BUT JUST SOME PRELIMINARY AND INITIAL FEEDBACK</h2>
+<p>This document outlines the architecture, data structures, and triage logic for a text-based 911 
+emergency dispatch service utilizing a <strong>Python-only backend stack</strong> (FastAPI), <strong>MariaDB</strong> for data persistence, 
+and <strong>100% free, open-source infrastructure</strong>.</p>
+<p>I highly recommend integrating an LLM taht you can even host on your own computer to enhance the aanalysis. 
+You would just as in your FastAPI service interface it with API queries.</p>
+<p>I would consider this project as lacking an important feature if you do not use in your final version also an LLM.</p>
+<h2 id="1-high-level-architecture-diagram">1. High-Level Architecture Diagram</h2>
+<p>The following diagram illustrates the data flow from the citizen's mobile device through the 
+open-source ingestion components, into the database, and finally to the dispatcher's dashboard.</p>
+<pre class="mermaid"><code>graph TD
+    subgraph Citizen Domain
+        User[Citizen Mobile] --&gt;|SMS| Gateway["F/OSS SMS Gateway&lt;br/&gt;(e.g., SMPP or Android App)"]
+    end
+
+    subgraph Backend Infrastructure
+        Gateway --&gt;|HTTP Webhook| API["FastAPI Application&lt;br/&gt;(Python)"]
+
+        subgraph Core Logic
+            API --&gt;|1. Raw Message| Triage["Triage Engine&lt;br/&gt;(Python/NLP)"]
+            Triage --&gt;|2. Ranked Priority| API
+        end
+
+        subgraph Data Persistence
+            API --&gt;|3. Insert/Update Session &amp; Message| DB[(MariaDB InnoDB)]
+        end
+
+        subgraph Real-Time Comms
+            DB -.-&gt;|Change Data Capture / Trigger| Redis[(Redis - Optional for PubSub)]
+            API --&gt;|4. WebSocket Push| Dashboard["Admin Dispatch Dashboard&lt;br/&gt;(React/TS)"]
+            Redis -.-&gt;|Real-Time Update| Dashboard
+        end
+    end
+
+    style DB fill:#e1f5fe,stroke:#01579b
+    style API fill:#e8f5e9,stroke:#2e7d32
+    style Triage fill:#fff3e0,stroke:#ef6c00
+    style Gateway fill:#fce4ec,stroke:#c2185b</code></pre>
+<h3 id="architecture-component-description">Architecture Component Description</h3>
+<ol>
+<li>Not yet sure if this is needed, we can simulate with a mock service, which actually may be better: <strong>F/OSS SMS Gateway:</strong> Replaces paid commercial APIs. This could be a self-hosted Kannel server connected to a cellular modem (SMPP) or an open-source Android application that forwards received SMS messages via HTTP POST to the API layer.</li>
+<li><strong>FastAPI Application:</strong> The central integration point. It handles HTTP requests from the gateway, invokes the Triage Engine, manages database transactions, and pushes real-time updates to the dashboard via WebSockets.</li>
+<li><strong>Triage Engine:</strong> A distinct Python module that performs keyword analysis on message bodies to calculate priority scores (see Section 3).</li>
+<li><strong>MariaDB (InnoDB):</strong> The source of truth. It stores session state, full message logs, and dispatcher activity logs with full ACID compliance.</li>
+<li><strong>Admin Dispatch Dashboard:</strong> A React-based single-page application that provides dispatchers with a live view of incoming emergencies, sorted by priority.</li>
+</ol>
+<hr />
+<h2 id="2-mariadb-database-schema">2. MariaDB Database Schema</h2>
+<p>The database uses sample (incomplete) tables configured for transactional integrity, automatic timestamp updates, and performance indexing to instantly surface high-priority emergencies.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">-- Active Emergency Sessions / Threads</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">emergency_sessions</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">session_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">phone_number</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">current_status</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'QUEUED'</span><span class="p">,</span><span class="w"> </span><span class="c1">-- QUEUED, DISPATCHED, RESOLVED</span>
+<span class="w">    </span><span class="n">assigned_dispatcher_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="n">updated_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span>
+<span class="p">);</span>
+
+<span class="c1">-- Individual Text Messages</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">messages</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">message_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">session_id</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sender_type</span><span class="w"> </span><span class="n">ENUM</span><span class="p">(</span><span class="s1">'CITIZEN'</span><span class="p">,</span><span class="w"> </span><span class="s1">'DISPATCHER'</span><span class="p">,</span><span class="w"> </span><span class="s1">'SYSTEM'</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">body</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">priority_score</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="n">priority_tier</span><span class="w"> </span><span class="n">TINYINT</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">priority_tier</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span>
+<span class="w">    </span><span class="n">classification_label</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+<span class="w">    </span><span class="n">received_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">session_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">emergency_sessions</span><span class="p">(</span><span class="n">session_id</span><span class="p">)</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">CASCADE</span>
+<span class="p">);</span>
+
+<span class="c1">-- Indexing for real-time dashboard sorting performance</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_messages_priority</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">messages</span><span class="w"> </span><span class="p">(</span><span class="n">priority_tier</span><span class="w"> </span><span class="k">ASC</span><span class="p">,</span><span class="w"> </span><span class="n">received_at</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_sessions_status</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">emergency_sessions</span><span class="w"> </span><span class="p">(</span><span class="n">current_status</span><span class="p">);</span>
+</code></pre></div>
+<hr />
+<h2 id="3-python-priority-ranking-triage-engine">3. Python Priority Ranking &amp; Triage Engine</h2>
+<p>The triage engine analyzes incoming text content to assign a priority tier 
+(<code>1</code> for Critical, <code>2</code> for Urgent, <code>3</code> for Routine), protecting against false positives by accounting for simple negations.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="c1"># Weighted keyword dictionary mapping emergency terms to severity scores</span>
+<span class="n">KEYWORD_WEIGHTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Critical Life Safety (Priority 1)</span>
+    <span class="s2">"gun"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">"shot"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">"shooting"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">"stab"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">"bleeding"</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
+    <span class="s2">"unconscious"</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span> <span class="s2">"not breathing"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">"cpr"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">"fire"</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
+    <span class="s2">"choking"</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span> <span class="s2">"suicide"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">"overdose"</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span> <span class="s2">"knife"</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
+
+    <span class="c1"># Urgent Safety / Property (Priority 2)</span>
+    <span class="s2">"robbery"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">"break-in"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">"intruder"</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span> <span class="s2">"car accident"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="s2">"crash"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">"fight"</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">"harassment"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+
+    <span class="c1"># Non-Urgent / Routine (Priority 3)</span>
+    <span class="s2">"noise"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">"theft"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"lost"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">"property"</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+
+<span class="n">NEGATION_TERMS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"no"</span><span class="p">,</span> <span class="s2">"not"</span><span class="p">,</span> <span class="s2">"isn't"</span><span class="p">,</span> <span class="s2">"wasn't"</span><span class="p">,</span> <span class="s2">"never"</span><span class="p">,</span> <span class="s2">"no longer"</span><span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_priority</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Scans text message for weighted keywords, checks for immediate negation context,</span>
+<span class="sd">    and returns a priority tier, label, and cumulative score.</span>
+<span class="sd">    """</span>
+    <span class="n">cleaned_text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\b\w+\b'</span><span class="p">,</span> <span class="n">cleaned_text</span><span class="p">)</span>
+
+    <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">matched_triggers</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">KEYWORD_WEIGHTS</span><span class="p">:</span>
+            <span class="c1"># Check context window for negation (e.g., "no weapon")</span>
+            <span class="n">context_window</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">):</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">is_negated</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">neg</span> <span class="ow">in</span> <span class="n">context_window</span> <span class="k">for</span> <span class="n">neg</span> <span class="ow">in</span> <span class="n">NEGATION_TERMS</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">is_negated</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">+=</span> <span class="p">(</span><span class="n">KEYWORD_WEIGHTS</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+                <span class="n">matched_triggers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">word</span><span class="si">}</span><span class="s2"> (negated)"</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">+=</span> <span class="n">KEYWORD_WEIGHTS</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+                <span class="n">matched_triggers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+
+    <span class="c1"># Map cumulative score to Priority Tiers</span>
+    <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">40</span><span class="p">:</span>
+        <span class="n">priority_tier</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">"CRITICAL"</span>
+    <span class="k">elif</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">20</span><span class="p">:</span>
+        <span class="n">priority_tier</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">"URGENT"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">priority_tier</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">"ROUTINE"</span>
+
+    <span class="k">return</span> <span class="n">priority_tier</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">score</span>
+</code></pre></div>
+<hr />
+<h2 id="4-operational-security-best-practices">4. Operational &amp; Security Best Practices</h2>
+<ol>
+<li><strong>Data Protection &amp; Compliance:</strong> Text logs containing Personally Identifiable Information (PII) must be encrypted both in transit (TLS 1.3) and at rest within MariaDB storage. Access logs should be maintained for auditing.</li>
+<li><strong>Idempotency Handling:</strong> Self-hosted message ingestion gateways can occasionally retry packets due to local network instability. The FastAPI ingestion layer should track unique message identifiers provided by the gateway (e.g., <code>smpp_message_id</code>) to prevent duplicate entry generation in MariaDB.</li>
+<li><strong>Automated Response Trigger:</strong> Upon receiving a citizen text, the system must immediately reply via the SMS gateway: <em>"911 Received. Help is being routed. If you are in immediate danger and can speak, please call 911 directly."</em></li>
+<li><strong>Real-Time Dispatch Feed:</strong> The MariaDB indexes (<code>idx_messages_priority</code>) ensure that the admin dashboard can instantly query and display incoming queues sorted by highest severity first.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
