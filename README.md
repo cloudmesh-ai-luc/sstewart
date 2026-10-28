@@ -14,14 +14,14 @@ Note:
     - [x] Configure/determine how to manage multiple machines.
     - [x] Organize different Makefiles for different local and cloud environments using directories.
 
-- [ ] Assignment W4.2: VM on Jetstream 2
+- [x] Assignment W4.2: VM on Jetstream 2
 
     - [x] Install the OpenStack command-line client.
     - [x] Write a Makefile with all the necessary targets to manage a single VM.
     - [x] Configure/determine how to manage multiple machines.
     - [x] Check your work into your repository.
 
-- [ ] Assignment W4.3: VM on Chameleon Cloud
+- [x] Assignment W4.3: VM on Chameleon Cloud
 
     - [x] Install the OpenStack command-line client.
     - [x] Install python-chi.

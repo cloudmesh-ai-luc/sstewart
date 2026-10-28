@@ -7,10 +7,15 @@ name = "sstewart"
 version = "0.1.0"
 description = "sstewart project documentation and assignments"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 dependencies = [
     "mkdocs",
     "mkdocs-material",
+    "mariadb >=1.1,<2.0",
+    "SQLAlchemy >=2.0,<3.0",
+    "alembic >=1.12,<2.0",
+    "fastapi >=0.110,<0.111",
+    "uvicorn >=0.30,<0.31",
 ]
 
 [tool.setuptools.packages.find]
