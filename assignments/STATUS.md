@@ -7,8 +7,9 @@
 
 ## Cloudmesh-ai-vm:
 
-Issues for cloudmesh-ai-vm are in the source repo for it: <https://github.com/cloudmesh-ai/cloudmesh-ai-vm/issues>
-PRs are in: <https://github.com/cloudmesh-ai/cloudmesh-ai-vm/pulls>
+Always review all:
+* Issues: <https://github.com/cloudmesh-ai/cloudmesh-ai-vm/issues>
+* PRs: <https://github.com/cloudmesh-ai/cloudmesh-ai-vm/pulls>
 
 ### Provider A: Jetstream
   
