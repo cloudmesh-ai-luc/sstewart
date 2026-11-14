@@ -7,6 +7,9 @@
 
 ## Cloudmesh-ai-vm:
 
+Issues for cloudmesh-ai-vm are in the source repo for it: <https://github.com/cloudmesh-ai/cloudmesh-ai-vm/issues>
+PRs are in: <https://github.com/cloudmesh-ai/cloudmesh-ai-vm/pulls>
+
 ### Provider A: Jetstream
   
 - Status: ?
@@ -36,6 +39,7 @@
 
 ## Project: 911 Text Analysis
 
+- Issues are to be documented in https://github.com/cloudmesh-ai-luc/sstewart/issues 
 - Suggestion (GvL): Limit implementation on one cloud so you can finish, as Cloudmesh-ai-vm task is behind. Pick just one of jetstream or chameleon.
 - Suggestion (GVl): use cmx to manage your vms to simplify. YOu can also use ansible, but I find this for your project to complex. Make sure if you use cmx to create 
   - make vms-start - starts your vms
