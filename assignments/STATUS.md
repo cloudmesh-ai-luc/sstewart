@@ -42,6 +42,7 @@
   - make vms-stop - deletes your vms or at least shelves them (as stopping them only used $)
   - make serve - starts the services
   - make test - creates some test
+- If knowledable with docker, you could use docker compose on the VM(s).
 
 ### Week of November 13th
 
