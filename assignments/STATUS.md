@@ -37,6 +37,11 @@
 ## Project: 911 Text Analysis
 
 - Suggestion (GvL): Limit implementation on one cloud so you can finish, as Cloudmesh-ai-vm task is behind. Pick just one of jetstream or chameleon.
+- Suggestion (GVl): use cmx to manage your vms to simplify. YOu can also use ansible, but I find this for your project to complex. Make sure if you use cmx to create 
+  - make vms-start - starts your vms
+  - make vms-stop - deletes your vms or at least shelves them (as stopping them only used $)
+  - make serve - starts the services
+  - make test - creates some test
 
 ### Week of November 13th
 
