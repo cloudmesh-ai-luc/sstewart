@@ -2,8 +2,8 @@
 
 ## Missed classes:
 
-- Oct 29th, will review over the weekend of Friday Nov 13th
-- Nov 5th, will review over the weekend of Friday Nov 13th
+- Oct 29th, reviewed the weekend of Friday Nov 13th
+- Nov 5th, reviewed over the weekend of Friday Nov 13th
 
 ## Cloudmesh-ai-vm:
 
@@ -61,3 +61,34 @@ Always review all:
 - Continue to work on project, hoping to have the front end started by Thanksgiving week
   - Suggestion: Use an LLM to plan and create draft this weekend if possible (e.g. before Thanksgiving) 
 - Continue to contribute to cloudmesh-ai-vm project (Suggestion: Great you understand what is to be done).
+
+### Week of November 20th
+
+Completed
+1. Installed and configured MariaDB 13.0.2 using Homebrew on macOS.
+2. Resolved MariaDB startup issues caused by an old recovery-mode process running with --skip-grant-tables and networking disabled.
+3. Enabled TCP networking and verified:
+   - Host: 127.0.0.1
+   - Port: 3306
+   - skip_networking: OFF
+4. Created the application database and user:
+   - Database: 911_analysis
+   - User: analysis_user
+   - Configured database permissions without using root for application access.
+5. Established external configuration management using $HOME/.config/911/env to store database credentials securely.
+6. Updated the backend database architecture to use:
+   - SQLAlchemy
+   - MariaDB Connector/Python
+   - A shared database engine and session factory
+   - Existing SQLAlchemy models for Operator, EmergencyMessage, and MessageEvent.
+7. Verified database connectivity through SQLAlchemy. Successfully executed a query returning the database name and MariaDB version.
+- Update TODO.md and start thinking about remaining aspects of project
+- Work on 3 issues found when working with Professor Gregor (~ 7-8 hours)
+### Next Steps
+
+- Continue to work on project, hoping to have the front end started by Thanksgiving week
+  - Suggestion: Use an LLM to plan and create draft this weekend if possible (e.g. before Thanksgiving) 
+- Continue to contribute to cloudmesh-ai-vm project (Suggestion: Great you understand what is to be done).
+
+
+
