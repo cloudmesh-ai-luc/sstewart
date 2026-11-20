@@ -8,7 +8,7 @@
 ---
 
 ## 📦 1. Project Setup
-- [ ] **Repository Initialization**
+- [x] **Repository Initialization**
   - Verify `.gitignore` and licensing files are present.
 - [ ] **Environment Configuration**
   - Install required language runtimes / package managers (e.g., Python 3.11, Node 20, etc.).
@@ -96,20 +96,128 @@
 | Testing (unit + integration) | 3 days | |
 | Documentation & Final Review | 2 days | |
 | Deployment & Release | 1 day | |
-
-*(Adjust estimates based on team size and availability.)*
-
----
-
 ## ✅ Progress Tracking
 Whenever you complete a task, replace `- [ ]` with `- [x]`. This provides a quick visual indicator of overall progress.
 
----
+----
 
 **Next Steps**
 1. Verify that the above outline covers all requirements from `project.md`.
 2. If any sections need clarification or additional detail, let me know.
 3. Once the plan is approved, you can start implementation according to the sections above.
+
+----
+
+*Feel free to suggest modifications or ask for deeper detail on any specific section!*
+
+---
+
+# Future Improvements Checklist (Docker‑Compose Enhancements)
+
+This checklist expands on the earlier suggestions, focusing on items that
+complement the Docker‑Compose setup already added.
+
+- [ ] **Add Comprehensive Tests**
+  - Unit tests for each API endpoint using `pytest` and `httpx`.
+  - Integration tests that spin up the Docker Compose stack (e.g., via
+    `pytest-docker`).
+
+- [ ] **Secure Secrets Management**
+  - Move DB passwords to Docker secrets or a vault (HashiCorp Vault, AWS
+    Secrets Manager, etc.).
+  - Ensure the `.env` file is listed in `.gitignore` and never committed.
+
+- [ ] **Enable HTTPS**
+  - Add an NGINX or Traefik reverse‑proxy service in `docker‑compose.yml`.
+  - Obtain TLS certificates (Let’s Encrypt or self‑signed for local dev).
+
+- [ ] **Add Logging Configuration**
+  - Structured JSON logging for FastAPI/Uvicorn.
+  - Forward logs to stdout (Docker) and optionally to external log aggregators.
+
+- [ ] **Implement Database Migrations**
+  - Use Alembic (already a dependency) to version‑control the schema.
+  - Add a Docker entrypoint step that runs `alembic upgrade head` before the
+    application starts.
+
+- [ ] **Add CI/CD Pipeline**
+  - GitHub Actions workflow to lint, test, build Docker image, and push to a
+    registry.
+  - Deploy to a staging environment automatically on PR merge.
+
+- [ ] **Add Rate Limiting / Security Headers**
+  - Integrate `slowapi` or similar for request throttling.
+  - Add security middleware (CORS, HSTS, CSP) to the FastAPI app.
+
+- [ ] **Configure Production‑Ready Server**
+  - Replace the development `uvicorn` command with `gunicorn` workers:
+    `gunicorn -k uvicorn.workers.UvicornWorker src.backend.app.main:app`
+  - Make the number of workers configurable via an environment variable.
+
+- [ ] **Add Health Checks for Internal Dependencies**
+  - Extend `/ready` endpoint to verify DB connectivity and other services.
+  - Update Docker health‑check to hit `/ready` instead of `/health`.
+
+- [ ] **Add OpenAPI Documentation Enhancements**
+  - Provide detailed response models, examples, and authentication schemas.
+  - Host the static OpenAPI spec via Swagger UI or Redoc.
+
+- [ ] **Refactor Configuration Loader**
+  - Split config into sections (database, app, logging) using Pydantic
+    `BaseSettings`.
+  - Supply default values and schema validation.
+
+- [ ] **Add `.env.example` File**
+  - Provide a template `.env.example` with placeholder values for developers to
+    copy to `.env`.
+
+- [ ] **Improve Dockerfile Caching**
+  - Separate dependency installation from source copy to leverage Docker layer
+    caching.
+  - Use a multi‑stage build to produce a slimmer final image.
+
+- [ ] **Add Makefile Targets for Common Tasks**
+  - `make test` – run pytest.
+  - `make lint` – run flake8 / mypy.
+  - `make migrate` – run Alembic migrations locally.
+  - `make logs` – tail Docker logs.
+
+ - [x] **Add Documentation for Local Development**
+   - Quick‑start guide for running the app without Docker (`make install &&
+     make run`).
+
+- [ ] **Add Python Type Hinting & MyPy Checks**
+  - Ensure all modules are fully typed.
+  - Add a CI step for static type checking.
+
+- [ ] **Add Dependency Update Automation**
+  - Enable Dependabot, Renovate, or similar to keep dependencies current.
+
+- [ ] **Add Resource Limits in Docker Compose**
+  - Define CPU and memory limits for containers to avoid resource exhaustion.
+
+- [ ] **Add Service Discovery / Configuration**
+  - Use Docker networks and service names instead of hard‑coded hostnames.
+  - Consider a central config service (e.g., Consul) for larger deployments.
+
+- [ ] **Add Monitoring / Metrics**
+  - Expose Prometheus metrics (`/metrics` endpoint) using
+    `prometheus-fastapi-instrumentator`.
+  - Provide Grafana dashboard templates.
+
+- [ ] **Add Data Validation & Sanitization**
+  - Ensure incoming message content is sanitized to prevent injection attacks.
+
+- [ ] **Add Versioning to API**
+  - Prefix routes with `/v1` and set up a versioning strategy.
+
+- [ ] **Add Docker Compose Profiles**
+  - Separate development and production profiles (e.g., enable debug tools only
+    in dev).
+
+
+Mark each checkbox with an `x` when the task is completed (e.g., `[x]`).
+
 
 ---
 

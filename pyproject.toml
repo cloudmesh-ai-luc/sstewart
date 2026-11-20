@@ -16,7 +16,19 @@ dependencies = [
     "alembic >=1.12,<2.0",
     "fastapi >=0.110,<0.111",
     "uvicorn >=0.30,<0.31",
+    "python-dotenv >=1.0,<2.0"
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0,<10.0",
+    "httpx>=0.27,<1.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src/backend"]

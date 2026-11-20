@@ -136,6 +136,32 @@ Note:
   * [x] Review optional material in the class documentation.
 
 
-* [ ] Assignment W1.6: Improve the Web Site (Past Due)
-  * [ ] Update errors or notify instructors throughout the semester.
+ * [ ] Assignment W1.6: Improve the Web Site (Past Due)
+   * [ ] Update errors or notify instructors throughout the semester.
 
+## Development with pyenv
+
+This project can be developed using **pyenv** to manage a specific Python
+version. The recommended version is **Python 3.15.2**.
+
+```bash
+# Install pyenv (once per machine)
+brew install pyenv
+
+# Install the required Python version
+pyenv install 3.15.2
+
+# In the repository root, a .python-version file is already present. When you
+# cd into the project directory, pyenv will automatically switch to Python 3.15.2.
+python --version   # => Python 3.15.2
+
+# Install project dependencies (editable mode)
+make install
+
+# Run the FastAPI server
+make run
+```
+
+The `Makefile` detects the pyenv shim and falls back to the system `python3`
+if pyenv is not available, so the workflow works on machines without pyenv as
+well.
