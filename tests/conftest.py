@@ -6,9 +6,9 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.main import app
-from app.models import Base
+from app.models import Base, Operator
 from app.services.config import get_database_config
-
+from app.services.tokens import create_access_token
 
 TEST_DATABASE_NAME = "911_analysis_test"
 
@@ -65,17 +65,39 @@ def db_session(test_engine):
         connection.close()
 
 
+
 @pytest.fixture
 def client(db_session):
-    """Provide a FastAPI test client using the test database."""
+    """Provide an authenticated FastAPI test client using the test database."""
 
+    # Create a test administrator in the isolated test database.
+    test_operator = Operator(
+        email="test-admin@example.com",
+        password_hash="test-password-hash",
+        role="ADMIN",
+        is_active=True,
+    )
+
+    db_session.add(test_operator)
+    db_session.flush()
+
+    # Generate a real JWT for the test administrator.
+    access_token = create_access_token(test_operator.id)
+
+    # Override the database dependency for all API requests.
     def override_get_db():
         yield db_session
 
     app.dependency_overrides[get_db] = override_get_db
 
     try:
-        with TestClient(app) as test_client:
+        with TestClient(
+            app,
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            },
+        ) as test_client:
             yield test_client
+
     finally:
         app.dependency_overrides.pop(get_db, None)

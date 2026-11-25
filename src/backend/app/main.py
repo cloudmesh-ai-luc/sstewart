@@ -10,7 +10,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
 # Import the routers that implement the required endpoints.
-from .api.routes import messages
+from .api.routes import auth, messages
 
 
 def create_app() -> FastAPI:
@@ -25,6 +25,8 @@ def create_app() -> FastAPI:
 
     # Register API routers under the ``/api`` prefix.
     app.include_router(messages.router, prefix="/api")
+    app.include_router(auth.router, prefix="/api/auth")
+
 
     # Simple health endpoints used by the deployment scripts.
     @app.get("/health", tags=["health"])

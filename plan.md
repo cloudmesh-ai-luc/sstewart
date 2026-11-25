@@ -10,7 +10,7 @@
 ## 📦 1. Project Setup
 - [x] **Repository Initialization**
   - Verify `.gitignore` and licensing files are present.
-- [ ] **Environment Configuration**
+- [x] **Environment Configuration**
   - Install required language runtimes / package managers (e.g., Python 3.11, Node 20, etc.).
   - Create a virtual environment using `venv`.
   - Add a `requirements.txt` / `package.json` with all dependencies listed in `project.md`.
@@ -20,25 +20,25 @@
 ---
 
 ## 🗂️ 2. Architecture & Directory Structure
-- [ ] Define top‑level directories (e.g., `src/`, `tests/`, `docs/`, `configs/`).
-- [ ] Create module/package layout matching the components described (e.g., `api/`, `service/`, `utils/`).
-- [ ] Add placeholder `__init__.py` files (for Python) or `index.js` (for Node) to ensure importability.
+- [x] Define top‑level directories (e.g., `src/`, `tests/`, `docs/`, `configs/`).
+- [x] Create module/package layout matching the components described (e.g., `api/`, `service/`, `utils/`).
+- [x] Add placeholder `__init__.py` files (for Python) or `index.js` (for Node) to ensure importability.
 
 ---
 
 ## 🛠️ 3. Core Feature Development
 ### 3.1 Data Model & Persistence
-- [ ] Design schema/entities based on the data requirements in `project.md`.
-- [ ] Implement ORM models (SQLAlchemy, TypeORM, etc.) or plain data classes.
-- [ ] Write migration scripts if a database is used.
+- [x] Design schema/entities based on the data requirements in `project.md`.
+- [x] Implement ORM models (SQLAlchemy, TypeORM, etc.) or plain data classes.
+- [x] Write migration scripts if a database is used.
 
 ### 3.2 Business Logic / Service Layer
 - [ ] Implement service classes/functions that encapsulate the core algorithms.
 - [ ] Ensure each service is unit‑testable (pure logic, no external I/O).
 
 ### 3.3 API / Interface Layer
-- [ ] Choose a framework (FastAPI, Express, Flask, etc.) as indicated in `project.md`.
-- [ ] Define routes/endpoints, request/response schemas, and validation.
+- [x] Choose a framework (FastAPI, Express, Flask, etc.) as indicated in `project.md`.
+- [x] Define routes/endpoints, request/response schemas, and validation.
 - [ ] Add authentication/authorization if required.
 
 ### 3.4 Front‑end (if applicable)
@@ -48,7 +48,7 @@
 
 ### 3.5 External Integrations
 - [ ] Integrate any third‑party services (payment gateways, email providers, etc.).
-- [ ] Add configuration files (`.env`, `config.yaml`) with placeholders for secrets.
+- [x] Add configuration files (`.env`, `config.yaml`) with placeholders for secrets.
 
 ---
 

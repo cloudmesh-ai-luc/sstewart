@@ -6,10 +6,13 @@ from sqlalchemy import (
     CheckConstraint,
     Column,
     ForeignKey,
+    Float,
     Index,
     String,
     Text,
     text,
+    func,
+    DateTime
 )
 from sqlalchemy.dialects.mysql import BIGINT, DATETIME
 from sqlalchemy.orm import declarative_base, relationship
@@ -174,3 +177,49 @@ class MessageEvent(Base):
             f"<MessageEvent id={self.id} "
             f"type={self.event_type} message_id={self.message_id}>"
         )
+
+
+class MessageTriageResult(Base):
+    __tablename__ = "message_triage_results"
+
+    __table_args__ = (
+        CheckConstraint(
+            "confidence >= 0.0 AND confidence <= 1.0",
+            name="ck_triage_confidence_range",
+        ),
+    )
+
+    id = Column(
+        BIGINT(unsigned=True),
+        primary_key=True,
+        autoincrement=True,
+    )
+
+    message_id = Column(
+        BIGINT(unsigned=True),
+        ForeignKey("emergency_messages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+
+    requested_by_operator_id = Column(
+        BIGINT(unsigned=True),
+        ForeignKey("operators.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+
+    suggested_priority = Column(String(20), nullable=False)
+
+    suggested_category = Column(String(30), nullable=False)
+
+    explanation = Column(Text, nullable=False)
+
+    confidence = Column(Float, nullable=False)
+
+    model_name = Column(String(100), nullable=False)
+
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.current_timestamp(),
+    )
