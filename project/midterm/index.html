@@ -1,0 +1,2799 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>911 Call Center Analysis and Cloud-Based Emergency Triage System - sstewart Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#911-call-center-analysis-and-cloud-based-emergency-triage-system" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="sstewart Documentation" class="md-header__button md-logo" aria-label="sstewart Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            sstewart Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              911 Call Center Analysis and Cloud-Based Emergency Triage System
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../project/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Project
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="sstewart Documentation" class="md-nav__button md-logo" aria-label="sstewart Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    sstewart Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-project-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Project Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Problem Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-objectives-and-success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Objectives and Success Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-minimum-viable-product-mvp-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Minimum Viable Product (MVP) Scope
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Minimum Viable Product (MVP) Scope">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#out-of-scope-for-the-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Out of scope for the MVP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-technical-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Technical Approach
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Technical Approach">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-cloud-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Cloud Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-open-source-devops-and-deployment-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Open-Source DevOps and Deployment Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Open-Source DevOps and Deployment Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#521-source-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.1 Source Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#522-continuous-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.2 Continuous Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#523-database-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.3 Database Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#524-security-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.4 Security Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#525-docker-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.5 Docker Build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#526-container-image-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.6 Container Image Registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#527-continuous-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.7 Continuous Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#528-docker-compose-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.8 Docker Compose Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#529-database-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.9 Database Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5210-ollama-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.10 Ollama Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5211-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.11 Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5212-health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.12 Health Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5213-deployment-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.13 Deployment Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5214-rollback-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.14 Rollback Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5215-complete-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.15 Complete Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5216-definition-of-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.16 Definition of Done
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-architecture-component-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Architecture Component Description
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.3 Architecture Component Description">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frontend-react-vite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontend: React + Vite
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-api-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend API: FastAPI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-access-sqlalchemy-and-alembic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data access: SQLAlchemy and Alembic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#triage-assistance-python-and-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Triage assistance: Python and Ollama
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-and-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database and monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#531-mariadb-database-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3.1 MariaDB Database Schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#532-python-priority-ranking-and-triage-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3.2 Python Priority Ranking and Triage Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-security-privacy-and-responsible-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Security, Privacy, and Responsible Use
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#55-multi-environment-cloud-strategy-multipass-jetstream-2-and-google-cloud-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#551-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5.1 Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#552-local-development-with-multipass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5.2 Local Development with Multipass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#553-openstack-infrastructure-testing-with-jetstream-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5.3 OpenStack Infrastructure Testing with Jetstream 2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#554-public-cloud-deployment-with-google-cloud-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5.4 Public-Cloud Deployment with Google Cloud Platform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#555-environment-usage-across-the-project-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5.5 Environment Usage Across the Project Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#556-configuration-cicd-and-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5.6 Configuration, CI/CD, and Observability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#557-security-cost-and-environment-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5.7 Security, Cost, and Environment Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#558-infrastructure-provisioning-with-cloudmesh-cmx-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5.8 Infrastructure Provisioning with Cloudmesh cmx vm
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-development-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Development Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Development Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-working-message-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Working Message System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-automated-prioritization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Automated Prioritization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-functional-call-center-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Functional Call Center Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-cloud-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Cloud Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-final-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Final Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-final-demonstration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Final Demonstration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-resources-and-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Resources and Budget
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Resources and Budget">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#711-development-and-cloud-infrastructure-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1.1 Development and Cloud Infrastructure Resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-risk-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Risk Management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-deliverables-checklist-and-environment-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Deliverables Checklist and Environment Verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Deliverables Checklist and Environment Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-core-application-deliverables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Core Application Deliverables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-local-environment-multipass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Local Environment: Multipass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-openstack-environment-jetstream-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 OpenStack Environment: Jetstream 2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloudmesh-cmx-vm-infrastructure-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloudmesh cmx vm Infrastructure Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-public-cloud-environment-google-cloud-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Public-Cloud Environment: Google Cloud Platform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-cicd-security-and-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 CI/CD, Security, and Observability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-environment-test-results-and-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 Environment Test Results and Evidence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#97-final-project-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 Final Project Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-database-selection-postgresql-vs-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Database Selection: PostgreSQL vs. MariaDB
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Database Selection: PostgreSQL vs. MariaDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-database-selection-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Database Selection Criteria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-why-postgresql-was-considered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Why PostgreSQL Was Considered
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-why-mariadb-is-appropriate-for-this-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Why MariaDB Is Appropriate for This Project
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#104-mariadbs-role-in-the-overall-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 MariaDB's Role in the Overall Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#105-limitations-and-tradeoffs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 Limitations and Tradeoffs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#106-final-database-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6 Final Database Decision
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-disclaimer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Disclaimer
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="911-call-center-analysis-and-cloud-based-emergency-triage-system">911 Call Center Analysis and Cloud-Based Emergency Triage System</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Course:</strong></td>
+<td>Cloud Computing, DevOps, and AI</td>
+</tr>
+<tr>
+<td><strong>Team Members</strong></td>
+<td>-<em>Sam Stewart</em></td>
+</tr>
+<tr>
+<td><strong>Contact</strong></td>
+<td>stewartsamaira4@gmail.com</td>
+</tr>
+<tr>
+<td><strong>Instructor</strong></td>
+<td>Gregor von Laszewski</td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td><em>Sept. 6 2026</em></td>
+</tr>
+</tbody>
+</table>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-project-overview">Project Overview</a></li>
+<li><a href="#2-problem-statement">Problem Statement</a></li>
+<li><a href="#3-objectives-and-success-criteria">Objectives and Success
+    Criteria</a></li>
+<li><a href="#4-minimum-viable-product-mvp-scope">Minimum Viable Product Scope</a></li>
+<li><a href="#5-technical-approach">Technical Approach</a><ul>
+<li><a href="#51-cloud-architecture">5.1 Cloud Architecture</a></li>
+<li><a href="#52-open-source-devops-and-deployment-pipeline">5.2 Open-Source DevOps and Deployment
+    Pipeline</a><ul>
+<li><a href="#521-source-control">5.2.1 Source Control</a></li>
+<li><a href="#522-continuous-integration">5.2.2 Continuous Integration</a></li>
+<li><a href="#523-database-testing">5.2.3 Database Testing</a></li>
+<li><a href="#524-security-testing">5.2.4 Security Testing</a></li>
+<li><a href="#525-docker-build">5.2.5 Docker Build</a></li>
+<li><a href="#526-container-image-registry">5.2.6 Container Image
+    Registry</a></li>
+<li><a href="#527-continuous-deployment">5.2.7 Continuous Deployment</a></li>
+<li><a href="#528-docker-compose-deployment">5.2.8 Docker Compose
+    Deployment</a></li>
+<li><a href="#529-database-deployment">5.2.9 Database Deployment</a></li>
+<li><a href="#5210-ollama-deployment">5.2.10 Ollama Deployment</a></li>
+<li><a href="#5211-monitoring">5.2.11 Monitoring</a></li>
+<li><a href="#5212-health-checks">5.2.12 Health Checks</a></li>
+<li><a href="#5213-deployment-verification">5.2.13 Deployment
+    Verification</a></li>
+<li><a href="#5214-rollback-strategy">5.2.14 Rollback Strategy</a></li>
+<li><a href="#5215-complete-pipeline">5.2.15 Complete Pipeline</a></li>
+<li><a href="#5216-definition-of-done">5.2.16 Definition of Done</a></li>
+</ul>
+</li>
+<li><a href="#53-architecture-component-description">5.3 Architecture Component
+    Description</a><ul>
+<li><a href="#531-mariadb-database-schema">5.3.1 MariaDB Database
+    Schema</a></li>
+<li><a href="#532-python-priority-ranking-and-triage-engine">5.3.2 Python Priority Ranking and Triage
+    Engine</a></li>
+</ul>
+</li>
+<li><a href="#54-security-privacy-and-responsible-use">5.4 Security, Privacy, and Responsible
+    Use</a></li>
+<li><a href="#55-multi-environment-cloud-strategy-multipass-jetstream-2-and-google-cloud-platform">5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform</a></li>
+<li><a href="#551-overview">5.5.1 Overview</a></li>
+<li><a href="#552-local-development-with-multipass">5.5.2 Local Development with Multipass</a></li>
+<li><a href="#553-openstack-infrastructure-testing-with-jetstream-2">5.5.3 OpenStack Infrastructure Testing with Jetstream 2</a></li>
+<li><a href="#554-public-cloud-deployment-with-google-cloud-platform">5.5.4 Public-Cloud Deployment with Google Cloud Platform</a></li>
+<li><a href="#555-environment-usage-across-the-project-lifecycle">5.5.5 Environment Usage Across the Project Lifecycle</a></li>
+<li><a href="#556-configuration-cicd-and-observability">5.5.6 Configuration, CI/CD, and Observability</a></li>
+<li><a href="#557-security-cost-and-environment-validation">5.5.7 Security, Cost, and Environment Validation</a></li>
+<li><a href="#558-infrastructure-provisioning-with-cloudmesh-cmx-vm">5.5.8 Infrastructure Provisioning with Cloudmesh <code>cmx vm</code></a></li>
+</ul>
+</li>
+<li><a href="#6-development-features">Development Features</a><ul>
+<li><a href="#61-working-message-system">6.1 Working Message System</a></li>
+<li><a href="#62-automated-prioritization">6.2 Automated Prioritization</a></li>
+<li><a href="#63-functional-call-center-dashboard">6.3 Functional Call Center
+    Dashboard</a></li>
+<li><a href="#64-cloud-deployment">6.4 Cloud Deployment</a></li>
+<li><a href="#65-final-testing">6.5 Final Testing</a></li>
+<li><a href="#66-final-demonstration">6.6 Final Demonstration</a></li>
+</ul>
+</li>
+<li><a href="#7-Resources-and-Project-Infrastructure">Resources and Project Infrastructure</a></li>
+<li><a href="#71-resource-budget">7.1 Resource Budget</a></li>
+<li><a href="#711-development-and-cloud-infrastructure-resources">7.1.1 Development and Cloud Infrastructure Resources</a></li>
+<li><a href="#712-environment-allocation">7.1.2 Environment Allocation</a></li>
+<li><a href="#713-cost-management-and-constraints">7.1.3 Cost Management and Constraints</a></li>
+<li><a href="#8-risk-management">Risk Management</a></li>
+<li><a href="#9-Deliverables-Checklist-and-Environment-Verification">Deliverables Checklist and Environment Verification</a></li>
+<li><a href="#91-core-application-deliverables">9.1 Core Application Deliverables</a></li>
+<li><a href="#92-local-environment-multipass">9.2 Local Environment: Multipass</a></li>
+<li><a href="#93-openstack-environment-jetstream-2">9.3 OpenStack Environment: Jetstream 2</a></li>
+<li><a href="#94-public-cloud-environment-google-cloud-platform">9.4 Public-Cloud Environment: Google Cloud Platform</a></li>
+<li><a href="#95-cicd-security-and-observability">9.5 CI/CD, Security, and Observability</a></li>
+<li><a href="#96-environment-test-results-and-evidence">9.6 Environment Test Results and Evidence</a></li>
+<li><a href="#97-final-project-verification">9.7 Final Project Verification</a></li>
+<li><a href="#10-database-selection-postgresql-vs-mariadb">Database Selection: PostgreSQL
+    vs. MariaDB</a><ul>
+<li><a href="#101-database-selection-criteria">10.1 Database Selection
+    Criteria</a></li>
+<li><a href="#102-why-postgresql-was-considered">10.2 Why PostgreSQL Was
+    Considered</a></li>
+<li><a href="#103-why-mariadb-is-appropriate-for-this-project">10.3 Why MariaDB Is
+    Appropriate</a></li>
+<li><a href="#104-mariadbs-role-in-the-overall-architecture">10.4 MariaDB's Role in the
+    Architecture</a></li>
+<li><a href="#105-limitations-and-tradeoffs">10.5 Limitations and Tradeoffs</a></li>
+<li><a href="#106-final-database-decision">10.6 Final Database Decision</a></li>
+</ul>
+</li>
+<li><a href="#11-references">References</a></li>
+</ol>
+<hr />
+<h2 id="1-project-overview">1. Project Overview</h2>
+<p>This project is a cloud-based application that simulates a
+text-to-911 emergency communication service. A user submits a simulated
+emergency text message through a web interface. The application sends
+the message to a backend API, validates it, stores it in a relational
+database, and displays it in an administrative dashboard for authorized
+reviewers.</p>
+<p>The application will also demonstrate a triage-assistance workflow. A
+Python service will evaluate message content using configurable keyword
+rules and, where available, an local large language model (LLM)
+served by Ollama. The resulting priority is a <strong>suggestion for a human
+reviewer</strong>, not a decision to dispatch emergency services. Reviewers can
+inspect the original message, see the rationale for a suggested
+priority, change the priority, and record their review.</p>
+<p>The project is intended for software-engineering education and
+demonstration. It will use synthetic messages and will not connect to a
+public-safety answering point (PSAP), emergency telephone network, SMS
+gateway, or live dispatch system. It is not designed or certified for
+operational emergency use.</p>
+<p>The implementation emphasizes a consistent, maintainable open-source
+stack:</p>
+<ul>
+<li><strong>Frontend:</strong> React and Vite.</li>
+<li><strong>Backend API:</strong> Python and FastAPI.</li>
+<li><strong>Database:</strong> MariaDB.</li>
+<li><strong>Data access and migrations:</strong> SQLAlchemy and Alembic.</li>
+<li><strong>Triage assistance:</strong> Python rules engine with Ollama
+    local LLM analysis.</li>
+<li><strong>Deployment:</strong> Docker and Docker Compose.</li>
+<li><strong>CI/CD:</strong> GitHub Actions and GitHub Container Registry (GHCR).</li>
+<li><strong>Reverse proxy and HTTPS:</strong> Caddy.</li>
+<li><strong>Observability:</strong> Prometheus, Grafana, and Loki.</li>
+</ul>
+<h2 id="2-problem-statement">2. Problem Statement</h2>
+<p>Emergency communication environments may receive messages that vary in
+urgency, clarity, and completeness. In a real environment, staff need
+reliable processes for reviewing incoming communications, identifying
+potentially urgent situations, and maintaining an accurate record of
+actions taken.</p>
+<p>This project does not attempt to solve real-world emergency dispatch.
+Instead, it models a limited portion of the workflow so students can
+explore how a web application might receive, store, present, and
+organize simulated incoming messages. It also demonstrates the
+challenges of assisting human decision-makers with rule-based and
+language-model-based analysis.</p>
+<p>The project focuses on several software-engineering challenges:</p>
+<ol>
+<li>Accepting and validating messages through a web application.</li>
+<li>Persisting messages and their review history in a relational
+    database.</li>
+<li>Applying transparent, testable rules to suggest priority levels.</li>
+<li>Presenting incoming messages in an administrative dashboard.</li>
+<li>Restricting access to administrative functions.</li>
+<li>Testing, deploying, monitoring, and documenting a containerized
+    application.</li>
+<li>Communicating the limitations of automated classification and
+    keeping a human reviewer in control.</li>
+</ol>
+<h2 id="3-objectives-and-success-criteria">3. Objectives and Success Criteria</h2>
+<p>The project will be evaluated against functional, technical, and
+responsible-use criteria.</p>
+<div class="highlight"><pre><span></span><code>  -----------------------------------------------------------------------
+  Objective                           Success criterion
+  ----------------------------------- -----------------------------------
+  Message submission                  A user can submit a synthetic
+                                      emergency message through the React
+                                      interface.
+
+  API validation                      FastAPI validates required fields
+                                      and returns useful success or error
+                                      responses.
+
+  Data persistence                    Valid messages are stored in
+                                      MariaDB and remain available after
+                                      an application restart.
+
+  Priority assistance                 The triage engine assigns one of
+                                      four suggested levels: Critical,
+                                      High, Moderate, or Low.
+
+  Explainability                      A reviewer can see the rule matches
+                                      or analysis rationale behind a
+                                      suggested level.
+
+  Human oversight                     An authorized reviewer can change
+                                      the suggested level and record a
+                                      review note.
+
+  Auditability                        Message creation, analysis,
+                                      priority changes, and review
+                                      actions are recorded.
+
+  Dashboard                           An administrative user can view,
+                                      sort, filter, and inspect submitted
+                                      messages.
+
+  Automated testing                   Backend, API, database, and core
+                                      triage behavior are covered by
+                                      automated tests.
+
+  Deployment                          The application can be built and
+                                      run through Docker Compose using
+                                      documented configuration.
+
+  CI/CD                               GitHub Actions runs checks and
+                                      builds versioned container images.
+
+  Security                            Secrets are not committed to source
+                                      control; access to administrative
+                                      functions is restricted.
+
+  Responsible use                     Only synthetic data is used, and
+                                      the interface clearly identifies
+                                      classifications as suggestions.
+  -----------------------------------------------------------------------
+</code></pre></div>
+<p>The team should record actual test results and deployment evidence
+rather than claiming success before the features have been implemented
+and verified.</p>
+<h2 id="4-minimum-viable-product-mvp-scope">4. Minimum Viable Product (MVP) Scope</h2>
+<p>The MVP will prioritize a complete end-to-end workflow over advanced
+integrations.</p>
+<h3 id="in-scope">In scope</h3>
+<ul>
+<li>React + Vite client interface for submitting synthetic messages.</li>
+<li>FastAPI endpoints for creating and retrieving messages.</li>
+<li>MariaDB storage using SQLAlchemy models and Alembic migrations.</li>
+<li>Four-level priority suggestions using a deterministic Python keyword
+    rules engine.</li>
+<li>Optional Ollama analysis behind a configuration flag or mechanism; the
+    application must still work when Ollama is unavailable.</li>
+<li>Administrative dashboard for viewing, filtering, and reviewing
+    messages.</li>
+<li>Ability for a reviewer to override a suggested priority and record a
+    reason.</li>
+<li>Audit records for important message and review events.</li>
+<li>Basic authentication and role-based authorization for administrative
+    functionality.</li>
+<li>Docker Compose configuration for local development and
+    demonstration.</li>
+<li>Automated tests and a documented CI workflow.</li>
+<li>Synthetic seed data and a final demonstration script.</li>
+</ul>
+<h3 id="out-of-scope-for-the-mvp">Out of scope for the MVP</h3>
+<ul>
+<li>Connection to actual emergency services, PSAP systems, telephony, or
+    dispatch software.</li>
+<li>Sending real SMS messages or accepting live emergency
+    communications.</li>
+<li>Automatic dispatch or other consequential action based on model
+    output.</li>
+<li>Production-grade certification for public-safety use.</li>
+<li>Advanced multi-region availability or disaster recovery.</li>
+<li>A full production identity provider or enterprise single sign-on.</li>
+<li>Unreviewed use of third-party AI services with message content.</li>
+<li>Complex analytics, predictive modeling, or a public mobile
+    application.</li>
+</ul>
+<p>Features such as live updates through WebSockets, external SMS gateways,
+advanced analytics, and expanded monitoring can be considered future
+work after the core workflow is stable.</p>
+<h2 id="5-technical-approach">5. Technical Approach</h2>
+<p>The system will use a modular architecture in which the frontend, API,
+database, triage logic, and supporting services have clearly defined
+responsibilities. Components will communicate through documented
+interfaces, and deployment configuration will be kept in version control
+without committing secrets.</p>
+<h3 id="51-cloud-architecture">5.1 Cloud Architecture</h3>
+<p>The application will be developed locally using Docker Compose and may
+be deployed to a small cloud virtual machine for demonstration. The
+exact hosting provider will be selected based on course requirements,
+available credits, and budget. Docker Compose is the deployment target
+for this proposal; the design does not assume AWS ECS or another managed
+container orchestrator.</p>
+<pre class="mermaid"><code>flowchart TD
+    U[Client Browser] --&gt;|HTTPS| C[Caddy Reverse Proxy]
+    C --&gt; F[React + Vite Frontend]
+    C --&gt; A[FastAPI Backend]
+    A --&gt; R[Python Priority Rules Engine]
+    A -. optional analysis .-&gt; O[Ollama Local LLM]
+    A --&gt; S[SQLAlchemy Data Access]
+    S --&gt; D[(MariaDB)]
+    A --&gt; L[Application Logs and Metrics]
+    L --&gt; P[Prometheus]
+    L --&gt; K[Loki]
+    P --&gt; G[Grafana]
+    K --&gt; G</code></pre>
+<p><strong>Component responsibilities</strong></p>
+<ul>
+<li><strong>React + Vite:</strong> Provides the message submission interface and
+    administrative dashboard.</li>
+<li><strong>Caddy:</strong> Acts as the public reverse proxy and handles HTTPS where
+    the deployment environment supports a valid domain and certificate.</li>
+<li><strong>FastAPI:</strong> Exposes the application API, validates requests,
+    applies authorization, coordinates triage analysis, and returns
+    responses.</li>
+<li><strong>Python priority engine:</strong> Applies deterministic keyword rules and
+    produces a suggested priority with reasons.</li>
+<li><strong>Ollama:</strong> Optionally hosts a local model for supplementary
+    semantic analysis. Its output is untrusted input and must be
+    validated.</li>
+<li><strong>SQLAlchemy:</strong> Maps application objects to relational database
+    records.</li>
+<li><strong>Alembic:</strong> Tracks and applies schema migrations.</li>
+<li><strong>MariaDB:</strong> Stores messages, analysis results, reviewer actions,
+    and audit history.</li>
+<li><strong>Prometheus, Grafana, and Loki:</strong> Provide metrics, dashboards, and
+    log exploration when enabled.</li>
+</ul>
+<p>In development, services may be exposed only on the local machine. In a
+cloud deployment, only the required web entry point should be publicly
+reachable. MariaDB and Ollama should remain on an internal container
+network unless there is a specific, secured administrative requirement.</p>
+<h3 id="52-open-source-devops-and-deployment-pipeline">5.2 Open-Source DevOps and Deployment Pipeline</h3>
+<p>The pipeline will automate repeatable quality checks and container
+builds. A successful CI run does not by itself prove that a deployment
+is safe or operational; deployment verification remains a separate step.</p>
+<h4 id="521-source-control">5.2.1 Source Control</h4>
+<p>The project source code, application configuration templates, database
+migrations, tests, and deployment files will be maintained in a Git
+repository.</p>
+<p>Recommended repository organization:</p>
+<div class="highlight"><pre><span></span><code>911-call-center-analysis/
+├── frontend/
+├── backend/
+│   ├── app/
+│   ├── tests/
+│   ├── alembic/
+│   └── alembic.ini
+├── deployment/
+│   ├── docker-compose.yml
+│   └── Caddyfile
+├── monitoring/
+│   ├── prometheus/
+│   └── grafana/
+├── docs/
+├── .github/
+│   └── workflows/
+├── .env.example
+├── .gitignore
+└── README.md
+</code></pre></div>
+<p>The exact layout can be adjusted during implementation. The repository
+must exclude real <code>.env</code> files, credentials, database dumps containing
+sensitive data, and other secrets. Pull requests should be reviewed
+before merging to the main branch.</p>
+<h4 id="522-continuous-integration">5.2.2 Continuous Integration</h4>
+<p>GitHub Actions will run automated checks when a pull request is opened
+or code is pushed. The workflow should include:</p>
+<ol>
+<li>Install the supported Python and Node.js versions.</li>
+<li>Install backend dependencies from the project's dependency files.</li>
+<li>Run backend formatting or lint checks.</li>
+<li>Run Python unit and API tests.</li>
+<li>Install frontend dependencies using the committed lockfile.</li>
+<li>Run frontend lint checks and production build.</li>
+<li>Start a disposable MariaDB service for integration tests where
+    supported.</li>
+<li>Build application container images.</li>
+<li>Publish test results and logs when a step fails.</li>
+</ol>
+<p>CI should fail when a required test or build fails. The workflow should
+not publish release images from untrusted pull requests or expose
+deployment secrets to pull-request code.</p>
+<h4 id="523-database-testing">5.2.3 Database Testing</h4>
+<p>Database tests will verify that SQLAlchemy models, Alembic migrations,
+and repository operations behave as expected.</p>
+<p>Tests should cover:</p>
+<ul>
+<li>Creating and retrieving messages.</li>
+<li>Validating required message fields.</li>
+<li>Persisting suggested priority and analysis rationale.</li>
+<li>Recording reviewer overrides and audit events.</li>
+<li>Enforcing relationships between messages, analyses, and audit
+    entries.</li>
+<li>Applying migrations to a clean database.</li>
+<li>Confirming that indexes and constraints exist as intended.</li>
+</ul>
+<p>Tests should use disposable test data and a dedicated test database.
+They must not connect to a production database or use real emergency
+records.</p>
+<h4 id="524-security-testing">5.2.4 Security Testing</h4>
+<p>The CI pipeline should include dependency vulnerability checks and basic
+static checks where practical. The team should also review:</p>
+<ul>
+<li>Whether secrets are absent from the repository.</li>
+<li>Whether administrative endpoints require authentication and
+    authorization.</li>
+<li>Whether user-supplied text is validated and safely rendered.</li>
+<li>Whether SQL is parameterized through the ORM or bound parameters.</li>
+<li>Whether container images use supported base images and avoid
+    unnecessary packages.</li>
+<li>Whether error responses expose stack traces, secrets, or internal
+    configuration.</li>
+</ul>
+<p>Automated checks supplement rather than replace a manual security
+review.</p>
+<h4 id="525-docker-build">5.2.5 Docker Build</h4>
+<p>Each service will have a reproducible container build. Images should use
+pinned or deliberately maintained base-image versions, install only
+necessary dependencies, and avoid running as root where feasible.</p>
+<p>The frontend should be built for production and served through the
+selected web-serving configuration rather than relying on the Vite
+development server in production. The backend container should start the
+FastAPI application with a production-appropriate server configuration.</p>
+<h4 id="526-container-image-registry">5.2.6 Container Image Registry</h4>
+<p>GitHub Container Registry (GHCR) will store versioned application
+images. The pipeline may publish images on merges to the main branch and
+create immutable release tags for approved versions.</p>
+<p>Images should be tagged with a commit SHA or release version. Deployment
+should use a known tag rather than an ambiguous <code>latest</code> tag wherever
+practical. Registry credentials must be stored as GitHub Actions secrets
+or equivalent protected credentials.</p>
+<h4 id="527-continuous-deployment">5.2.7 Continuous Deployment</h4>
+<p>Continuous deployment will be implemented only to the extent supported
+by the hosting environment and project schedule. A deployment job may
+connect to the target host using a restricted deployment credential,
+pull the selected images, and restart services using Docker Compose.</p>
+<p>The deployment process should:</p>
+<ul>
+<li>Run only after required CI checks pass.</li>
+<li>Use protected secrets and restricted permissions.</li>
+<li>Avoid printing credentials in logs.</li>
+<li>Preserve the prior working image tags for rollback.</li>
+<li>Report success only after health checks and smoke tests pass.</li>
+</ul>
+<p>If automated deployment is not feasible for the course environment, the
+same documented commands can be run manually. This should be described
+accurately rather than represented as a fully automated deployment.</p>
+<h4 id="528-docker-compose-deployment">5.2.8 Docker Compose Deployment</h4>
+<p>Docker Compose will define the frontend, backend, MariaDB, and optional
+supporting services. Caddy and observability services can be included in
+a deployment profile so they do not consume unnecessary resources during
+basic local development.</p>
+<p>The Compose configuration should define:</p>
+<ul>
+<li>A persistent volume for MariaDB data.</li>
+<li>Internal networking between application services.</li>
+<li>Health checks and service dependencies where appropriate.</li>
+<li>Environment-variable configuration.</li>
+<li>Restart policies appropriate to the environment.</li>
+<li>Resource limits where supported and useful.</li>
+<li>Separate development and demonstration settings when their
+    requirements differ.</li>
+</ul>
+<p>The application should not depend on a developer's local machine paths
+or hard-coded credentials.</p>
+<h4 id="529-database-deployment">5.2.9 Database Deployment</h4>
+<p>MariaDB will run as a containerized service for the MVP. A persistent
+volume will protect database files across container recreation, but a
+volume alone is not a backup strategy. The team should document how to
+create and restore a database backup for demonstration purposes.</p>
+<p>Alembic migrations will be applied in a controlled deployment step
+before the new application version is considered ready. Migrations
+should be reviewed for compatibility and tested against a clean
+database. Destructive migrations require particular care because they
+may prevent rollback to an older application version.</p>
+<h4 id="5210-ollama-deployment">5.2.10 Ollama Deployment</h4>
+<p>Ollama is an optional service for local LLM analysis. The application
+must remain usable if Ollama is disabled, a model is not downloaded, or
+the service is unavailable.</p>
+<p>If enabled:</p>
+<ul>
+<li>The model should run locally in the same private environment where
+    practical.</li>
+<li>The selected model and required resources should be documented.</li>
+<li>Model downloads should be performed deliberately because models can
+    be large.</li>
+<li>Requests should have timeouts and bounded input lengths.</li>
+<li>Model output must be parsed and validated against a defined schema.</li>
+<li>A model failure should fall back to the deterministic rules engine.</li>
+<li>Model output must never trigger dispatch or another real-world
+    action.</li>
+</ul>
+<p>Ollama's resource requirements may exceed those of the core MVP. If the
+host lacks sufficient memory or compute, the LLM component should be
+disabled and demonstrated separately.</p>
+<h4 id="5211-monitoring">5.2.11 Monitoring</h4>
+<p>Prometheus, Grafana, and Loki will provide an introductory observability
+stack when resources permit.</p>
+<ul>
+<li><strong>Prometheus:</strong> Collects application and infrastructure metrics,
+    such as request counts, latency, error rates, and service
+    availability.</li>
+<li><strong>Grafana:</strong> Displays metrics and, where configured, log-derived
+    information in dashboards.</li>
+<li><strong>Loki:</strong> Aggregates application logs for troubleshooting.</li>
+</ul>
+<p>Logs must not include full message bodies, credentials, authentication
+tokens, or other sensitive data by default. Because the application uses
+synthetic messages, sample logs can be used for demonstrations, but the
+logging design should still follow data-minimization practices.</p>
+<h4 id="5212-health-checks">5.2.12 Health Checks</h4>
+<p>The API should expose a health endpoint that indicates whether the
+application process is running. A separate readiness check may verify
+whether essential dependencies, such as MariaDB, are reachable.</p>
+<p>Health endpoints should return only the information needed for
+monitoring and must not disclose credentials, internal network details,
+or stack traces. Ollama should be treated as optional; its absence
+should not make the core API unhealthy when LLM analysis is disabled.</p>
+<h4 id="5213-deployment-verification">5.2.13 Deployment Verification</h4>
+<p>After deployment, the team will run a smoke-test checklist:</p>
+<ol>
+<li>Confirm that containers start successfully.</li>
+<li>Confirm that the API health endpoint responds.</li>
+<li>Confirm that the frontend loads through the configured web entry
+    point.</li>
+<li>Submit a known synthetic message.</li>
+<li>Verify that the message is stored in MariaDB.</li>
+<li>Confirm that the priority suggestion and explanation appear in the
+    dashboard.</li>
+<li>Change the priority as an authorized reviewer and verify that the
+    action is recorded.</li>
+<li>Confirm that logs and metrics are available when monitoring is
+    enabled.</li>
+<li>Check application logs for unexpected errors.</li>
+<li>Confirm that no secrets or full message contents appear in ordinary
+    logs.</li>
+</ol>
+<p>Deployment is considered verified only after the relevant checks have
+passed and the results are recorded.</p>
+<h4 id="5214-rollback-strategy">5.2.14 Rollback Strategy</h4>
+<p>If a release fails its smoke tests, the team should restore the
+previously known-good application image tags and restart the services.
+Database changes must be considered separately: an application rollback
+may not be safe if the new release has already applied a destructive
+schema migration.</p>
+<p>The preferred approach is to use backward-compatible migrations where
+possible, retain a recent backup before risky schema changes, and
+document a restore procedure. A rollback should be tested in a
+non-production environment before it is relied upon.</p>
+<h4 id="5215-complete-pipeline">5.2.15 Complete Pipeline</h4>
+<p>The intended workflow is:</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Developer creates branch] --&gt; B[Open pull request]
+    B --&gt; C[Lint and automated tests]
+    C --&gt; D{Checks pass?}
+    D -- No --&gt; E[Fix issues and rerun checks]
+    E --&gt; C
+    D -- Yes --&gt; F[Review and merge]
+    F --&gt; G[Build container images]
+    G --&gt; H[Publish versioned images to GHCR]
+    H --&gt; I[Deploy with Docker Compose]
+    I --&gt; J[Run health checks and smoke tests]
+    J --&gt; K{Deployment verified?}
+    K -- No --&gt; L[Rollback and investigate]
+    K -- Yes --&gt; M[Record release and verification evidence]</code></pre>
+<h4 id="5216-definition-of-done">5.2.16 Definition of Done</h4>
+<p>A feature or release is complete when:</p>
+<ul>
+<li>Its acceptance criteria are met.</li>
+<li>Relevant automated tests pass.</li>
+<li>The frontend production build and backend checks pass.</li>
+<li>Database migrations are reviewed and tested when applicable.</li>
+<li>Authentication and authorization behavior has been checked.</li>
+<li>Documentation and configuration examples are updated.</li>
+<li>No secrets or real emergency data are committed.</li>
+<li>The feature is demonstrated using synthetic data.</li>
+<li>Deployment and rollback instructions are current when the feature
+    affects deployment.</li>
+<li>Any known limitations are documented rather than hidden.</li>
+</ul>
+<h3 id="53-architecture-component-description">5.3 Architecture Component Description</h3>
+<p><img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/e1f75df7-8aea-4c52-9bf7-86f7163e75dc" /></p>
+<h4 id="frontend-react-vite">Frontend: React + Vite</h4>
+<p>The frontend will contain two main user-facing areas:</p>
+<ol>
+<li><strong>Client message submission:</strong> A simple form for entering synthetic
+    message text and any other fields required by the scenario.</li>
+<li><strong>Administrative dashboard:</strong> A protected interface for authorized
+    reviewers to browse messages, filter by suggested priority and
+    status, inspect analysis rationale, and record review actions.</li>
+</ol>
+<p>The frontend will call the FastAPI API over HTTP. It will not connect
+directly to MariaDB or Ollama. Client-side validation will improve
+usability, while the backend remains responsible for enforcing
+validation and authorization.</p>
+<h4 id="backend-api-fastapi">Backend API: FastAPI</h4>
+<p>FastAPI will provide endpoints for message creation, message retrieval,
+analysis, reviewer actions, and health checks. Request and response
+models will be explicitly defined, and errors will use predictable HTTP
+status codes and response structures.</p>
+<p>Example endpoint outline:</p>
+<div class="highlight"><pre><span></span><code>  -------------------------------------------------------------------------------
+  Method                  Endpoint                        Purpose
+  ----------------------- ------------------------------- -----------------------
+  `POST`                  `/api/messages`                 Validate and store a
+                                                          synthetic message, then
+                                                          create a priority
+                                                          suggestion.
+
+  `GET`                   `/api/messages`                 Return a paginated list
+                                                          for authorized
+                                                          dashboard users.
+
+  `GET`                   `/api/messages/{id}`            Return message details
+                                                          and associated
+                                                          analysis/review
+                                                          history.
+
+  `PATCH`                 `/api/messages/{id}/priority`   Record an authorized
+                                                          reviewer's priority
+                                                          override and reason.
+
+  `POST`                  `/api/messages/{id}/review`     Record a review action
+                                                          or note.
+
+  `GET`                   `/health`                       Return process health.
+
+  `GET`                   `/ready`                        Report readiness of
+                                                          essential dependencies.
+  -------------------------------------------------------------------------------
+</code></pre></div>
+<p>This is a proposed contract; exact fields, pagination conventions, and
+response formats should be finalized before implementation.
+Administrative endpoints must enforce authorization on the server, not
+merely hide controls in the frontend.</p>
+<h4 id="data-access-sqlalchemy-and-alembic">Data access: SQLAlchemy and Alembic</h4>
+<p>SQLAlchemy will provide the database models and queries. Alembic will
+maintain versioned schema migrations. Database access should be isolated
+from API route handlers where practical, and transaction boundaries
+should ensure that a message and its associated audit event are not left
+in an inconsistent state.</p>
+<h4 id="triage-assistance-python-and-ollama">Triage assistance: Python and Ollama</h4>
+<p>The Python rules engine will be the baseline classifier because its
+behavior can be tested and explained. Ollama can provide optional
+semantic analysis, but it must not replace the deterministic baseline or
+become a required dependency for core message submission.</p>
+<h4 id="database-and-monitoring">Database and monitoring</h4>
+<p>MariaDB will be the system of record. Prometheus, Grafana, and Loki will
+be optional supporting services for metrics, dashboards, and logs.
+Docker Compose will make the services reproducible across developer
+machines and the demonstration host.</p>
+<h4 id="531-mariadb-database-schema">5.3.1 MariaDB Database Schema</h4>
+<p>The schema below is a starting point for the MVP. It should be
+implemented through SQLAlchemy models and Alembic migrations rather than
+maintained only as a manually executed SQL script. Field sizes, deletion
+behavior, and indexes should be confirmed during implementation.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">emergency_sessions</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">session_reference</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="n">ENUM</span><span class="p">(</span><span class="s1">'OPEN'</span><span class="p">,</span><span class="w"> </span><span class="s1">'CLOSED'</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'OPEN'</span><span class="p">,</span>
+<span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<span class="w">    </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">uq_emergency_sessions_reference</span><span class="w"> </span><span class="p">(</span><span class="n">session_reference</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">messages</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">session_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="k">message_text</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">submitted_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="n">suggested_priority</span><span class="w"> </span><span class="n">ENUM</span><span class="p">(</span><span class="s1">'CRITICAL'</span><span class="p">,</span><span class="w"> </span><span class="s1">'HIGH'</span><span class="p">,</span><span class="w"> </span><span class="s1">'MODERATE'</span><span class="p">,</span><span class="w"> </span><span class="s1">'LOW'</span><span class="p">)</span>
+<span class="w">        </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'MODERATE'</span><span class="p">,</span>
+<span class="w">    </span><span class="n">current_priority</span><span class="w"> </span><span class="n">ENUM</span><span class="p">(</span><span class="s1">'CRITICAL'</span><span class="p">,</span><span class="w"> </span><span class="s1">'HIGH'</span><span class="p">,</span><span class="w"> </span><span class="s1">'MODERATE'</span><span class="p">,</span><span class="w"> </span><span class="s1">'LOW'</span><span class="p">)</span>
+<span class="w">        </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'MODERATE'</span><span class="p">,</span>
+<span class="w">    </span><span class="n">review_status</span><span class="w"> </span><span class="n">ENUM</span><span class="p">(</span><span class="s1">'NEW'</span><span class="p">,</span><span class="w"> </span><span class="s1">'IN_REVIEW'</span><span class="p">,</span><span class="w"> </span><span class="s1">'REVIEWED'</span><span class="p">,</span><span class="w"> </span><span class="s1">'CLOSED'</span><span class="p">)</span>
+<span class="w">        </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'NEW'</span><span class="p">,</span>
+<span class="w">    </span><span class="n">reviewed_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">reviewer_reference</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="n">updated_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span>
+<span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<span class="w">    </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">fk_messages_session</span>
+<span class="w">        </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">session_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">emergency_sessions</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="k">KEY</span><span class="w"> </span><span class="n">idx_messages_submitted_at</span><span class="w"> </span><span class="p">(</span><span class="n">submitted_at</span><span class="p">),</span>
+<span class="w">    </span><span class="k">KEY</span><span class="w"> </span><span class="n">idx_messages_current_priority_status</span><span class="w"> </span><span class="p">(</span><span class="n">current_priority</span><span class="p">,</span><span class="w"> </span><span class="n">review_status</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">message_analysis</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">message_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">analysis_method</span><span class="w"> </span><span class="n">ENUM</span><span class="p">(</span><span class="s1">'KEYWORD_RULES'</span><span class="p">,</span><span class="w"> </span><span class="s1">'OLLAMA'</span><span class="p">,</span><span class="w"> </span><span class="s1">'HYBRID'</span><span class="p">)</span>
+<span class="w">        </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'KEYWORD_RULES'</span><span class="p">,</span>
+<span class="w">    </span><span class="n">model_name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">suggested_priority</span><span class="w"> </span><span class="n">ENUM</span><span class="p">(</span><span class="s1">'CRITICAL'</span><span class="p">,</span><span class="w"> </span><span class="s1">'HIGH'</span><span class="p">,</span><span class="w"> </span><span class="s1">'MODERATE'</span><span class="p">,</span><span class="w"> </span><span class="s1">'LOW'</span><span class="p">)</span>
+<span class="w">        </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">confidence</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">explanation</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">matched_terms</span><span class="w"> </span><span class="n">JSON</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">disagreement_flag</span><span class="w"> </span><span class="nb">BOOLEAN</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">FALSE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<span class="w">    </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">fk_message_analysis_message</span>
+<span class="w">        </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">message_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">messages</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">CASCADE</span><span class="p">,</span>
+<span class="w">    </span><span class="k">KEY</span><span class="w"> </span><span class="n">idx_message_analysis_message_created</span><span class="w"> </span><span class="p">(</span><span class="n">message_id</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">message_audit_log</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">message_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="n">UNSIGNED</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">event_type</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">actor_reference</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">previous_value</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">new_value</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">reason</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<span class="w">    </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">fk_message_audit_message</span>
+<span class="w">        </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">message_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">messages</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">CASCADE</span><span class="p">,</span>
+<span class="w">    </span><span class="k">KEY</span><span class="w"> </span><span class="n">idx_message_audit_message_created</span><span class="w"> </span><span class="p">(</span><span class="n">message_id</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+<p><strong>Schema notes</strong></p>
+<ul>
+<li>All records must contain synthetic data only.</li>
+<li>The <code>current_priority</code> field represents the current value shown to
+    the reviewer; <code>suggested_priority</code> preserves the initial system
+    suggestion.</li>
+<li><code>message_analysis</code> allows multiple analysis attempts to be recorded
+    over time.</li>
+<li><code>message_audit_log</code> records relevant events, including priority
+    overrides and review-status changes.</li>
+<li>The <code>reviewer_reference</code> and <code>actor_reference</code> fields are
+    illustrative identifiers. If a users table is added, they should be
+    replaced or supplemented with appropriate foreign keys.</li>
+<li>A production-grade audit design would require stricter retention,
+    access, and tamper-resistance controls than this educational schema
+    provides.</li>
+<li>JSON support and enum behavior should be verified against the
+    selected MariaDB version and SQLAlchemy dialect.</li>
+<li>The schema should be migrated and tested from a clean database in
+    CI.</li>
+</ul>
+<h4 id="532-python-priority-ranking-and-triage-engine">5.3.2 Python Priority Ranking and Triage Engine</h4>
+<p>The triage engine will provide a suggested priority for each submitted
+synthetic message. The first version will use deterministic rules that
+match configured phrases or keywords. Rules should be versioned and
+tested, and each suggestion should include a short explanation of the
+matches that influenced it.</p>
+<p>The four suggested levels are:</p>
+<div class="highlight"><pre><span></span><code>  -----------------------------------------------------------------------
+  Priority                            Illustrative interpretation
+  ----------------------------------- -----------------------------------
+  **Critical**                        Text contains configured indicators
+                                      of immediate, potentially
+                                      life-threatening danger.
+
+  **High**                            Text indicates a potentially
+                                      serious or time-sensitive
+                                      situation.
+
+  **Moderate**                        Text describes a concern requiring
+                                      review but contains no configured
+                                      higher-priority indicator.
+
+  **Low**                             Text appears non-urgent or
+                                      informational under the configured
+                                      demonstration rules.
+  -----------------------------------------------------------------------
+</code></pre></div>
+<p>These labels are illustrative, not validated emergency-dispatch
+categories. The project must not imply that the rules are clinically,
+operationally, or legally approved.</p>
+<p>A basic classification workflow:</p>
+<ol>
+<li>Normalize text for matching while preserving the original message.</li>
+<li>Evaluate configured high-priority and lower-priority rules.</li>
+<li>Record matched terms or rule identifiers.</li>
+<li>Select a suggested level according to documented precedence.</li>
+<li>Store the suggestion and explanation.</li>
+<li>Display the suggestion to the reviewer with a clear notice that it
+    requires human review.</li>
+</ol>
+<p>Keyword matching has limitations. A word such as "breathing" may appear
+in a serious statement, a negated statement, or a hypothetical example.
+The test suite should include negation, misspellings, ambiguous phrases,
+multiple simultaneous indicators, and messages that do not match any
+configured rule. The system should prefer transparent uncertainty over
+claiming that a message has been understood reliably.</p>
+<p><strong>Optional Ollama analysis</strong></p>
+<p>If enabled, the application may send a bounded synthetic message to a
+locally hosted Ollama model and request structured output. The response
+should include a suggested level, concise rationale, and uncertainty
+indicator. The application must validate every field against an explicit
+schema, reject malformed output, and treat the model's explanation as
+untrusted generated content.</p>
+<p>The LLM must not be the sole authority for priority. If the rules engine
+and LLM disagree, the application should record the disagreement and
+make it visible to the reviewer. If Ollama times out or is unavailable,
+the rules-based workflow must continue. Model confidence values, if
+present, should not be treated as calibrated probabilities unless
+calibration has been tested.</p>
+<h3 id="54-security-privacy-and-responsible-use">5.4 Security, Privacy, and Responsible Use</h3>
+<p>Although this project is educational, it represents a sensitive domain
+and should model conservative security practices.</p>
+<ul>
+<li><strong>Authentication and authorization:</strong> Administrative pages and
+    endpoints must require authentication. Server-side role checks must
+    protect listing, reviewing, and priority-override actions.</li>
+<li><strong>Secret management:</strong> Credentials and signing keys must be supplied
+    through environment variables or a secrets manager. <code>.env</code> files
+    containing real secrets must not be committed. <code>.env.example</code> should
+    contain placeholders only.</li>
+<li><strong>Transport security:</strong> Use HTTPS through Caddy when deployed with a
+    valid domain and certificate. Local development may use localhost
+    configuration.</li>
+<li><strong>Network isolation:</strong> MariaDB and Ollama should not be publicly
+    exposed. Only required application ports should be reachable.</li>
+<li><strong>Input validation:</strong> Validate required fields, maximum message
+    length, identifiers, and accepted enum values on the backend.</li>
+<li><strong>Database safety:</strong> Use SQLAlchemy or bound parameters, enforce
+    appropriate constraints, and avoid returning raw database errors to
+    clients.</li>
+<li><strong>Dependency and container security:</strong> Keep dependencies and base
+    images maintained; run vulnerability checks where practical; use
+    least-privilege container settings.</li>
+<li><strong>Auditability:</strong> Record reviewer overrides and important state
+    changes without logging unnecessary personal information.</li>
+<li><strong>Data minimization:</strong> Use synthetic messages and avoid collecting
+    names, phone numbers, precise addresses, or other real personal
+    information.</li>
+<li><strong>LLM safety:</strong> Keep Ollama internal, limit input size, validate
+    structured output, handle timeouts, and prevent model text from
+    being interpreted as instructions or executable actions.</li>
+<li><strong>Human oversight:</strong> Every automated priority is advisory. No model
+    or rule should trigger a dispatch action or contact emergency
+    services.</li>
+<li><strong>Clear disclaimer:</strong> The interface, README, and demonstration
+    should state that the application is a simulation and is not
+    suitable for real emergency use.</li>
+</ul>
+<h2 id="55-multi-environment-cloud-strategy-multipass-jetstream-2-and-google-cloud-platform">5.5 Multi-Environment Cloud Strategy: Multipass, Jetstream 2, and Google Cloud Platform</h2>
+<h4 id="551-overview">5.5.1 Overview</h4>
+<p>The 911 Call Center Analysis and Cloud-Based Emergency Triage System uses a multi-environment cloud strategy to support local development, cloud infrastructure testing, and deployment demonstrations. The project uses <strong>Multipass</strong> to create local Ubuntu virtual machines, <strong>Jetstream 2</strong> to test virtual machine provisioning through OpenStack, and <strong>Google Cloud Platform (GCP)</strong> to demonstrate public-cloud deployment capabilities when resources and project requirements permit.</p>
+<p>The application follows a containerized architecture consisting of a React frontend, a FastAPI backend, and a MariaDB database. Docker and Docker Compose provide a consistent method for running the application across environments. The backend uses SQLAlchemy and Alembic for database access and schema migrations, while the triage component analyzes submitted messages and assigns preliminary priority levels based on predefined keywords. An optional local large language model (LLM), such as Ollama, supports additional message analysis without directly controlling emergency dispatch decisions.</p>
+<p>The system is an educational simulation. It uses synthetic emergency messages and does not connect to real 911 infrastructure or dispatch services.</p>
+<h4 id="552-local-development-with-multipass">5.5.2 Local Development with Multipass</h4>
+<p>Multipass provides lightweight Ubuntu virtual machines on the local development machine. These virtual machines create a Linux environment for testing application components and deployment configurations without requiring a separate physical server or public-cloud instance.</p>
+<p>Within the Multipass environment, the project runs Docker and Docker Compose to start the frontend, backend, and database services. Developers use this environment to verify application functionality, test API endpoints, apply database migrations, and examine communication between containers.</p>
+<p>Multipass also supports testing of configuration changes, database persistence, service startup, and recovery after individual containers stop or restart. The environment provides a repeatable testing setup that helps identify configuration and integration issues before the application runs on remote infrastructure.</p>
+<p>Resource-intensive components, including local LLM inference and the full monitoring stack, depend on the host machine's available CPU, memory, and storage. These components remain optional during local development so the core application can run within reasonable hardware constraints.</p>
+<h4 id="553-openstack-infrastructure-testing-with-jetstream-2">5.5.3 OpenStack Infrastructure Testing with Jetstream 2</h4>
+<p>Jetstream 2 provides cloud-based virtual machine infrastructure through OpenStack. The project uses this environment to explore cloud resource provisioning and verify the deployment process outside the local development machine.</p>
+<p>The workflow uses OpenStack credentials and configuration to authenticate with Jetstream 2, provision a virtual machine, configure network access, and connect through SSH. After the instance is available, the deployment environment installs or uses the required container tooling, retrieves the application's container images from the GitHub Container Registry (GHCR), and starts the services with Docker Compose.</p>
+<p>The project verifies that the application starts successfully, that the frontend can communicate with the backend, and that the backend can connect to MariaDB. Smoke tests and command-line checks help identify failures involving provisioning, authentication, networking, container startup, and application configuration.</p>
+<p>Security groups restrict network access to the ports required for administration and application traffic. Database access remains limited to the application environment rather than being exposed publicly. Credentials and other sensitive configuration values are supplied through environment-specific configuration instead of being stored in the source code.</p>
+<p>Jetstream 2 also provides an environment for examining infrastructure-related failures, including unavailable compute resources, incorrect credentials, and networking misconfiguration. Since cloud resource availability depends on the platform's current capacity and allocation policies, successful provisioning is recorded separately from successful application testing.</p>
+<h4 id="554-public-cloud-deployment-with-google-cloud-platform">5.5.4 Public-Cloud Deployment with Google Cloud Platform</h4>
+<p>Google Cloud Platform provides a public-cloud environment for demonstrating how the containerized application operates outside the local and academic research cloud environments.</p>
+<p>The project uses a Compute Engine virtual machine as the primary deployment model for GCP. The VM runs the containerized application through Docker Compose, using the same application components and container images as the other environments. This approach limits environment-specific changes and keeps the deployment process consistent.</p>
+<p>Caddy provides HTTPS termination when the deployment configuration and domain or certificate arrangements support it. Network firewall rules restrict access to the necessary services, while SSH access and service credentials follow least-privilege practices. Application health checks and logs help verify service availability and troubleshoot deployment issues.</p>
+<p>The GCP environment also illustrates operational considerations associated with public-cloud hosting, including resource sizing, access control, external network exposure, and cost management. Compute resources are shut down or removed when they are no longer needed to avoid unnecessary charges.</p>
+<p>The project retains the option to discuss managed services such as Cloud SQL or container orchestration through Google Kubernetes Engine (GKE) as possible architectural extensions. These services are distinct from the core deployment and are not required to run the current application.</p>
+<h4 id="555-environment-usage-across-the-project-lifecycle">5.5.5 Environment Usage Across the Project Lifecycle</h4>
+<p>The three environments serve different purposes throughout the software development lifecycle.</p>
+<table>
+<thead>
+<tr>
+<th>Project stage</th>
+<th>Environment</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Application development</td>
+<td>Multipass</td>
+<td>Develop and test the application in a local Linux environment.</td>
+</tr>
+<tr>
+<td>Integration testing</td>
+<td>Multipass</td>
+<td>Verify communication between React, FastAPI, MariaDB, and supporting services.</td>
+</tr>
+<tr>
+<td>Infrastructure testing</td>
+<td>Jetstream 2</td>
+<td>Practice OpenStack authentication, virtual machine provisioning, security group configuration, and SSH access.</td>
+</tr>
+<tr>
+<td>Remote deployment testing</td>
+<td>Jetstream 2</td>
+<td>Run containerized services on a provisioned cloud VM and verify application connectivity.</td>
+</tr>
+<tr>
+<td>Public-cloud demonstration</td>
+<td>GCP</td>
+<td>Demonstrate deployment on public-cloud infrastructure and examine operational security and cost considerations.</td>
+</tr>
+<tr>
+<td>Continuous integration</td>
+<td>GitHub Actions</td>
+<td>Run automated checks and build application container images when configured workflow events occur.</td>
+</tr>
+<tr>
+<td>Release verification</td>
+<td>Jetstream 2 and/or GCP</td>
+<td>Verify deployment behavior in the remote environments that are available and included in the project scope.</td>
+</tr>
+</tbody>
+</table>
+<p>The environments complement one another rather than functioning as interchangeable platforms. Multipass supports fast, repeatable development; Jetstream 2 provides experience with OpenStack infrastructure; and GCP demonstrates a public-cloud deployment model.</p>
+<h4 id="556-configuration-cicd-and-observability">5.5.6 Configuration, CI/CD, and Observability</h4>
+<p>The project uses Docker images and environment-specific configuration to maintain consistency across deployment environments. Application code and container definitions remain version-controlled, while environment variables hold settings that differ between local and remote deployments. Database schema changes are managed through Alembic migrations, allowing the database structure to be updated consistently.</p>
+<p>GitHub Actions supports continuous integration by running automated tests and other quality checks when configured events, such as pushes or pull requests, occur. The pipeline can also build and publish versioned container images to GHCR. Remote deployments use identifiable image versions so the running application can be traced to a specific build.</p>
+<p>The CI/CD pipeline verifies the checks included in its workflow, but a successful build does not by itself prove that a remote deployment is healthy. Application startup, database connectivity, network access, and endpoint availability are checked separately in the target environment.</p>
+<p>Prometheus, Grafana, and Loki provide the project's observability architecture for collecting metrics, visualizing system behavior, and examining logs when these components are enabled. Together with application health checks, these tools support troubleshooting across the frontend, backend, database, and deployment infrastructure. Their resource requirements are considered when deciding which components run in each environment.</p>
+<h4 id="557-security-cost-and-environment-validation">5.5.7 Security, Cost, and Environment Validation</h4>
+<p>Security and cost management are considered throughout the deployment workflow. The project avoids committing secrets to version control, restricts access to administrative and database services, and uses environment-specific settings to separate local testing from remote deployments. Synthetic data is used throughout the educational simulation, and the application does not process real emergency dispatch traffic.</p>
+<p>Local development through Multipass limits reliance on paid cloud infrastructure. Jetstream 2 supports cloud infrastructure experimentation subject to account permissions and available resources, while GCP provides a separate public-cloud environment with its own usage costs and access requirements. Remote resources are monitored and removed when no longer needed.</p>
+<p>Environment validation records the results of application tests and infrastructure operations separately. The project documents which environments successfully run the application, which provisioning and deployment steps pass, and which operations remain limited by configuration, permissions, available resources, or project scope.</p>
+<p>The multi-environment approach demonstrates how a single containerized application can move from local development to cloud infrastructure testing and public-cloud deployment while maintaining consistent application components, controlled configuration, repeatable deployment steps, and clear verification procedures.</p>
+<h3 id="558-infrastructure-provisioning-with-cloudmesh-cmx-vm">5.5.8 Infrastructure Provisioning with Cloudmesh <code>cmx vm</code></h3>
+<p>The project integrates the Cloudmesh <code>cmx vm</code> command-line interface to support virtual machine management and infrastructure automation. Cloudmesh provides a command-line interface for interacting with configured cloud providers, allowing infrastructure operations to be performed and tested through repeatable commands rather than relying exclusively on a cloud provider's web interface.</p>
+<p>Within the project's multi-environment strategy, <code>cmx vm</code> supports the cloud infrastructure workflow by helping manage virtual machine providers, initiate VM provisioning, and inspect available instances. It complements Docker and Docker Compose, which manage the application's containerized services after the underlying virtual machine is available.</p>
+<p><strong>Role in the project</strong></p>
+<p>The <code>cmx vm</code> workflow supports the following activities:</p>
+<ul>
+<li><strong>Provider configuration:</strong> Inspect configured cloud providers and select the provider used for infrastructure testing.</li>
+<li><strong>Virtual machine provisioning:</strong> Submit commands to create a virtual machine using the selected provider's configuration and available resources.</li>
+<li><strong>Instance inspection:</strong> List virtual machines and inspect command results to determine whether an instance is available.</li>
+<li><strong>Infrastructure testing:</strong> Run repeatable command-line tests that record which VM operations succeed, fail, or are skipped because of environmental constraints.</li>
+<li><strong>Deployment preparation:</strong> Use a successfully provisioned and accessible VM as the target for installing or running Docker and Docker Compose.</li>
+<li><strong>Troubleshooting:</strong> Capture command output and error messages to investigate authentication problems, missing configuration, key-pair mismatches, resource limits, and provisioning failures.</li>
+</ul>
+<p><strong>Integration with Jetstream 2 and other environments</strong></p>
+<p>Jetstream 2 provides the cloud infrastructure environment for OpenStack-related testing when the appropriate provider configuration, credentials, and resources are available. The project uses <code>cmx vm</code> for supported provider operations and records the outcomes of those operations as part of its infrastructure testing.</p>
+<p>Multipass remains the local virtual machine environment for development and integration testing. GCP remains the optional public-cloud deployment environment and uses its own supported provisioning and access mechanisms unless a compatible Cloudmesh integration is explicitly configured and tested. The project does not assume that <code>cmx vm</code> manages every environment through the same commands.</p>
+<p><strong>Testing and verification</strong></p>
+<p>The project uses Python tests with <code>pytest</code> to exercise selected <code>cmx vm</code> command-line operations. The tests invoke commands through a command runner, capture exit codes and output, and record whether each operation passes, fails, or is skipped. This approach makes the infrastructure workflow reproducible and helps distinguish a command-line failure from an application deployment failure.</p>
+<p>The tests cover applicable operations such as:</p>
+<ul>
+<li>Listing configured VM providers.</li>
+<li>Selecting the configured provider.</li>
+<li>Starting a test VM.</li>
+<li>Listing virtual machines after a provisioning attempt.</li>
+<li>Recording errors when authentication, configuration, key-pair validation, or resource availability prevents an operation from completing.</li>
+</ul>
+<p>Tests that create cloud resources are designed to account for external dependencies. A failed provisioning attempt is recorded as a failure or an environment-dependent skip according to the test's defined criteria; it is not treated as evidence of successful deployment.</p>
+<p><strong>Relationship to the application deployment pipeline</strong></p>
+<p>The <code>cmx vm</code> workflow and the Docker Compose workflow have separate responsibilities:</p>
+<ol>
+<li>Cloudmesh commands manage supported cloud infrastructure operations.</li>
+<li>The cloud provider supplies the virtual machine and its network resources.</li>
+<li>The deployment process prepares the VM and starts the application's containers.</li>
+<li>Smoke tests verify application health, frontend-to-backend communication, and database connectivity.</li>
+<li>Test output and deployment evidence are recorded in the project documentation.</li>
+</ol>
+<p>This separation allows the project to evaluate infrastructure automation independently from application functionality. A successful <code>cmx vm</code> command does not, by itself, demonstrate that the application is deployed or operational. Application-level verification remains a separate requirement.</p>
+<p>Integrating <code>cmx vm</code> therefore extends the project's cloud computing and DevOps coverage by combining command-line infrastructure management, automated testing, failure reporting, and containerized application deployment.</p>
+<h2 id="6-development-features">6. Development Features</h2>
+<h3 id="61-working-message-system">6.1 Working Message System</h3>
+<p>A user will enter a synthetic emergency message in the React interface
+and submit it to the FastAPI backend. The backend will validate the
+request, save the message in MariaDB through SQLAlchemy, and create an
+initial priority analysis. The API will return a message identifier and
+the resulting status.</p>
+<p>Acceptance criteria:</p>
+<ul>
+<li>Required fields are validated on the server.</li>
+<li>Invalid submissions return a clear error response.</li>
+<li>Valid submissions are stored and can be retrieved.</li>
+<li>The submitted message appears in the administrative dashboard.</li>
+<li>The message and its analysis can be traced through a stable
+    identifier.</li>
+<li>All demonstration messages are synthetic.</li>
+</ul>
+<h3 id="62-automated-prioritization">6.2 Automated Prioritization</h3>
+<p>The MVP will use the Python keyword rules engine to assign one of four
+suggested priority levels: Critical, High, Moderate, or Low. Each result
+should include an explanation or matched rule identifiers. Ollama
+semantic analysis is optional and should be introduced only after the
+baseline workflow and tests work.</p>
+<p>Acceptance criteria:</p>
+<ul>
+<li>The rules engine returns a valid priority for supported inputs.</li>
+<li>The explanation records the rules or indicators that were matched.</li>
+<li>The four-level vocabulary is used consistently in the API, database,
+    and interface.</li>
+<li>Ambiguous, negated, and conflicting indicators are covered by tests.</li>
+<li>Failure of optional LLM analysis does not prevent message submission
+    or review.</li>
+<li>The interface identifies results as suggestions requiring human
+    review.</li>
+</ul>
+<h3 id="63-functional-call-center-dashboard">6.3 Functional Call Center Dashboard</h3>
+<p>The dashboard will provide a single place for an authorized reviewer to
+inspect simulated incoming messages. It will show message submission
+time, current and suggested priority, review status, and the explanation
+available from the triage engine.</p>
+<p>Core functionality:</p>
+<ul>
+<li>List and inspect messages.</li>
+<li>Filter by priority and review status.</li>
+<li>Sort by submission time or priority.</li>
+<li>View analysis details and audit history.</li>
+<li>Override the current priority with a recorded reason.</li>
+<li>Update the review status.</li>
+<li>Clearly distinguish the original system suggestion from the
+    reviewer's current decision.</li>
+</ul>
+<p>The dashboard must not imply that an item has been dispatched, that an
+actual emergency service has received it, or that a priority suggestion
+is authoritative.</p>
+<h3 id="64-cloud-deployment">6.4 Cloud Deployment</h3>
+<p>The application will be containerized and run through Docker Compose.
+The demonstration environment may use a small cloud VM if one is
+available within the budget. Caddy may serve as the HTTPS reverse proxy,
+while MariaDB remains on a private network. The optional monitoring
+stack will be enabled only when the host has adequate resources.</p>
+<p>Acceptance criteria:</p>
+<ul>
+<li>A new environment can be configured from documented steps.</li>
+<li>Required variables are documented in <code>.env.example</code>.</li>
+<li>Services start through the documented Compose command.</li>
+<li>Persistent database storage is configured.</li>
+<li>Health checks and a smoke test are documented.</li>
+<li>Secrets are not embedded in images or committed to the repository.</li>
+</ul>
+<h3 id="65-final-testing">6.5 Final Testing</h3>
+<p>Testing will include unit, integration, API, and end-to-end checks
+appropriate to the available schedule.</p>
+<hr />
+<p>Test area                           Examples</p>
+<hr />
+<p>API validation                      Missing text, empty text, excessive
+                                      length, invalid enum values</p>
+<p>Persistence                         Create and retrieve messages;
+                                      verify data survives container
+                                      recreation</p>
+<p>Triage rules                        Critical indicators, multiple
+                                      indicators, unknown wording,
+                                      negation, misspellings</p>
+<p>LLM fallback                        Ollama unavailable, timeout,
+                                      malformed JSON, unsupported
+                                      priority</p>
+<p>Authorization                       Anonymous access to protected
+                                      endpoints; unauthorized override
+                                      attempts</p>
+<p>Audit history                       Priority change records old value,
+                                      new value, actor, reason, and
+                                      timestamp</p>
+<p>UI workflow                         Submit message, view dashboard,
+                                      filter, inspect details, record
+                                      review</p>
+<p>Deployment                          Startup, readiness, persistence,
+                                      HTTPS configuration, smoke tests</p>
+<p>Logging                             Confirm secrets and full message
+                                      text are not unintentionally logged</p>
+<hr />
+<p>The team should document known false positives and false negatives in
+the triage rules. A small educational test set cannot establish
+operational safety or validate the classifier for real emergency use.</p>
+<h3 id="66-final-demonstration">6.6 Final Demonstration</h3>
+<p>The final demonstration should walk through a complete simulated
+workflow:</p>
+<ol>
+<li>Start the services with Docker Compose.</li>
+<li>Open the React message-submission page.</li>
+<li>Submit a prepared synthetic message.</li>
+<li>Show the API response and verify persistence in MariaDB.</li>
+<li>Open the administrative dashboard.</li>
+<li>Inspect the suggested priority and its explanation.</li>
+<li>Filter messages by priority or review status.</li>
+<li>Override a priority and record a review reason.</li>
+<li>Show the audit history proving the override was recorded.</li>
+<li>Demonstrate the behavior when Ollama is disabled or unavailable, if
+    the optional LLM component has been implemented.</li>
+<li>Show automated test results, the CI workflow, and the deployment
+    health check.</li>
+<li>Restate that the application is an educational simulation and is not
+    connected to real emergency services.</li>
+</ol>
+<h2 id="7-resources-and-budget">7. Resources and Budget</h2>
+<p>The project will use open-source software and a small deployment
+footprint. Actual costs depend on the selected hosting provider, usage,
+region, and whether free educational credits are available. The budget
+should be treated as an estimate, not a quote.</p>
+<h3 id="711-development-and-cloud-infrastructure-resources">7.1.1 Development and Cloud Infrastructure Resources</h3>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Role in the Project</th>
+<th>Cost Considerations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Multipass</strong></td>
+<td>Provides local Ubuntu virtual machines for development, integration testing, Docker execution, and deployment preparation.</td>
+<td>Available without a software licensing fee. Uses local CPU, memory, disk space, and electricity. Resource-intensive services, including local LLM inference and monitoring tools, depend on the host machine's capacity.</td>
+</tr>
+<tr>
+<td><strong>Jetstream 2 (OpenStack)</strong></td>
+<td>Provides remote virtual machines for testing OpenStack authentication, provisioning, security groups, SSH access, container deployment, and application connectivity.</td>
+<td>Access depends on project eligibility, allocations, quotas, and resource availability. The project uses available academic allocations where applicable and accounts for limits on compute, storage, and instance availability.</td>
+</tr>
+<tr>
+<td><strong>Google Cloud Platform (GCP)</strong></td>
+<td>Provides an optional public-cloud environment for demonstrating deployment on a Compute Engine virtual machine and evaluating cloud security, availability, and cost management.</td>
+<td>Compute instances, disks, network traffic, and other services may incur charges. Actual costs depend on usage, region, resource size, and applicable free-tier eligibility. GCP resources are used only when access, budget, and project scope permit.</td>
+</tr>
+<tr>
+<td><strong>Docker and Docker Compose</strong></td>
+<td>Package and run the React frontend, FastAPI backend, MariaDB database, and supporting services consistently across environments.</td>
+<td>Container tooling reduces environment differences. Running containers consumes local or cloud compute and storage resources.</td>
+</tr>
+<tr>
+<td><strong>GitHub Actions and GitHub Container Registry (GHCR)</strong></td>
+<td>Support automated testing, container image builds, and image storage for deployment.</td>
+<td>Usage is subject to the account's available minutes, storage limits, and applicable plan. The project minimizes unnecessary builds and stored images.</td>
+</tr>
+<tr>
+<td><strong>MariaDB and database migrations</strong></td>
+<td>Store application messages, triage results, and other required application data. SQLAlchemy and Alembic support database access and schema management.</td>
+<td>The database runs within the project's development or deployment environment. Storage and backup requirements depend on the environment and amount of test data.</td>
+</tr>
+<tr>
+<td><strong>Prometheus, Grafana, and Loki</strong></td>
+<td>Provide metrics collection, dashboards, and log analysis when observability services are enabled.</td>
+<td>These services consume additional CPU, memory, and storage. The project enables them selectively according to available resources and testing needs.</td>
+</tr>
+<tr>
+<td><strong>Ollama and a local LLM</strong></td>
+<td>Support optional experimentation with language-model-assisted message analysis.</td>
+<td>Local inference requires additional memory, processing capacity, and model storage. It remains optional and does not replace the system's core keyword-based triage logic.</td>
+</tr>
+<tr>
+<td><strong>Caddy and HTTPS configuration</strong></td>
+<td>Support HTTPS termination for deployments where a suitable domain and certificate configuration are available.</td>
+<td>Caddy is available without a software licensing fee. Hosting, domain registration, and associated cloud resources may incur costs.</td>
+</tr>
+<tr>
+<td>7.1.2 Environment Allocation</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The project assigns each environment a distinct role to avoid unnecessary resource use and duplicated effort.</p>
+<p>Local development: Multipass provides the primary environment for developing and testing application components. It supports rapid iteration without requiring a cloud VM for every change.</p>
+<p>Cloud infrastructure testing: Jetstream 2 supports remote provisioning and deployment tests through OpenStack. Testing is subject to the available project allocation and cloud resource capacity.</p>
+<p>Public-cloud demonstration: GCP provides an optional environment for demonstrating public-cloud deployment. It is not a prerequisite for completing local development or the core application tests.</p>
+<p>Continuous integration: GitHub Actions runs the automated checks defined in the project workflow. GHCR stores container images used by remote deployments.</p>
+<p>Optional supporting services: Monitoring tools and local LLM inference run when they provide value to a particular test and the available resources support them.</p>
+<p>7.1.3 Cost Management and Constraints</p>
+<p>The project favors local testing and available academic infrastructure before using potentially billable public-cloud resources. Cloud usage is limited to the resources needed for the relevant tests and demonstrations.</p>
+<p>The project follows these cost-management practices:</p>
+<ul>
+<li>
+<p>Check resource availability and quotas before provisioning cloud instances.</p>
+</li>
+<li>
+<p>Select VM sizes based on application requirements rather than provisioning unnecessary capacity.</p>
+</li>
+<li>
+<p>Stop or delete cloud resources when testing is complete.</p>
+</li>
+<li>
+<p>Review persistent disk, image storage, network traffic, and other potentially billable services.</p>
+</li>
+<li>
+<p>Use synthetic test data and avoid unnecessary storage of generated logs or artifacts.</p>
+</li>
+<li>
+<p>Keep LLM inference and monitoring services optional when resource constraints make them impractical.</p>
+</li>
+<li>
+<p>Record cloud limitations, unavailable services, and cost-related decisions in the project documentation.</p>
+</li>
+</ul>
+<p>The budget distinguishes between resources that are used directly, resources that are available for testing, and optional services that depend on access or funding. This approach keeps the core application testable even when a remote cloud environment is unavailable.</p>
+<ol>
+<li>Deliverables Checklist and Environment Verification</li>
+</ol>
+<p>This section tracks the project's implementation and testing evidence across local development, OpenStack infrastructure, and optional public-cloud deployment. Each item reflects work that is verifiable through source code, test results, command output, deployment logs, configuration files, or screenshots.</p>
+<p>Items are classified as Completed, Pending, Optional, or Blocked/Unavailable. A completed status requires supporting evidence. Optional items are outside the required core scope unless the project requirements explicitly make them mandatory. Blocked or unavailable items identify work that cannot be verified because of access, quota, configuration, resource, or other constraints.</p>
+<h2 id="8-risk-management">8. Risk Management</h2>
+<hr />
+<p>Risk              Likelihood        Impact            Mitigation</p>
+<hr />
+<p>Automated         High              High              Use transparent rules,
+  classification is                                     test edge cases, show
+  incorrect                                             explanations, and
+                                                        require human review.</p>
+<p>Keyword rules     High              High              Include negation,
+  miss context or                                       ambiguity, spelling
+  negation                                              variation, and
+                                                        conflicting-indicator
+                                                        tests; document
+                                                        limitations.</p>
+<p>LLM output is     Medium            Medium--High      Validate structured
+  malformed or                                          output, use timeouts,
+  inconsistent                                          record failures, and
+                                                        fall back to rules.</p>
+<p>Ollama exceeds    Medium            Medium            Treat it as optional,
+  host resources                                        document hardware
+                                                        needs, and disable it
+                                                        on constrained hosts.</p>
+<p>Sensitive data is Medium            High              Use synthetic-only
+  entered                                               data, display a
+  accidentally                                          warning, limit logging,
+                                                        and avoid collecting
+                                                        unnecessary fields.</p>
+<p>Unauthorized user Medium            High              Enforce server-side
+  accesses                                              authentication and
+  administrative                                        authorization; test
+  actions                                               access-control
+                                                        failures.</p>
+<p>Secrets are       Medium            High              Use environment
+  exposed in Git or                                     variables or secrets
+  logs                                                  management, secret
+                                                        scanning, and log
+                                                        review.</p>
+<p>Database          Medium            High              Test migrations, back
+  migration breaks                                      up before risky
+  deployment                                            changes, prefer
+                                                        backward-compatible
+                                                        changes, and document
+                                                        rollback.</p>
+<p>Cloud service     Medium            Medium            Set budget alerts, use
+  exceeds budget                                        small resources, limit
+                                                        runtime, and shut down
+                                                        unused services.</p>
+<p>Deployment        Medium            Medium            Use Compose, document
+  differs from                                          configuration, and run
+  local environment                                     smoke tests after
+                                                        deployment.</p>
+<p>Project scope     High              Medium            Deliver the core
+  becomes too large                                     message, database,
+                                                        rules, and dashboard
+                                                        workflow before
+                                                        optional features.</p>
+<p>Monitoring        Medium            Low--Medium       Make observability
+  consumes too many                                     services optional and
+  resources                                             enable them only when
+                                                        resources allow.</p>
+<p>Project is        Low--Medium       High              Display a prominent
+  mistaken for a                                        educational-use
+  real emergency                                        disclaimer and avoid
+  service                                               real integrations or
+                                                        dispatch claims.</p>
+<hr />
+<p>Risks should be revisited as the project develops. The team should
+record risk owners, triggers, and status in its project tracker if this
+proposal is used as a working project plan.</p>
+<h2 id="9-deliverables-checklist-and-environment-verification">9. Deliverables Checklist and Environment Verification</h2>
+<p>This section tracks the project's implementation and testing evidence across local development, OpenStack infrastructure, and optional public-cloud deployment. Each item reflects work that can be verified through source code, test results, command output, deployment logs, configuration files, or screenshots.</p>
+<p>Items are classified as <strong>Completed</strong>, <strong>Pending</strong>, <strong>Optional</strong>, or <strong>Blocked/Unavailable</strong>. An item is marked complete only when supporting evidence confirms that the work has been performed. Optional items remain outside the required core scope unless project requirements explicitly make them mandatory. Blocked or unavailable items identify work that cannot be verified because of access, quota, configuration, resource, or other constraints.</p>
+<h3 id="91-core-application-deliverables">9.1 Core Application Deliverables</h3>
+<ul>
+<li>[ ] React frontend provides the client-facing interface for submitting simulated emergency messages.</li>
+<li>[ ] React frontend provides the administrative interface for reviewing and managing submitted messages.</li>
+<li>[ ] FastAPI exposes the backend endpoints required by the application.</li>
+<li>[ ] MariaDB stores application data.</li>
+<li>[ ] SQLAlchemy provides database access, and Alembic manages schema migrations.</li>
+<li>[ ] The triage component assigns preliminary priority levels using predefined keywords.</li>
+<li>[ ] The application supports reviewing, filtering, sorting, and updating the status of submitted messages.</li>
+<li>[ ] The application uses synthetic data and clearly identifies itself as an educational simulation rather than a real emergency dispatch service.</li>
+<li>[ ] Docker and Docker Compose define the application services and their configuration.</li>
+<li>[ ] Environment-specific settings and sensitive values are kept out of committed source code.</li>
+</ul>
+<h3 id="92-local-environment-multipass">9.2 Local Environment: Multipass</h3>
+<ul>
+<li>[ ] Multipass is installed, and a local Ubuntu virtual machine is available for testing.</li>
+<li>[ ] Required development and container tools are configured in the local environment.</li>
+<li>[ ] Application services start using the documented Docker Compose configuration.</li>
+<li>[ ] Smoke-test commands execute, and their results are recorded.</li>
+<li>[ ] API endpoints and service-to-service communication are verified.</li>
+<li>[ ] Database connectivity and persistence are tested.</li>
+<li>[ ] Container startup, restart, and failure behavior are examined.</li>
+<li>[ ] Test results are saved in command output, test reports, or other reproducible evidence.</li>
+<li>[ ] Resource limitations and tests omitted because of local hardware constraints are documented.</li>
+</ul>
+<h3 id="93-openstack-environment-jetstream-2">9.3 OpenStack Environment: Jetstream 2</h3>
+<ul>
+<li>[ ] OpenStack authentication and cloud configuration are verified.</li>
+<li>[ ] The configured provider and cloud settings are documented.</li>
+<li>[ ] Virtual machine provisioning is attempted, and the command result is recorded.</li>
+<li>[ ] Security group and network access settings are checked.</li>
+<li>[ ] SSH connectivity is tested when a virtual machine is successfully provisioned.</li>
+<li>[ ] Docker and Docker Compose are available on the remote virtual machine.</li>
+<li>[ ] Application container images can be retrieved from GitHub Container Registry (GHCR).</li>
+<li>[ ] Application services start on the remote virtual machine.</li>
+<li>[ ] Frontend, backend, and database connectivity are verified remotely.</li>
+<li>[ ] Remote smoke tests and deployment results are recorded.</li>
+<li>[ ] Provisioning, authentication, quota, networking, or capacity failures are documented with their error output.</li>
+</ul>
+<h3 id="cloudmesh-cmx-vm-infrastructure-tests">Cloudmesh <code>cmx vm</code> Infrastructure Tests</h3>
+<ul>
+<li>[ ] Cloudmesh VM provider configuration is inspected and documented.</li>
+<li>[ ] Provider selection is tested and the command result is recorded.</li>
+<li>[ ] VM provisioning is attempted using the configured provider.</li>
+<li>[ ] VM listing is tested and the output is recorded.</li>
+<li>[ ] Python <code>pytest</code> tests exercise the selected Cloudmesh CLI operations.</li>
+<li>[ ] Test results distinguish passed, failed, and skipped operations.</li>
+<li>[ ] Authentication, key-pair, configuration, and resource-availability errors are documented when encountered.</li>
+<li>[ ] Successful VM provisioning is distinguished from successful application deployment.</li>
+<li>[ ] Application containers and connectivity are verified separately when a usable VM is available.</li>
+</ul>
+<h3 id="94-public-cloud-environment-google-cloud-platform">9.4 Public-Cloud Environment: Google Cloud Platform</h3>
+<p><strong>Status:</strong> Optional deployment, subject to project scope, access, and budget.</p>
+<ul>
+<li>[ ] GCP project access and billing requirements are reviewed before resources are created.</li>
+<li>[ ] A Compute Engine virtual machine is provisioned if deployment is included in the project scope.</li>
+<li>[ ] Firewall rules and administrative access are configured.</li>
+<li>[ ] The containerized application is deployed to the virtual machine.</li>
+<li>[ ] Application health and frontend-to-backend connectivity are verified.</li>
+<li>[ ] Database access is restricted to the required application services.</li>
+<li>[ ] HTTPS is configured where the required domain and certificate setup are available.</li>
+<li>[ ] Logs and health-check results are captured as deployment evidence.</li>
+<li>[ ] Cloud resource usage and applicable charges are reviewed.</li>
+<li>[ ] Cloud resources are stopped or removed when no longer required.</li>
+<li>[ ] If deployment is not performed, the reason is recorded and the GCP deployment remains explicitly classified as optional, pending, or blocked.</li>
+</ul>
+<h3 id="95-cicd-security-and-observability">9.5 CI/CD, Security, and Observability</h3>
+<ul>
+<li>[ ] GitHub Actions workflows run the automated checks configured for the project.</li>
+<li>[ ] Test results and build outcomes are recorded.</li>
+<li>[ ] Container images are built and published to GHCR when the corresponding workflow is enabled.</li>
+<li>[ ] Container image versions can be identified for remote deployment.</li>
+<li>[ ] Secrets are excluded from source control.</li>
+<li>[ ] Database migrations are verified in the environments where they are executed.</li>
+<li>[ ] Application logs support troubleshooting of failures.</li>
+<li>[ ] Prometheus, Grafana, and Loki are configured and tested if included in the active environment.</li>
+<li>[ ] Optional Ollama or LLM-based analysis is tested separately from the required keyword-based triage functionality.</li>
+<li>[ ] Security and dependency checks are recorded for the tools included in the CI/CD workflow.</li>
+</ul>
+<h3 id="96-environment-test-results-and-evidence">9.6 Environment Test Results and Evidence</h3>
+<p>The following table identifies the evidence required to report each environment accurately.</p>
+<table>
+<thead>
+<tr>
+<th>Environment or Capability</th>
+<th>Evidence of Completion</th>
+<th>Reporting Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Multipass local environment</td>
+<td>VM status, smoke-test output, and application or container test results</td>
+<td>Mark complete only for tests that successfully run and have recorded evidence.</td>
+</tr>
+<tr>
+<td>Jetstream 2 provisioning</td>
+<td>OpenStack command output showing the provisioning result</td>
+<td>Record provisioning separately from application deployment. A failed provisioning attempt does not count as a successful VM deployment.</td>
+</tr>
+<tr>
+<td>Jetstream 2 remote application</td>
+<td>VM access, container status, application health, and connectivity results</td>
+<td>Mark complete only after the application is verified on the remote instance.</td>
+</tr>
+<tr>
+<td>GCP deployment</td>
+<td>VM details, deployment output, health checks, and relevant configuration evidence</td>
+<td>Mark complete only if the deployment occurs and is tested. Otherwise, label it optional, pending, or blocked.</td>
+</tr>
+<tr>
+<td>CI/CD</td>
+<td>Workflow runs, automated test reports, and image build or publication results</td>
+<td>Report only workflow stages that are configured and verified.</td>
+</tr>
+<tr>
+<td>Monitoring and optional LLM</td>
+<td>Configuration, service status, and test results</td>
+<td>Distinguish optional components from required core functionality.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="97-final-project-verification">9.7 Final Project Verification</h3>
+<ul>
+<li>[ ] The project documentation describes the architecture and the roles of Multipass, Jetstream 2, and GCP.</li>
+<li>[ ] Commands required to set up and test the application are documented.</li>
+<li>[ ] Successful tests are supported by reproducible output or other evidence.</li>
+<li>[ ] Failed tests and infrastructure limitations are recorded without being reported as successful.</li>
+<li>[ ] Completed local testing is distinguished from attempted or completed remote deployment.</li>
+<li>[ ] Optional GCP deployment and optional supporting services are clearly identified.</li>
+<li>[ ] The final report reflects the environments actually used and the work completed by the team.</li>
+<li>[ ] The project is clearly identified as an educational simulation that is not connected to real emergency dispatch infrastructure.</li>
+</ul>
+<h2 id="10-database-selection-postgresql-vs-mariadb">10. Database Selection: PostgreSQL vs. MariaDB</h2>
+<p>The application requires a relational database for messages, analysis
+results, review states, and audit history. PostgreSQL and MariaDB are
+both mature open-source relational database systems that can support
+this type of application. The project will use MariaDB for consistency
+with the selected implementation plan, while retaining PostgreSQL as a
+considered alternative.</p>
+<h3 id="101-database-selection-criteria">10.1 Database Selection Criteria</h3>
+<p>The database choice should consider:</p>
+<ul>
+<li>Reliability and transaction support.</li>
+<li>Compatibility with Python and SQLAlchemy.</li>
+<li>Migration support through Alembic.</li>
+<li>Ease of local development and Docker deployment.</li>
+<li>Availability on the selected hosting environment.</li>
+<li>Familiarity for the project team.</li>
+<li>Documentation and community support.</li>
+<li>Backup, restore, and monitoring options.</li>
+<li>Resource requirements and expected project scale.</li>
+<li>The complexity of the data model and queries.</li>
+</ul>
+<p>For the MVP, both candidates meet the main functional requirements. The
+selection is therefore primarily a project consistency and
+implementation decision, not a claim that one database is universally
+superior.</p>
+<h3 id="102-why-postgresql-was-considered">10.2 Why PostgreSQL Was Considered</h3>
+<p>PostgreSQL is a strong open-source relational database with robust
+transaction support, advanced SQL capabilities, extensive indexing
+options, and a mature ecosystem. It works well with Python applications
+and SQLAlchemy and could support the message, analysis, and audit tables
+required by this project.</p>
+<p>PostgreSQL would be a reasonable choice if the team had already
+standardized on it, needed a PostgreSQL-specific feature, or had an
+existing deployment environment built around it. It remains a viable
+alternative if implementation constraints change.</p>
+<h3 id="103-why-mariadb-is-appropriate-for-this-project">10.3 Why MariaDB Is Appropriate for This Project</h3>
+<p>MariaDB is a mature open-source relational database that supports the
+relational tables, constraints, indexes, and transactions required by
+the MVP. It can be run in Docker Compose and accessed from FastAPI
+through SQLAlchemy.</p>
+<p>MariaDB is appropriate for this project because:</p>
+<ul>
+<li>It satisfies the application's current relational-data requirements.</li>
+<li>It can be deployed consistently with the rest of the containerized
+    stack.</li>
+<li>SQLAlchemy and Alembic can support the application's data-access and
+    migration workflow.</li>
+<li>It provides a practical environment for demonstrating database
+    schema design, persistence, indexing, and migration testing.</li>
+<li>It avoids introducing multiple database options into a small MVP
+    without a demonstrated need.</li>
+</ul>
+<p>These reasons are based on the project's scope. They do not imply that
+MariaDB is categorically better than PostgreSQL.</p>
+<h3 id="104-mariadbs-role-in-the-overall-architecture">10.4 MariaDB's Role in the Overall Architecture</h3>
+<p>MariaDB will serve as the system of record for:</p>
+<ul>
+<li>Synthetic emergency messages.</li>
+<li>Suggested and current priority values.</li>
+<li>Analysis results and explanations.</li>
+<li>Review status and reviewer references.</li>
+<li>Audit events for important state changes.</li>
+<li>Optional session or scenario metadata.</li>
+</ul>
+<p>FastAPI will be the only application component that directly accesses
+the database. The React frontend will communicate with FastAPI and will
+never connect directly to MariaDB. SQLAlchemy will handle data access,
+and Alembic will track schema changes.</p>
+<p>Indexes will support common dashboard queries, especially sorting by
+submission time and filtering by priority and review status. The
+database will run on an internal network and should not be exposed
+directly to the public internet.</p>
+<h3 id="105-limitations-and-tradeoffs">10.5 Limitations and Tradeoffs</h3>
+<p>The selected database does not remove the need for sound data modeling,
+migration discipline, access control, backups, or performance testing.
+Some features and data types differ between MariaDB and PostgreSQL, so
+database-specific SQL should be minimized unless there is a clear reason
+to use it.</p>
+<p>The team should verify behavior against the selected MariaDB version,
+particularly for JSON fields, enum handling, timestamp behavior, and
+SQLAlchemy dialect support. A future move to PostgreSQL would require
+compatibility testing and possibly schema or migration changes.</p>
+<p>For this educational project, operational complexity and implementation
+consistency matter more than advanced database features that the MVP
+does not need.</p>
+<h3 id="106-final-database-decision">10.6 Final Database Decision</h3>
+<p><strong>Decision: Use MariaDB for the MVP.</strong></p>
+<p>MariaDB will be the only supported database target in the initial
+implementation. SQLAlchemy will provide data access and Alembic will
+manage migrations. PostgreSQL remains a technically viable alternative
+but will not be maintained as a parallel target unless a concrete
+requirement justifies the additional work.</p>
+<p>This decision keeps the deployment and testing plan focused while
+meeting the project's current persistence needs.</p>
+<h2 id="11-references">11. References</h2>
+<p>The following official documentation provides implementation guidance.
+Specific versions should be checked and recorded when dependencies are
+selected.</p>
+<ol>
+<li>React documentation --- https://react.dev/</li>
+<li>Vite documentation --- https://vite.dev/guide/</li>
+<li>FastAPI documentation --- https://fastapi.tiangolo.com/</li>
+<li>Python documentation --- https://docs.python.org/3/</li>
+<li>MariaDB documentation --- https://mariadb.com/kb/en/documentation/</li>
+<li>SQLAlchemy documentation --- https://docs.sqlalchemy.org/</li>
+<li>Alembic documentation --- https://alembic.sqlalchemy.org/</li>
+<li>Ollama documentation --- https://docs.ollama.com/</li>
+<li>Docker documentation --- https://docs.docker.com/</li>
+<li>Docker Compose documentation --- https://docs.docker.com/compose/</li>
+<li>GitHub Actions documentation --- https://docs.github.com/actions</li>
+<li>GitHub Container Registry documentation ---
+    https://docs.github.com/packages/working-with-a-github-packages-registry/working-with-the-container-registry</li>
+<li>Caddy documentation --- https://caddyserver.com/docs/</li>
+<li>Prometheus documentation --- https://prometheus.io/docs/</li>
+<li>Grafana documentation --- https://grafana.com/docs/grafana/latest/</li>
+<li>Grafana Loki documentation --- https://grafana.com/docs/loki/latest/</li>
+</ol>
+<hr />
+<h2 id="project-disclaimer">Project Disclaimer</h2>
+<p>This application is an educational simulation. It uses synthetic
+messages and is not connected to emergency communications
+infrastructure. It is not certified, validated, or intended for
+real-world emergency dispatch, and its automated priority suggestions
+must not be used to make real emergency-response decisions.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
