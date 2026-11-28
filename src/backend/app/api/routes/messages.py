@@ -265,13 +265,6 @@ def get_message_events(
 
     return events
 
-
-@router.post(
-    "/messages/{msg_id}/triage",
-    response_model=TriageResult,
-)
-
-
 @router.post(
     "/messages/{msg_id}/triage",
     response_model=TriageResult,
